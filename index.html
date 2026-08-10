@@ -958,6 +958,8 @@ const TREASURE_DATA_LATEST = TREASURE_DATA_V2.map(treasure => {
     return { ...treasure, tier: 'A', levels: treasure.levels.map((values, index) => index === 3 ? [values[0], '1.0'] : values) };
   }
   if (treasure.hero === '블롭' && treasure.name === '버블 헤드') return { ...treasure, tier: 'S' };
+  if (treasure.hero === '냥법사' && treasure.name === '털실 뭉치') return { ...treasure, tier: 'A' };
+  if (treasure.hero === '우치' && treasure.name === '흑요석 부채') return { ...treasure, tier: 'A' };
   return treasure;
 });
 
