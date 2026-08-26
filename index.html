@@ -657,14 +657,19 @@ DATA.runes.forEach(rune => {
 // 신규 영웅 및 전용 룬 추천 등급
 DATA.heroes.push({ id: "2002", role: "마딜", name: "기사 랜슬롯" });
 
+// 블롭단은 마딜과 물딜 양쪽 역할 필터에 모두 표시
+const blobHero = DATA.heroes.find(hero => hero.name === "블롭단");
+if(blobHero) blobHero.roles = ["마딜", "물딜"];
+
 const LANCELOT_RUNE_GRADES = {
   "사냥꾼": "S",
   "시간 역행": "S",
   "파동": "A",
   "흡수": "A",
-  "결전": "A",
+  "불멸 공명": "A",
   "마법": "B",
   "주문 강화": "A",
+  "결전": "B",
   "마력 순환": "B",
   "제압자": "B",
   "파열": "B",
@@ -692,63 +697,63 @@ if(!DATA.runes.some(rune => rune.name === "마력 강화")){
 const HERO_RUNE_GRADE_UPDATES = {
   "각성 헤일리": {
     "집중 조준": "S",
-    "사냥꾼": "A", "제압자": "A", "파동": "A", "흡수": "A",
-    "마법": "B", "주문 강화": "B"
+    "사냥꾼": "A", "제압자": "A", "파동": "A", "흡수": "A", "주문 강화": "A", "불멸 공명": "A",
+    "마법": "B"
   },
   "그랜드 마마": {
     "보호막": "S", "시간 역행": "S",
-    "숙련": "A",
-    "속공": "B", "불멸 공명": "B"
+    "숙련": "A", "불완전한 주문": "A",
+    "속공": "B"
   },
   "사신 개구리": {
     "마력 수확": "S", "불사의 맹세": "S", "집중 조준": "S",
-    "사냥꾼": "A", "제압자": "A",
-    "파동": "B", "마법": "B", "불멸 공명": "B"
+    "사냥꾼": "A", "제압자": "A", "파동": "A", "불멸 공명": "A",
+    "강타": "B", "마법": "B"
   },
   "원시 밤바": {
     "신속": "S", "연쇄": "S",
-    "사냥꾼": "A", "제압자": "A", "육체 강화": "A",
-    "전투 여운": "B", "파동": "B", "물리": "B", "불멸 공명": "B"
+    "사냥꾼": "A", "제압자": "A", "육체 강화": "A", "파동": "A", "불멸 공명": "A",
+    "전투 여운": "B", "물리": "B"
   },
   "귀신 닌자": {
     "집중 조준": "S", "피의 축적": "S", "황금 연소": "S",
-    "사냥꾼": "A", "신속": "A", "제압자": "A",
-    "물리": "B", "정밀": "B", "불멸 공명": "B"
+    "사냥꾼": "A", "신속": "A", "제압자": "A", "불멸 공명": "A",
+    "물리": "B", "정밀": "B"
   },
   "시공 아토": {
     "순환": "S", "시간 역행": "S",
-    "불완전한 주문": "A", "보호막": "A", "숙련": "A",
+    "불완전한 주문": "A", "보호막": "A", "숙련": "A", "신속": "A",
     "관통": "B", "확산 사격": "B"
   },
   "닥터 펄스": {
     "강타": "S", "마력 순환": "S", "집중 조준": "S",
-    "마력 수확": "A", "사냥꾼": "A", "전투 여운": "A", "제압자": "A", "마력 강화": "A",
-    "흡수": "B", "마법": "B", "불멸 공명": "B"
+    "마력 수확": "A", "사냥꾼": "A", "전투 여운": "A", "제압자": "A", "마력 강화": "A", "불멸 공명": "A",
+    "흡수": "B", "마법": "B"
   },
   "탑 베인": {
-    "집중": "S", "육체 강화": "S", "집중 조준": "S",
-    "사냥꾼": "A",
-    "물리": "B", "불멸 공명": "B"
+    "집중": "S", "육체 강화": "S", "집중 조준": "S", "사냥꾼": "S",
+    "불멸 공명": "A",
+    "물리": "B"
   },
   "마왕 드래곤": {
     "집중 조준": "S", "마력 수확": "S",
-    "사냥꾼": "A", "제압자": "A", "파동": "A",
-    "마법": "B", "불멸 공명": "B", "결전": "B", "주문 강화": "B"
+    "사냥꾼": "A", "제압자": "A", "파동": "A", "주문 강화": "A", "불멸 공명": "A",
+    "마법": "B", "결전": "B"
   },
   "슈퍼 중력자탄": {
-    "불완전한 주문": "S", "속박": "S",
+    "불완전한 주문": "S", "속박": "S", "마력 순환": "S", "흡수": "S",
     "보호막": "A", "숙련": "A",
     "속공": "B", "충격": "B", "시간 역행": "B"
   },
   "캡틴 로카": {
     "신속": "S",
-    "사냥꾼": "A", "제압자": "A",
-    "불멸 공명": "B", "번개의 응징": "B", "학살": "B", "물리": "B", "결전": "B", "파동": "B"
+    "사냥꾼": "A", "제압자": "A", "파동": "A", "불멸 공명": "A",
+    "번개의 응징": "B", "학살": "B", "물리": "B", "주문 강화": "B"
   },
   "에이스 배트맨": {
     "피의 축적": "S", "집중 조준": "S", "황금 연소": "S",
-    "사냥꾼": "A", "제압자": "A",
-    "불멸 공명": "B", "물리": "B"
+    "사냥꾼": "A", "제압자": "A", "파동": "A", "불멸 공명": "A",
+    "물리": "B"
   },
   "소음킹 펭귄악사": {
     "불완전한 주문": "S", "시간 역행": "S",
@@ -757,29 +762,29 @@ const HERO_RUNE_GRADE_UPDATES = {
   },
   "아이엠 미야옹": {
     "집중 조준": "S", "주문 강화": "S",
-    "결전": "A", "사냥꾼": "A", "마력 순환": "A", "제압자": "A", "파동": "A",
-    "마법": "B", "불멸 공명": "B"
+    "결전": "A", "사냥꾼": "A", "마력 순환": "A", "제압자": "A", "파동": "A", "불멸 공명": "A",
+    "마법": "B"
   },
   "보스 골라조": {
     "집중 조준": "S",
-    "마력 수확": "A", "사냥꾼": "A", "제압자": "A", "파동": "A",
-    "마법": "B", "불멸 공명": "B", "주문 강화": "B"
+    "마력 수확": "A", "사냥꾼": "A", "제압자": "A", "파동": "A", "불멸 공명": "A",
+    "마법": "B", "주문 강화": "B"
   },
   "블롭단": {
-    "마력 수확": "S",
-    "누적 가인": "A", "사냥꾼": "A", "제압자": "A", "파동": "A",
-    "불멸 공명": "B"
+    "마력 수확": "S", "황금 연소": "S", "피의 축적": "S",
+    "누적 가인": "A", "사냥꾼": "A", "제압자": "A", "파동": "A", "불멸 공명": "A"
   },
   "여왕 콜디": {
-    "사냥꾼": "A", "제압자": "A", "파동": "A", "흡수": "A",
-    "마법": "B", "불멸 공명": "B"
+    "집중 조준": "S",
+    "사냥꾼": "A", "제압자": "A", "파동": "A", "흡수": "A", "불멸 공명": "A",
+    "마법": "B"
   },
   "기가 채드": {
     "보호막": "S", "불완전한 주문": "S", "숙련": "S"
   },
   "선인 쿤": {
     "사냥꾼": "S",
-    "마력 수확": "A", "제압자": "A", "파동": "A", "파열": "A",
+    "마력 수확": "A", "제압자": "A", "파동": "A", "파열": "A", "불멸 공명": "A",
     "마법": "B", "시간 역행": "B", "흡수": "B"
   },
   "대냥법사": {
@@ -789,27 +794,27 @@ const HERO_RUNE_GRADE_UPDATES = {
   },
   "천룡 우치": {
     "주문 강화": "S",
-    "사냥꾼": "A", "제압자": "A", "파동": "A",
-    "고정 진형": "B", "마법": "B", "불멸 공명": "B"
+    "사냥꾼": "A", "제압자": "A", "파동": "A", "불멸 공명": "A",
+    "고정 진형": "B", "마법": "B"
   },
   "만년 초나": {
     "집중 조준": "S",
-    "피의 축적": "A", "황금 연소": "A", "파동": "A", "사냥꾼": "A", "제압자": "A",
-    "물리": "B", "불멸 공명": "B"
+    "파동": "A", "사냥꾼": "A", "제압자": "A", "불멸 공명": "A",
+    "물리": "B"
   },
   "용사 레이": {
     "사냥꾼": "S", "집중 조준": "S", "피의 축적": "S", "황금 연소": "S",
-    "제압자": "A", "파동": "A",
-    "물리": "B", "불멸 공명": "B"
+    "제압자": "A", "파동": "A", "불멸 공명": "A",
+    "물리": "B"
   },
   "마도학자 지지": {
-    "집중": "S", "사냥꾼": "S",
-    "보호막": "A",
+    "집중": "S", "사냥꾼": "S", "집중 조준": "S",
+    "보호막": "A", "불멸 공명": "A",
     "마법": "B"
   },
   "군체 타르": {
-    "집중 조준": "S", "피의 축적": "S", "황금 연소": "S",
-    "신속": "A", "사냥꾼": "A", "제압자": "A", "파동": "A",
+    "집중 조준": "S",
+    "신속": "A", "사냥꾼": "A", "제압자": "A", "파동": "A", "불멸 공명": "A",
     "물리": "B", "숙련": "B"
   },
   "악마 모노폴리": {
@@ -819,8 +824,8 @@ const HERO_RUNE_GRADE_UPDATES = {
   },
   "기사 랜슬롯": {
     "사냥꾼": "S", "시간 역행": "S",
-    "주문 강화": "A", "제압자": "A", "파동": "A", "흡수": "A", "결전": "A",
-    "마법": "B", "파열": "B"
+    "주문 강화": "A", "제압자": "A", "파동": "A", "흡수": "A", "불멸 공명": "A",
+    "마법": "B", "파열": "B", "결전": "B"
   }
 };
 
@@ -831,6 +836,17 @@ Object.entries(HERO_RUNE_GRADE_UPDATES).forEach(([heroName, grades]) => {
     rune.grades[heroIndex] = grades[rune.name] || "";
   });
 });
+
+// 공통 규칙: 모든 물딜·마딜 영웅의 불멸 공명은 A등급
+const immortalResonanceRune = DATA.runes.find(rune => rune.name === "불멸 공명");
+if(immortalResonanceRune){
+  DATA.heroes.forEach((hero, heroIndex) => {
+    const roles = hero.roles || [hero.role];
+    if(roles.includes("물딜") || roles.includes("마딜")){
+      immortalResonanceRune.grades[heroIndex] = "A";
+    }
+  });
+}
 
 const HERO_IMG_OVERRIDES = {
   // 커스텀 이미지를 쓰는 영웅 (외부 DB에 없는 신규 영웅 등)
@@ -856,6 +872,18 @@ const listEl = document.getElementById('list');
 const countEl = document.getElementById('countLine');
 
 function norm(s){ return (s||'').toLowerCase().replace(/\s+/g,''); }
+
+function heroRoles(hero){
+  return Array.isArray(hero.roles) && hero.roles.length ? hero.roles : [hero.role];
+}
+
+function heroRoleTags(hero){
+  return heroRoles(hero).map(role=>`<span class="role-tag ${role}">${role}</span>`).join(' ');
+}
+
+function heroRoleText(hero){
+  return heroRoles(hero).join(' · ');
+}
 
 function heroRunes(heroIdx){
   // returns [{id, name, grade}] sorted by grade then name, for given hero index
@@ -885,7 +913,7 @@ function renderHeroView(){
   let shown = 0;
   let html = '';
   DATA.heroes.forEach((h, i)=>{
-    if(state.role!=='전체' && h.role!==state.role) return;
+    if(state.role!=='전체' && !heroRoles(h).includes(state.role)) return;
     let runes = heroRunes(i);
     if(state.grade!=='전체') runes = runes.filter(r=>r.grade===state.grade);
     const nameMatch = norm(h.name).includes(q);
@@ -906,7 +934,7 @@ function renderHeroView(){
         </div>
         <div class="head-text">
           <div class="name">${h.name}</div>
-          <div class="sub"><span class="role-tag ${h.role}">${h.role}</span></div>
+          <div class="sub">${heroRoleTags(h)}</div>
         </div>
         <div class="top-badges">${top.map(r=>`<div class="gem ${r.grade}" title="${r.name}">${r.grade}</div>`).join('')}</div>
         <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
@@ -956,7 +984,7 @@ function renderRuneView(){
   let html = '';
   DATA.runes.forEach(rune=>{
     let heroes = runeHeroes(rune);
-    if(state.role!=='전체') heroes = heroes.filter(x=>x.hero.role===state.role);
+    if(state.role!=='전체') heroes = heroes.filter(x=>heroRoles(x.hero).includes(state.role));
     if(state.grade!=='전체') heroes = heroes.filter(x=>x.grade===state.grade);
 
     const nameMatch = norm(rune.name).includes(q);
@@ -983,7 +1011,7 @@ function renderRuneView(){
         <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
       </div>
       <div class="card-body">
-        ${renderRuneGroups(heroes, x=>`${x.hero.name} <span style="color:var(--muted-2);font-weight:400">· ${x.hero.role}</span>`, x=>x.grade)}
+        ${renderRuneGroups(heroes, x=>`${x.hero.name} <span style="color:var(--muted-2);font-weight:400">· ${heroRoleText(x.hero)}</span>`, x=>x.grade)}
       </div>
     </div>`;
   });
