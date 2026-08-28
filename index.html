@@ -75,6 +75,22 @@
     box-shadow: 0 4px 12px rgba(38,34,28,.18);
   }
 
+  .desktop-nav{
+    display:flex; align-items:center; gap:6px; margin-top:13px; padding-top:11px;
+    border-top:1px solid rgba(96,82,62,.12); overflow-x:auto; scrollbar-width:none;
+  }
+  .desktop-nav::-webkit-scrollbar{ display:none; }
+  .desktop-nav-item{
+    flex:0 0 auto; padding:8px 12px; border:1px solid transparent; border-radius:9px;
+    background:transparent; color:var(--muted); font:inherit; font-size:12px;
+    font-weight:750; line-height:1.2; text-decoration:none; cursor:pointer;
+  }
+  .desktop-nav-item:hover{ background:rgba(73,61,44,.06); color:var(--text); }
+  .desktop-nav-item.active{
+    background:linear-gradient(135deg,#191816,#34312c); color:#fff;
+    box-shadow:0 4px 12px rgba(38,34,28,.15);
+  }
+
   /* ---------- sticky filters ---------- */
   .filterbar{
     position: sticky; top:0; z-index: 10;
@@ -270,6 +286,13 @@
   .menu-item svg{ flex-shrink:0; }
   .menu-item.active{
     background: linear-gradient(135deg, #191816, #34312c); color:#fff;
+  }
+  @media (min-width:701px){
+    .menu-btn{ display:none; }
+    .menu-overlay, .menu-panel{ display:none !important; }
+  }
+  @media (max-width:700px){
+    .desktop-nav{ display:none; }
   }
 
   /* ---------- calculator page ---------- */
@@ -477,6 +500,15 @@
       </div>
       <div class="updated">제작자 : BunnYLOVER</div>
     </div>
+    <nav class="desktop-nav" id="desktopNav" aria-label="주요 메뉴">
+      <button type="button" class="desktop-nav-item active" data-page="guide">룬 가이드</button>
+      <button type="button" class="desktop-nav-item" data-page="calc">영웅 강화 재화</button>
+      <button type="button" class="desktop-nav-item" data-page="blob">블롭 피규어</button>
+      <button type="button" class="desktop-nav-item" data-page="treasure">전설보물</button>
+      <button type="button" class="desktop-nav-item" data-page="pet">불멸펫 계산</button>
+      <button type="button" class="desktop-nav-item" data-page="boss">보스 정보</button>
+      <a class="desktop-nav-item" href="https://luckydefense-exp.netlify.app/" target="_blank" rel="noopener">게임 계산기 ↗</a>
+    </nav>
     <div class="tabs" id="mainTabs">
       <div class="tab active" data-view="hero">영웅별 보기</div>
       <div class="tab" data-view="rune">룬별 보기</div>
@@ -1999,7 +2031,7 @@ function closeHeroDetailPage(){
   guidePage.style.display = '';
   mainTabs.style.display = '';
   pageTitle.textContent = '운빨존많겜 종합 가이드';
-  document.querySelectorAll('.menu-item[data-page]').forEach(item=>{
+  document.querySelectorAll('.menu-item[data-page], .desktop-nav-item[data-page]').forEach(item=>{
     item.classList.toggle('active', item.dataset.page === 'guide');
   });
   requestAnimationFrame(()=>window.scrollTo({ top: heroDetailReturnScroll, behavior: 'auto' }));
@@ -2272,11 +2304,11 @@ menuBtn.addEventListener('click', openMenu);
 menuOverlay.addEventListener('click', closeMenu);
 heroDetailBackBtn.addEventListener('click', closeHeroDetailPage);
 
-document.querySelectorAll('.menu-item[data-page]').forEach(item=>{
+const pageNavigationItems = document.querySelectorAll('.menu-item[data-page], .desktop-nav-item[data-page]');
+pageNavigationItems.forEach(item=>{
   item.addEventListener('click', ()=>{
-    document.querySelectorAll('.menu-item[data-page]').forEach(x=>x.classList.remove('active'));
-    item.classList.add('active');
     const page = item.dataset.page;
+    pageNavigationItems.forEach(x=>x.classList.toggle('active', x.dataset.page === page));
     guidePage.style.display = page === 'guide' ? '' : 'none';
     calcPage.style.display = page === 'calc' ? '' : 'none';
     blobPage.style.display = page === 'blob' ? '' : 'none';
