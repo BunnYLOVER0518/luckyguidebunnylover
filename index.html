@@ -54,13 +54,14 @@
       linear-gradient(180deg, rgba(255,254,251,.96), rgba(243,240,233,.96));
     border-bottom: 1px solid var(--border);
   }
-  .title-row{ display:flex; align-items:baseline; justify-content:space-between; gap:8px; }
+  .title-row{ position:relative; display:flex; align-items:center; justify-content:center; min-height:34px; text-align:center; }
+  .title-main{ display:flex; align-items:center; justify-content:center; gap:10px; }
   .title-row h1{
     font-size: 22px; margin:0; font-weight:400;
     color:var(--text);
     text-shadow:0 1px 0 #fff;
   }
-  .updated{ font-size:11px; color:var(--muted-2); white-space:nowrap; }
+  .updated{ position:absolute; top:50%; right:0; transform:translateY(-50%); font-size:11px; color:var(--muted-2); white-space:nowrap; }
 
   .tabs{ display:flex; gap:6px; margin-top:12px; }
   .tab{
@@ -76,7 +77,7 @@
   }
 
   .desktop-nav{
-    display:flex; align-items:center; gap:6px; margin-top:13px; padding-top:11px;
+    display:flex; align-items:center; justify-content:center; gap:6px; margin-top:13px; padding-top:11px;
     border-top:1px solid rgba(96,82,62,.12); overflow-x:auto; scrollbar-width:none;
   }
   .desktop-nav::-webkit-scrollbar{ display:none; }
@@ -293,6 +294,10 @@
   }
   @media (max-width:700px){
     .desktop-nav{ display:none; }
+    .title-row{ min-height:52px; align-items:flex-start; }
+    .title-main{ width:100%; padding:0 42px; }
+    .menu-btn{ position:absolute; top:0; left:0; }
+    .updated{ top:33px; right:auto; left:50%; transform:translateX(-50%); font-size:9.5px; }
   }
 
   /* ---------- calculator page ---------- */
@@ -324,11 +329,11 @@
   }
   .pet-goal-field{ display:flex; min-width:0; flex-direction:column; gap:6px; }
   .pet-goal-field label{ color:var(--muted); font-size:11px; font-weight:800; }
-  .pet-goal-field input{
+  .pet-goal-field input, .pet-goal-field select{
     width:100%; min-width:0; height:42px; padding:8px 11px; border:1px solid #cbbda8; border-radius:10px;
     background:#fffdf8; color:var(--text); font:inherit; font-size:15px; font-weight:800; outline:none;
   }
-  .pet-goal-field input:focus{ border-color:#7a2f24; box-shadow:0 0 0 3px rgba(122,47,36,.12); }
+  .pet-goal-field input:focus, .pet-goal-field select:focus{ border-color:#7a2f24; box-shadow:0 0 0 3px rgba(122,47,36,.12); }
   .pet-goal-field small{ color:var(--muted-2); font-size:9.5px; line-height:1.35; }
   .pet-goal-results{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; padding:13px 16px 6px; }
   .pet-goal-result{
@@ -341,10 +346,13 @@
   .pet-goal-summary{ min-height:36px; padding:8px 16px 15px; color:var(--muted); font-size:11.5px; line-height:1.55; }
   .pet-goal-summary strong{ color:var(--text); }
   .pet-goal-summary.error{ color:#b33131; font-weight:800; }
+  .hero-goal-form{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .hero-goal-results{ grid-template-columns:repeat(3,minmax(0,1fr)); }
   @media (max-width:700px){
     .pet-goal-form{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; padding:13px 13px 4px; }
     .pet-goal-results{ grid-template-columns:1fr; padding:12px 13px 5px; }
     .pet-goal-summary{ padding:8px 13px 14px; }
+    .hero-goal-form{ grid-template-columns:repeat(2,minmax(0,1fr)); }
   }
 
   /* ---------- blob tier page ---------- */
@@ -380,11 +388,29 @@
     padding:22px 16px; text-align:center; color:var(--muted-2);
     font-size:12.5px;
   }
-  .treasure-list{ padding:12px; display:flex; flex-direction:column; gap:10px; }
+  .treasure-list{ padding:14px; display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
   .treasure-item{
-    background:var(--surface-2); border:1px solid var(--border);
-    border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(67,55,39,.04);
+    min-width:0; height:100%; background:var(--surface-2); border:1px solid var(--border);
+    border-radius:14px; overflow:hidden; box-shadow:0 3px 10px rgba(67,55,39,.05);
   }
+  .treasure-card{
+    width:100%; height:100%; display:grid; grid-template-columns:72px minmax(0,1fr); grid-template-areas:
+      "image head" "effect effect" "action action"; gap:10px 13px; align-items:center; padding:14px;
+    border:0; background:transparent; color:inherit; text-align:left; cursor:pointer;
+    transition:background .15s,transform .15s;
+  }
+  .treasure-card:hover{ background:#fff; }
+  .treasure-card:active{ transform:scale(.99); }
+  .treasure-card .treasure-image{ grid-area:image; width:72px; height:72px; }
+  .treasure-card-head{ grid-area:head; min-width:0; }
+  .treasure-card-owner{ margin-top:4px; color:var(--muted-2); font-size:11.5px; font-weight:700; }
+  .treasure-card-effect{
+    grid-area:effect; min-height:66px; padding:10px 11px; border:1px solid var(--border); border-radius:10px;
+    background:rgba(255,255,255,.72); color:var(--muted); font-size:11.5px; line-height:1.55;
+  }
+  .treasure-card-effect b{ display:block; margin-bottom:3px; color:var(--text); font-size:10px; }
+  .treasure-card-effect strong{ color:var(--a); }
+  .treasure-card-action{ grid-area:action; color:#7a2f24; font-size:11.5px; font-weight:850; text-align:right; }
   .treasure-item-toggle{
     width:100%; display:flex; align-items:center; gap:12px; padding:12px;
     border:0; background:transparent; color:inherit; text-align:left; cursor:pointer;
@@ -561,7 +587,7 @@
   .hero-info-button:focus-visible, .hero-detail-back:focus-visible{
     outline:3px solid rgba(122,47,36,.22); outline-offset:2px;
   }
-  .hero-detail-wrap{ max-width:1000px; margin:0 auto; padding:18px 14px 42px; }
+  .hero-detail-wrap{ max-width:1560px; margin:0 auto; padding:18px 18px 42px; }
   .hero-detail-back{
     display:inline-flex; align-items:center; gap:7px; margin:0 0 14px; padding:9px 13px;
     border:1px solid #cbbda8; border-radius:11px; background:#fffdf8; color:#30291f;
@@ -584,7 +610,7 @@
   }
   .hero-detail-name{ margin:0 0 7px; color:#1d1c19; font-size:26px; line-height:1.2; }
   .hero-detail-summary{ color:#766956; font-size:12px; font-weight:650; }
-  .hero-detail-grid{ display:grid; grid-template-columns:1fr 1fr; align-items:start; gap:16px; }
+  .hero-detail-grid{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); align-items:start; gap:14px; }
   .hero-detail-section{
     min-width:0; padding:17px; border:1px solid #cbbda8; border-radius:18px;
     background:#fffdf8; box-shadow:0 8px 24px rgba(44,36,26,.06);
@@ -593,8 +619,22 @@
     margin:0 0 12px; padding-bottom:9px; border-bottom:2px solid #29251f;
     color:#242019; font-size:16px; letter-spacing:.02em;
   }
-  .hero-detail-runes-section{ margin-top:16px; }
+  .hero-detail-runes-section{ margin-top:0; }
   .hero-detail-runes-section .rune-grid{ margin-bottom:5px; }
+  .hero-detail-treasure-section{ margin-top:0; }
+  .hero-detail-treasure-card{
+    overflow:hidden; border:1px solid var(--border); border-radius:14px; background:var(--surface-2);
+  }
+  .hero-detail-treasure-head{ display:flex; align-items:center; gap:14px; padding:14px; }
+  .hero-detail-treasure-image{
+    width:76px; height:76px; flex:0 0 auto; object-fit:contain; border:1px solid var(--border);
+    border-radius:13px; background:#fff;
+  }
+  .hero-detail-treasure-copy{ min-width:0; flex:1; }
+  .hero-detail-treasure-name{ color:var(--text); font-size:17px; font-weight:900; }
+  .hero-detail-treasure-owner{ margin-top:4px; color:var(--muted-2); font-size:11.5px; }
+  .hero-detail-treasure-levels{ padding:0 14px 4px; border-top:1px solid var(--border); }
+  .hero-detail-treasure-empty{ padding:18px; color:var(--muted-2); font-size:12px; text-align:center; }
   .hero-info-item{
     padding:12px 13px; border:1px solid #e3d9ca; border-radius:12px;
     background:#fff; color:#29251f; font-size:12px; line-height:1.65;
@@ -607,6 +647,9 @@
     font-size:9px; font-weight:800;
   }
   .hero-info-level{ color:#7a2f24; font-weight:900; }
+  @media (max-width:980px){
+    .hero-detail-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+  }
   @media (max-width:700px){
     .hero-detail-wrap{ padding:12px 10px 32px; }
     .hero-detail-header{ gap:13px; padding:14px; }
@@ -724,6 +767,7 @@
     .formation-hero-list{ grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px; }
     .formation-hero-image{ height:64px; }
     .formation-hero:hover{ transform:none; }
+    .treasure-list{ grid-template-columns:1fr; padding:10px; }
   }
 </style>
 </head>
@@ -731,7 +775,7 @@
 
   <div class="topbar">
     <div class="title-row">
-      <div style="display:flex; align-items:center; gap:10px;">
+      <div class="title-main">
         <button id="menuBtn" class="menu-btn" aria-label="메뉴">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M3 6h18"/><path d="M3 12h18"/><path d="M3 18h18"/></svg>
         </button>
@@ -748,7 +792,6 @@
       <button type="button" class="desktop-nav-item" data-page="formation">배치표 만들기</button>
       <button type="button" class="desktop-nav-item" data-page="pet">불멸펫 계산</button>
       <button type="button" class="desktop-nav-item" data-page="boss">보스 정보</button>
-      <a class="desktop-nav-item" href="https://luckydefense-exp.netlify.app/" target="_blank" rel="noopener">게임 계산기 ↗</a>
     </nav>
     <div class="tabs" id="mainTabs">
       <div class="tab active" data-view="hero">영웅별 보기</div>
@@ -791,11 +834,6 @@
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3l2.5 5 5.5.8-4 4 1 5.5L12 16l-5 2.3 1-5.5-4-4 5.5-.8z"/></svg>
       지옥&amp;신&amp;태초 보스 정보
     </div>
-    <a class="menu-item" href="https://luckydefense-exp.netlify.app/" target="_blank" rel="noopener" style="text-decoration:none;">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
-      운빨존많겜 계산기
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" style="margin-left:auto; opacity:.6;"><path d="M7 17 17 7M9 7h8v8"/></svg>
-    </a>
   </div>
 
 
@@ -850,11 +888,15 @@
           <h2>특수 능력</h2>
           <div id="heroDetailAbilities"></div>
         </section>
+        <section class="hero-detail-section hero-detail-runes-section">
+          <h2>룬 추천</h2>
+          <div id="heroDetailRunes"></div>
+        </section>
+        <section class="hero-detail-section hero-detail-treasure-section">
+          <h2>전설 보물</h2>
+          <div id="heroDetailTreasure"></div>
+        </section>
       </div>
-      <section class="hero-detail-section hero-detail-runes-section">
-        <h2>룬 추천</h2>
-        <div id="heroDetailRunes"></div>
-      </section>
     </main>
   </div>
 
@@ -862,6 +904,66 @@
 
   <div id="calcPage" style="display:none;">
     <div class="calc-wrap">
+
+      <div class="calc-card pet-goal-card">
+        <div class="calc-card-head">
+          <div class="calc-card-title">목표 레벨까지 필요한 영웅 강화 재화</div>
+          <div class="calc-card-sub">현재 보유량을 제외한 강화석·골드·돌파석을 계산합니다</div>
+        </div>
+        <form class="pet-goal-form hero-goal-form" id="heroGoalForm">
+          <div class="pet-goal-field">
+            <label for="heroGrade">영웅 등급</label>
+            <select id="heroGrade">
+              <option value="mythic">신화</option>
+              <option value="immortal">불멸</option>
+            </select>
+            <small>등급에 따라 필요 골드가 달라집니다</small>
+          </div>
+          <div class="pet-goal-field">
+            <label for="heroCurrentLevel">현재 영웅 레벨</label>
+            <input id="heroCurrentLevel" type="number" min="1" max="24" step="1" value="1" inputmode="numeric" />
+            <small>계산 가능 범위 Lv.1~24</small>
+          </div>
+          <div class="pet-goal-field">
+            <label for="heroTargetLevel">목표 영웅 레벨</label>
+            <input id="heroTargetLevel" type="number" min="2" max="25" step="1" value="15" inputmode="numeric" />
+            <small>최대 Lv.25</small>
+          </div>
+          <div class="pet-goal-field">
+            <label for="heroOwnedStone">보유 강화석</label>
+            <input id="heroOwnedStone" type="number" min="0" step="1" value="0" inputmode="numeric" />
+            <small>신화석 또는 불멸석 보유량</small>
+          </div>
+          <div class="pet-goal-field">
+            <label for="heroOwnedGold">보유 골드</label>
+            <input id="heroOwnedGold" type="number" min="0" step="1" value="0" inputmode="numeric" />
+            <small>현재 가지고 있는 골드</small>
+          </div>
+          <div class="pet-goal-field">
+            <label for="heroOwnedBreakthrough">보유 돌파석</label>
+            <input id="heroOwnedBreakthrough" type="number" min="0" step="1" value="0" inputmode="numeric" />
+            <small>Lv.15 이후 돌파에 사용</small>
+          </div>
+        </form>
+        <div class="pet-goal-results hero-goal-results">
+          <div class="pet-goal-result">
+            <div class="pet-goal-result-label">추가로 필요한 강화석</div>
+            <div class="pet-goal-result-value" id="heroNeededStone">0<span>개</span></div>
+            <div class="pet-goal-result-detail" id="heroStoneDetail"></div>
+          </div>
+          <div class="pet-goal-result">
+            <div class="pet-goal-result-label">추가로 필요한 골드</div>
+            <div class="pet-goal-result-value" id="heroNeededGold">0<span>골드</span></div>
+            <div class="pet-goal-result-detail" id="heroGoldDetail"></div>
+          </div>
+          <div class="pet-goal-result">
+            <div class="pet-goal-result-label">추가로 필요한 돌파석</div>
+            <div class="pet-goal-result-value" id="heroNeededBreakthrough">0<span>개</span></div>
+            <div class="pet-goal-result-detail" id="heroBreakthroughDetail"></div>
+          </div>
+        </div>
+        <div class="pet-goal-summary" id="heroGoalSummary" role="status" aria-live="polite"></div>
+      </div>
 
       <div class="calc-card">
         <div class="calc-card-head">
@@ -2356,31 +2458,47 @@ function renderHeroDetailContent(heroName){
 }
 
 let heroDetailReturnScroll = 0;
+let heroDetailReturnPage = 'guide';
 
 function openHeroDetailPage(event, button){
   event.preventDefault();
   event.stopPropagation();
-  const heroName = button.dataset.heroName;
+  showHeroDetailPage(button.dataset.heroName, { returnPage:'guide' });
+}
+
+function showHeroDetailPage(heroName, options = {}){
   const content = renderHeroDetailContent(heroName);
   const heroIndex = DATA.heroes.findIndex(item => item.name === heroName);
   const hero = DATA.heroes[heroIndex];
-  if(!content || !hero || heroIndex < 0) return;
-  const recommendedRunes = heroRunes(heroIndex);
+  const hasFullInfo = Boolean(content && hero && heroIndex >= 0);
+  const treasureHero = options.treasureHero || IMMORTAL_TREASURE_HERO[heroName];
+  if(!hasFullInfo && !treasureHero) return;
+  const recommendedRunes = hasFullInfo ? heroRunes(heroIndex) : [];
+  const avatarSource = hasFullInfo
+    ? HERO_IMG(hero.id)
+    : (window.FORMATION_IMAGE_DATA?.[`신화_${treasureHero}`] || '');
 
   heroDetailReturnScroll = window.scrollY;
+  heroDetailReturnPage = options.returnPage || 'guide';
   heroDetailHeader.innerHTML = `
     <div class="hero-detail-avatar-wrap">
-      <img class="hero-detail-avatar" src="${HERO_IMG(hero.id)}" alt="${escapeHeroInfoHtml(heroName)}"
+      <img class="hero-detail-avatar" src="${avatarSource}" alt="${escapeHeroInfoHtml(heroName)}"
            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
       <div class="hero-detail-avatar-fallback">${escapeHeroInfoHtml(heroName.trim()[0])}</div>
     </div>
     <div>
       <h2 class="hero-detail-name">${escapeHeroInfoHtml(heroName)}</h2>
-      <div class="hero-detail-summary">${heroRoleTags(hero)} · 스킬 ${HERO_DETAIL_DATA[heroName].skills.length}개 · 특수 능력 ${HERO_DETAIL_DATA[heroName].specialAbilities.length}개 · 추천 룬 ${recommendedRunes.length}개</div>
+      <div class="hero-detail-summary">${hasFullInfo
+        ? `${heroRoleTags(hero)} · 스킬 ${HERO_DETAIL_DATA[heroName].skills.length}개 · 특수 능력 ${HERO_DETAIL_DATA[heroName].specialAbilities.length}개 · 추천 룬 ${recommendedRunes.length}개`
+        : '신화 영웅 · 전설 보물 정보'}</div>
     </div>`;
-  heroDetailSkills.innerHTML = content.skills;
-  heroDetailAbilities.innerHTML = content.abilities;
-  heroDetailRunes.innerHTML = renderRuneGroups(recommendedRunes, rune=>rune.name, rune=>rune.grade, rune=>rune.id);
+  heroDetailSkills.innerHTML = hasFullInfo ? content.skills : '<div class="hero-detail-treasure-empty">등록된 스킬 정보가 없습니다.</div>';
+  heroDetailAbilities.innerHTML = hasFullInfo ? content.abilities : '<div class="hero-detail-treasure-empty">등록된 특수 능력 정보가 없습니다.</div>';
+  heroDetailRunes.innerHTML = hasFullInfo
+    ? renderRuneGroups(recommendedRunes, rune=>rune.name, rune=>rune.grade, rune=>rune.id)
+    : '<div class="hero-detail-treasure-empty">등록된 추천 룬 정보가 없습니다.</div>';
+  heroDetailTreasure.innerHTML = renderHeroTreasure(heroName, treasureHero);
+  heroDetailBackBtn.textContent = heroDetailReturnPage === 'treasure' ? '← 전설보물 목록으로' : '← 영웅 목록으로';
 
   guidePage.style.display = 'none';
   calcPage.style.display = 'none';
@@ -2398,11 +2516,13 @@ function openHeroDetailPage(event, button){
 
 function closeHeroDetailPage(){
   heroDetailPage.style.display = 'none';
-  guidePage.style.display = '';
-  mainTabs.style.display = '';
-  pageTitle.textContent = '운빨존많겜 종합 가이드';
+  const returnToTreasure = heroDetailReturnPage === 'treasure';
+  guidePage.style.display = returnToTreasure ? 'none' : '';
+  treasurePage.style.display = returnToTreasure ? '' : 'none';
+  mainTabs.style.display = returnToTreasure ? 'none' : '';
+  pageTitle.textContent = returnToTreasure ? '전설보물 티어' : '운빨존많겜 종합 가이드';
   document.querySelectorAll('.menu-item[data-page], .desktop-nav-item[data-page]').forEach(item=>{
-    item.classList.toggle('active', item.dataset.page === 'guide');
+    item.classList.toggle('active', item.dataset.page === (returnToTreasure ? 'treasure' : 'guide'));
   });
   requestAnimationFrame(()=>window.scrollTo({ top: heroDetailReturnScroll, behavior: 'auto' }));
 }
@@ -2666,6 +2786,7 @@ const heroDetailHeader = document.getElementById('heroDetailHeader');
 const heroDetailSkills = document.getElementById('heroDetailSkills');
 const heroDetailAbilities = document.getElementById('heroDetailAbilities');
 const heroDetailRunes = document.getElementById('heroDetailRunes');
+const heroDetailTreasure = document.getElementById('heroDetailTreasure');
 const heroDetailBackBtn = document.getElementById('heroDetailBackBtn');
 const mainTabs = document.getElementById('mainTabs');
 const pageTitle = document.getElementById('pageTitle');
@@ -2702,8 +2823,6 @@ pageNavigationItems.forEach(item=>{
     closeMenu();
   });
 });
-document.querySelector('.menu-item[href]').addEventListener('click', closeMenu);
-
 // ---------- personal tier maker ----------
 const TIER_MAKER_TIERS = ['S','A','B','C'];
 const TIER_MAKER_DEFAULTS = {
@@ -3082,6 +3201,41 @@ const TREASURE_DATA_LATEST = TREASURE_DATA_V2.map(treasure => {
   return treasure;
 });
 
+const IMMORTAL_TREASURE_HERO = {
+  '각성 헤일리':'헤일리', '그랜드 마마':'마마', '사신 개구리':'개구리 왕자', '원시 밤바':'밤바',
+  '귀신 닌자':'닌자', '시공 아토':'아토', '닥터 펄스':'펄스생성기', '탑 베인':'베인',
+  '마왕 드래곤':'드래곤', '슈퍼 중력자탄':'중력자탄', '캡틴 로카':'로카', '에이스 배트맨':'배트맨',
+  '소음킹 펭귄악사':'펭귄악사', '아이엠 미야옹':'아이언미야옹', '보스 골라조':'골라조', '블롭단':'블롭',
+  '여왕 콜디':'콜디', '기가 채드':'채드', '선인 쿤':'마스터 쿤', '대냥법사':'냥법사',
+  '천룡 우치':'우치', '만년 초나':'초나', '용사 레이':'레이', '마도학자 지지':'지지',
+  '군체 타르':'타르', '악마 모노폴리':'모노폴리맨', '기사 랜슬롯':'랜슬롯', '오크지도자':'오크주술사'
+};
+
+function renderHeroTreasure(heroName, treasureHeroOverride){
+  const treasureHero = treasureHeroOverride || IMMORTAL_TREASURE_HERO[heroName];
+  const treasure = TREASURE_DATA_LATEST.find(item => item.hero === treasureHero);
+  if(!treasure) return '<div class="hero-detail-treasure-empty">등록된 전설 보물 정보가 없습니다.</div>';
+  const tierClass = `tier-${treasure.tier.toLowerCase()}`;
+  return `
+    <div class="hero-detail-treasure-card">
+      <div class="hero-detail-treasure-head">
+        ${treasure.image ? `<img class="hero-detail-treasure-image" src="${treasure.image}" alt="${escapeHeroInfoHtml(treasure.name)}" />` : ''}
+        <div class="hero-detail-treasure-copy">
+          <div class="hero-detail-treasure-name">${escapeHeroInfoHtml(treasure.name)}</div>
+          <div class="hero-detail-treasure-owner">${escapeHeroInfoHtml(treasure.hero)} 전용 전설 보물 · 레벨별 효과</div>
+        </div>
+        <div class="treasure-badge ${tierClass}">${treasure.tier} 티어</div>
+      </div>
+      <div class="hero-detail-treasure-levels">
+        ${treasure.levels.map((values, levelIndex) => `
+          <div class="treasure-level-row">
+            <div class="treasure-level-number">Lv.${levelIndex + 1}</div>
+            <div class="treasure-level-effect">${formatTreasureEffect(treasure.effect, values)}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
 const treasureLists = {
   S: document.getElementById('treasureSList'),
   A: document.getElementById('treasureAList'),
@@ -3096,39 +3250,33 @@ function formatTreasureEffect(template, values){
 function renderTreasureTier(tier){
   const container = treasureLists[tier];
   const tierItems = TREASURE_DATA_LATEST.filter(treasure => treasure.tier === tier);
-  container.innerHTML = tierItems.map((treasure, treasureIndex) => {
-    const itemId = `treasureItem-${tier}-${treasureIndex}`;
+  container.innerHTML = tierItems.map(treasure => {
+    const maxLevelValues = treasure.levels[treasure.levels.length - 1];
     return `
-      <div class="treasure-item" id="${itemId}">
-        <button type="button" class="treasure-item-toggle" data-item-id="${itemId}" aria-expanded="false">
-          ${treasure.image ? `<img class="treasure-image" src="${treasure.image}" alt="${treasure.name}" />` : ''}
-          <div class="treasure-item-head">
-            <div>
-              <div class="treasure-name">${treasure.hero} - ${treasure.name}</div>
-            </div>
+      <div class="treasure-item">
+        <button type="button" class="treasure-card" data-treasure-hero="${escapeHeroInfoHtml(treasure.hero)}" aria-label="${escapeHeroInfoHtml(treasure.hero)} 영웅 정보 보기">
+          ${treasure.image ? `<img class="treasure-image" src="${treasure.image}" alt="${escapeHeroInfoHtml(treasure.name)}" />` : ''}
+          <div class="treasure-card-head">
+            <div class="treasure-name">${escapeHeroInfoHtml(treasure.name)}</div>
+            <div class="treasure-card-owner">${escapeHeroInfoHtml(treasure.hero)} 전용</div>
             <div class="treasure-badge tier-${tier.toLowerCase()}">${tier} 티어</div>
           </div>
-          <svg class="treasure-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          <div class="treasure-card-effect"><b>Lv.${treasure.levels.length} 최대 효과</b>${formatTreasureEffect(treasure.effect, maxLevelValues)}</div>
+          <div class="treasure-card-action">영웅 정보 보기 →</div>
         </button>
-        <div class="treasure-details">
-          ${treasure.levels.map((values, levelIndex) => `
-            <div class="treasure-level-row">
-              <div class="treasure-level-number">Lv.${levelIndex + 1}</div>
-              <div class="treasure-level-effect">${formatTreasureEffect(treasure.effect, values)}</div>
-            </div>
-          `).join('')}
-        </div>
       </div>
     `;
   }).join('');
 
-  container.querySelectorAll('.treasure-item-toggle').forEach(toggle => {
-    toggle.addEventListener('click', () => {
-      const item = document.getElementById(toggle.dataset.itemId);
-      const isOpen = item.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', String(isOpen));
-    });
+  container.querySelectorAll('.treasure-card').forEach(card => {
+    card.addEventListener('click', () => openTreasureHeroDetail(card.dataset.treasureHero));
   });
+}
+
+function openTreasureHeroDetail(treasureHero){
+  const immortalEntry = Object.entries(IMMORTAL_TREASURE_HERO).find(([, baseHero]) => baseHero === treasureHero);
+  const detailHeroName = immortalEntry ? immortalEntry[0] : treasureHero;
+  showHeroDetailPage(detailHeroName, { treasureHero, returnPage:'treasure' });
 }
 
 Object.keys(treasureLists).forEach(renderTreasureTier);
@@ -3175,6 +3323,92 @@ document.getElementById('breakthroughBody').innerHTML = BREAKTHROUGH_DATA.map(([
 document.getElementById('mythicBody').innerHTML = MYTHIC_DATA.map(([lvl,cnt,myth,immo])=>
   `<tr class="${MYTHIC_SUMMARY_ROWS.has(lvl) ? 'calc-highlight' : ''}"><td class="lvl">${lvl}</td><td>${cnt}</td><td>${myth}</td><td>${immo}</td></tr>`
 ).join('');
+
+const HERO_UPGRADE_COSTS = MYTHIC_DATA
+  .filter(([range]) => !MYTHIC_SUMMARY_ROWS.has(range))
+  .map(([range, stone, mythicGold, immortalGold]) => {
+    const [from, to] = range.split('→').map(value => Number(value.trim()));
+    return {
+      from, to,
+      stone:Number(String(stone).replace(/,/g,'')),
+      mythicGold:Number(String(mythicGold).replace(/,/g,'')),
+      immortalGold:Number(String(immortalGold).replace(/,/g,''))
+    };
+  });
+const HERO_BREAKTHROUGH_COSTS = BREAKTHROUGH_DATA.map(([range, stone, chance]) => {
+  const [from, to] = range.split('→').map(value => Number(value.trim()));
+  return { from, to, stone:Number(String(stone).replace(/[^0-9]/g,'')), chance };
+});
+const heroNumberFormat = new Intl.NumberFormat('ko-KR');
+const heroGoalInputs = [
+  document.getElementById('heroGrade'), document.getElementById('heroCurrentLevel'),
+  document.getElementById('heroTargetLevel'), document.getElementById('heroOwnedStone'),
+  document.getElementById('heroOwnedGold'), document.getElementById('heroOwnedBreakthrough')
+];
+
+function renderHeroGoalError(message){
+  document.getElementById('heroNeededStone').innerHTML = '—<span>개</span>';
+  document.getElementById('heroNeededGold').innerHTML = '—<span>골드</span>';
+  document.getElementById('heroNeededBreakthrough').innerHTML = '—<span>개</span>';
+  document.getElementById('heroStoneDetail').textContent = '';
+  document.getElementById('heroGoldDetail').textContent = '';
+  document.getElementById('heroBreakthroughDetail').textContent = '';
+  const summary = document.getElementById('heroGoalSummary');
+  summary.textContent = message;
+  summary.classList.add('error');
+}
+
+function calculateHeroGoal(){
+  const grade = document.getElementById('heroGrade').value;
+  const currentLevel = Number(document.getElementById('heroCurrentLevel').value);
+  const targetLevel = Number(document.getElementById('heroTargetLevel').value);
+  const ownedValues = ['heroOwnedStone','heroOwnedGold','heroOwnedBreakthrough'].map(id => Number(document.getElementById(id).value));
+
+  if(!['mythic','immortal'].includes(grade)) return renderHeroGoalError('영웅 등급을 선택해 주세요.');
+  if(!Number.isInteger(currentLevel) || currentLevel < 1 || currentLevel > 24){
+    return renderHeroGoalError('현재 영웅 레벨은 1부터 24까지 입력해 주세요.');
+  }
+  if(!Number.isInteger(targetLevel) || targetLevel < 2 || targetLevel > 25){
+    return renderHeroGoalError('목표 영웅 레벨은 2부터 25까지 입력해 주세요.');
+  }
+  if(targetLevel <= currentLevel) return renderHeroGoalError('목표 영웅 레벨은 현재 레벨보다 높아야 합니다.');
+  if(ownedValues.some(value => !Number.isFinite(value) || value < 0)){
+    return renderHeroGoalError('보유 재화는 0 이상의 숫자로 입력해 주세요.');
+  }
+
+  const [ownedStone, ownedGold, ownedBreakthrough] = ownedValues.map(Math.floor);
+  const upgradeSteps = HERO_UPGRADE_COSTS.filter(item => item.from >= currentLevel && item.to <= Math.min(targetLevel, 15));
+  const breakthroughSteps = HERO_BREAKTHROUGH_COSTS.filter(item => item.from >= Math.max(currentLevel, 15) && item.to <= targetLevel);
+  const totalStone = upgradeSteps.reduce((sum, item) => sum + item.stone, 0);
+  const goldKey = grade === 'immortal' ? 'immortalGold' : 'mythicGold';
+  const totalGold = upgradeSteps.reduce((sum, item) => sum + item[goldKey], 0);
+  const totalBreakthrough = breakthroughSteps.reduce((sum, item) => sum + item.stone, 0);
+  const neededStone = Math.max(0, totalStone - ownedStone);
+  const neededGold = Math.max(0, totalGold - ownedGold);
+  const neededBreakthrough = Math.max(0, totalBreakthrough - ownedBreakthrough);
+
+  document.getElementById('heroNeededStone').innerHTML = `${heroNumberFormat.format(neededStone)}<span>개</span>`;
+  document.getElementById('heroNeededGold').innerHTML = `${heroNumberFormat.format(neededGold)}<span>골드</span>`;
+  document.getElementById('heroNeededBreakthrough').innerHTML = `${heroNumberFormat.format(neededBreakthrough)}<span>개</span>`;
+  document.getElementById('heroStoneDetail').textContent = `총 ${heroNumberFormat.format(totalStone)}개 필요 · ${heroNumberFormat.format(ownedStone)}개 보유`;
+  document.getElementById('heroGoldDetail').textContent = `총 ${heroNumberFormat.format(totalGold)}골드 필요 · ${heroNumberFormat.format(ownedGold)}골드 보유`;
+  document.getElementById('heroBreakthroughDetail').textContent = `1회 시도 기준 ${heroNumberFormat.format(totalBreakthrough)}개 · ${heroNumberFormat.format(ownedBreakthrough)}개 보유`;
+  const summary = document.getElementById('heroGoalSummary');
+  summary.classList.remove('error');
+  const gradeLabel = grade === 'immortal' ? '불멸' : '신화';
+  const enough = neededStone === 0 && neededGold === 0 && neededBreakthrough === 0
+    ? ' 보유량만으로 목표 레벨 구간의 기본 비용을 충당할 수 있습니다.' : '';
+  const breakthroughNote = breakthroughSteps.length
+    ? ' 돌파 구간은 각 단계 1회 시도 기준이며, 성공 확률에 따른 재시도 비용은 포함하지 않습니다.' : '';
+  summary.innerHTML = `<strong>${gradeLabel} Lv.${currentLevel} → Lv.${targetLevel}</strong> 강화 기준입니다.${enough}${breakthroughNote}`;
+}
+
+document.getElementById('heroGoalForm').addEventListener('submit', event => event.preventDefault());
+heroGoalInputs.forEach(input => {
+  input.addEventListener('input', calculateHeroGoal);
+  input.addEventListener('change', calculateHeroGoal);
+});
+calculateHeroGoal();
 
 // ---------- blob figure tier ----------
 const BLOB_TIERS = [
@@ -3377,6 +3611,7 @@ document.getElementById('originBossBody').innerHTML = ORIGIN_BOSS_DATA.map(b => 
 
 render();
 </script>
+<script src="formation-assets.js"></script>
 <script src="formation.js"></script>
 </body>
 </html>

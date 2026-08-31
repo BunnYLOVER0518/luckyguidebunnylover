@@ -24,7 +24,7 @@
       id: `local:${grade}:${name}`,
       name,
       grade,
-      image: `영웅모음/${grade}_${name}.png`,
+      image: window.FORMATION_IMAGE_DATA?.[`${grade}_${name}`] || `영웅모음/${grade}_${name}.png`,
       unique: false
     })))
   ];
