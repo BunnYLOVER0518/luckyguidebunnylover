@@ -7,10 +7,24 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2527562369400666"
      crossorigin="anonymous"></script>
 <title>운빨존많겜 종합 가이드</title>
+<script>
+  (() => {
+    try {
+      const savedTheme = localStorage.getItem('luckyGuideTheme');
+      const initialTheme = savedTheme === 'dark' || savedTheme === 'light'
+        ? savedTheme
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.dataset.theme = initialTheme;
+    } catch (_) {
+      document.documentElement.dataset.theme = 'light';
+    }
+  })();
+</script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
 
   :root{
+    color-scheme: light;
     --bg: #f3f0e9;
     --surface: #fffefb;
     --surface-2: #f7f4ed;
@@ -28,14 +42,48 @@
     --a: #8a5bc2;
     --b: #347bc0;
     --c: #747078;
+
+    --texture-1: rgba(59,49,35,.035);
+    --texture-2: rgba(59,49,35,.025);
+    --topbar-glow: rgba(134,117,87,.12);
+    --topbar-start: rgba(255,254,251,.96);
+    --topbar-end: rgba(243,240,233,.96);
+    --filter-bg: rgba(247,244,237,.92);
+    --title-shadow: 0 1px 0 #fff;
+  }
+
+  html[data-theme="dark"]{
+    color-scheme: dark;
+    --bg: #141619;
+    --surface: #1d2024;
+    --surface-2: #25292e;
+    --border: #3a4047;
+    --text: #f2f1ed;
+    --muted: #c3c0b8;
+    --muted-2: #96938c;
+    --accent: #f0c978;
+    --role-mul: #32a5b6;
+    --role-ma: #ae76c8;
+    --role-sup: #42a978;
+    --s: #e5a62e;
+    --a: #a978dc;
+    --b: #559bdd;
+    --c: #99969e;
+    --texture-1: rgba(255,255,255,.025);
+    --texture-2: rgba(255,255,255,.018);
+    --topbar-glow: rgba(240,201,120,.07);
+    --topbar-start: rgba(31,34,38,.98);
+    --topbar-end: rgba(20,22,25,.98);
+    --filter-bg: rgba(29,32,36,.92);
+    --title-shadow: none;
   }
 
   *{ box-sizing: border-box; }
   html,body{
     margin:0; padding:0; background-color:var(--bg);
     background-image:
-      radial-gradient(circle at 25% 15%, rgba(59,49,35,.035) 0 0.7px, transparent .8px),
-      radial-gradient(circle at 75% 70%, rgba(59,49,35,.025) 0 0.6px, transparent .7px);
+      radial-gradient(circle at 25% 15%, var(--texture-1) 0 0.7px, transparent .8px),
+      radial-gradient(circle at 75% 70%, var(--texture-2) 0 0.6px, transparent .7px);
     background-size:7px 7px, 11px 11px;
   }
   body{
@@ -50,8 +98,8 @@
   .topbar{
     padding: 18px 16px 10px;
     background:
-      radial-gradient(circle at 18% 0%, rgba(134,117,87,.12), transparent 52%),
-      linear-gradient(180deg, rgba(255,254,251,.96), rgba(243,240,233,.96));
+      radial-gradient(circle at 18% 0%, var(--topbar-glow), transparent 52%),
+      linear-gradient(180deg, var(--topbar-start), var(--topbar-end));
     border-bottom: 1px solid var(--border);
   }
   .title-row{ position:relative; display:flex; align-items:center; justify-content:center; min-height:34px; text-align:center; }
@@ -59,9 +107,21 @@
   .title-row h1{
     font-size: 22px; margin:0; font-weight:400;
     color:var(--text);
-    text-shadow:0 1px 0 #fff;
+    text-shadow:var(--title-shadow);
   }
-  .updated{ position:absolute; top:50%; right:0; transform:translateY(-50%); font-size:11px; color:var(--muted-2); white-space:nowrap; }
+  .updated{ position:absolute; top:50%; right:40px; transform:translateY(-50%); font-size:11px; color:var(--muted-2); white-space:nowrap; }
+  .theme-toggle{
+    position:absolute; top:50%; right:0; transform:translateY(-50%);
+    width:31px; height:31px; padding:0; border:1px solid var(--border); border-radius:10px;
+    display:flex; align-items:center; justify-content:center; background:var(--surface-2); color:var(--text);
+    cursor:pointer; transition:background .16s ease,border-color .16s ease,transform .16s ease;
+  }
+  .theme-toggle:hover{ background:var(--surface); border-color:var(--muted-2); }
+  .theme-toggle:active{ transform:translateY(-50%) scale(.94); }
+  .theme-toggle svg{ width:17px; height:17px; }
+  .theme-toggle .moon-icon{ display:none; }
+  html[data-theme="dark"] .theme-toggle .sun-icon{ display:none; }
+  html[data-theme="dark"] .theme-toggle .moon-icon{ display:block; }
 
   .tabs{ display:flex; gap:6px; margin-top:12px; }
   .tab{
@@ -95,7 +155,7 @@
   /* ---------- sticky filters ---------- */
   .filterbar{
     position: sticky; top:0; z-index: 10;
-    background: rgba(247,244,237,0.92); backdrop-filter: blur(10px);
+    background: var(--filter-bg); backdrop-filter: blur(10px);
     padding: 10px 16px 12px; border-bottom: 1px solid var(--border);
     box-shadow:0 5px 16px rgba(62,52,38,.05);
   }
@@ -298,6 +358,8 @@
     .title-main{ width:100%; padding:0 42px; }
     .menu-btn{ position:absolute; top:0; left:0; }
     .updated{ top:33px; right:auto; left:50%; transform:translateX(-50%); font-size:9.5px; }
+    .theme-toggle{ top:0; right:0; transform:none; }
+    .theme-toggle:active{ transform:scale(.94); }
   }
 
   /* ---------- calculator page ---------- */
@@ -769,6 +831,97 @@
     .formation-hero:hover{ transform:none; }
     .treasure-list{ grid-template-columns:1fr; padding:10px; }
   }
+
+  /* ---------- dark theme ---------- */
+  html[data-theme="dark"] .desktop-nav{ border-top-color:rgba(255,255,255,.08); }
+  html[data-theme="dark"] .desktop-nav-item:hover,
+  html[data-theme="dark"] .card-head:hover,
+  html[data-theme="dark"] .treasure-item-toggle:hover{ background:rgba(255,255,255,.045); }
+  html[data-theme="dark"] .desktop-nav-item.active,
+  html[data-theme="dark"] .tab.active,
+  html[data-theme="dark"] .menu-item.active{
+    background:linear-gradient(135deg,#d5a74e,#f0cf89); color:#17191c;
+    box-shadow:0 4px 14px rgba(0,0,0,.28);
+  }
+  html[data-theme="dark"] .chip[data-role="전체"].on,
+  html[data-theme="dark"] .chip[data-grade="전체"].on{ color:#17191c; }
+  html[data-theme="dark"] .search,
+  html[data-theme="dark"] .chip,
+  html[data-theme="dark"] .menu-btn,
+  html[data-theme="dark"] .rune-chip{ box-shadow:inset 0 1px 0 rgba(255,255,255,.055); }
+  html[data-theme="dark"] .card{ box-shadow:0 8px 24px rgba(0,0,0,.24); }
+  html[data-theme="dark"] .card:hover{ border-color:#59616a; box-shadow:0 12px 30px rgba(0,0,0,.32); }
+  html[data-theme="dark"] .avatar-wrap.rune{ background:linear-gradient(135deg,#30353b,#202328); }
+  html[data-theme="dark"] #tipBubble{
+    background:var(--surface); border-color:var(--border); box-shadow:0 14px 36px rgba(0,0,0,.42);
+  }
+  html[data-theme="dark"] .tip-row + .tip-row{ border-top-color:rgba(255,255,255,.08); }
+  html[data-theme="dark"] .card-body{ background:rgba(255,255,255,.018); }
+  html[data-theme="dark"] .calc-table tbody tr:nth-child(even){ background:rgba(255,255,255,.025); }
+  html[data-theme="dark"] .calc-table tr.calc-highlight td{ background:rgba(240,201,120,.09); }
+  html[data-theme="dark"] .pet-goal-field input,
+  html[data-theme="dark"] .pet-goal-field select,
+  html[data-theme="dark"] .formation-search{
+    background:var(--surface); border-color:var(--border); color:var(--text);
+  }
+  html[data-theme="dark"] .pet-goal-result{ border-color:var(--border); }
+  html[data-theme="dark"] .pet-goal-result-value,
+  html[data-theme="dark"] .treasure-card-action,
+  html[data-theme="dark"] .hero-info-level,
+  html[data-theme="dark"] .formation-status{ color:#e09a83; }
+  html[data-theme="dark"] .treasure-card:hover{ background:rgba(255,255,255,.045); }
+  html[data-theme="dark"] .treasure-card-effect{ background:rgba(255,255,255,.035); }
+  html[data-theme="dark"] .treasure-image,
+  html[data-theme="dark"] .hero-detail-avatar-wrap,
+  html[data-theme="dark"] .hero-detail-treasure-image{ background:#f4f1e9; }
+  html[data-theme="dark"] .tier-maker-action:hover,
+  html[data-theme="dark"] .hero-info-button:hover,
+  html[data-theme="dark"] .hero-detail-back:hover,
+  html[data-theme="dark"] .formation-action:hover{ background:#30353b; border-color:#68717a; }
+  html[data-theme="dark"] .tier-maker-action.primary{ background:#d5a74e; border-color:#d5a74e; color:#17191c; }
+  html[data-theme="dark"] .tier-maker-action.primary:hover{ background:#e5bc6b; }
+  html[data-theme="dark"] .tier-maker-board{ background:#24282d; border-color:#434a52; box-shadow:0 8px 24px rgba(0,0,0,.25); }
+  html[data-theme="dark"] .tier-maker-row{ border-bottom-color:#434a52; }
+  html[data-theme="dark"] .tier-maker-tier-name,
+  html[data-theme="dark"] .tier-maker-dropzone,
+  html[data-theme="dark"] .tier-maker-hero,
+  html[data-theme="dark"] .tier-maker-move{ background:var(--surface); color:var(--text); }
+  html[data-theme="dark"] .tier-maker-dropzone.drag-over{ background:#30353b; }
+  html[data-theme="dark"] .tier-maker-hero-image-wrap{ background:var(--surface-2); }
+  html[data-theme="dark"] .hero-info-button,
+  html[data-theme="dark"] .hero-detail-back,
+  html[data-theme="dark"] .hero-detail-header,
+  html[data-theme="dark"] .hero-detail-section,
+  html[data-theme="dark"] .hero-info-item,
+  html[data-theme="dark"] .formation-action{
+    background:var(--surface); border-color:var(--border); color:var(--text);
+  }
+  html[data-theme="dark"] .hero-detail-name,
+  html[data-theme="dark"] .hero-detail-section h2,
+  html[data-theme="dark"] .formation-toolbar-title,
+  html[data-theme="dark"] .formation-picker-title{ color:var(--text); }
+  html[data-theme="dark"] .hero-detail-summary,
+  html[data-theme="dark"] .formation-toolbar-desc,
+  html[data-theme="dark"] .formation-selection{ color:var(--muted); }
+  html[data-theme="dark"] .hero-detail-section h2{ border-bottom-color:#d5a74e; }
+  html[data-theme="dark"] .hero-info-skill-type{ background:#d5a74e; color:#17191c; }
+  html[data-theme="dark"] .formation-board-card{ background:#202328; border-color:#424950; box-shadow:0 10px 28px rgba(0,0,0,.3); }
+  html[data-theme="dark"] .formation-slot{
+    border-color:rgba(210,218,226,.25);
+    background:linear-gradient(145deg,rgba(45,50,56,.9),rgba(31,34,38,.94));
+  }
+  html[data-theme="dark"] .formation-slot:hover,
+  html[data-theme="dark"] .formation-slot.drag-over{ border-color:#d5a74e; background:#30353b; }
+  html[data-theme="dark"] .formation-slot.filled,
+  html[data-theme="dark"] .formation-grade-tab,
+  html[data-theme="dark"] .formation-hero{ background:var(--surface); border-color:var(--border); color:var(--text); }
+  html[data-theme="dark"] .formation-grade-tab{ color:var(--muted); }
+  html[data-theme="dark"] .formation-grade-tab.active,
+  html[data-theme="dark"] .formation-action.primary{ border-color:#d5a74e; background:#d5a74e; color:#17191c; }
+  html[data-theme="dark"] .formation-action.primary:hover{ background:#e5bc6b; }
+  html[data-theme="dark"] .formation-hero-grade,
+  html[data-theme="dark"] .formation-empty-search,
+  html[data-theme="dark"] .formation-slot-empty{ color:var(--muted-2); }
 </style>
 </head>
 <body>
@@ -781,7 +934,15 @@
         </button>
         <h1 class="disp" id="pageTitle">운빨존많겜 종합 가이드</h1>
       </div>
-      <div class="updated">제작자 : BunnYLOVER</div>
+      <div class="updated">제작자 : LM BunnY , BunnYLOVER</div>
+      <button type="button" id="themeToggle" class="theme-toggle" aria-label="다크 모드로 전환" aria-pressed="false" title="다크 모드로 전환">
+        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/>
+        </svg>
+      </button>
     </div>
     <nav class="desktop-nav" id="desktopNav" aria-label="주요 메뉴">
       <button type="button" class="desktop-nav-item active" data-page="guide">룬 가이드</button>
@@ -2781,6 +2942,38 @@ searchInput.addEventListener('input', ()=>{
 clearX.addEventListener('click', ()=>{
   searchInput.value=''; state.q=''; clearX.style.display='none'; render();
 });
+
+// ---------- light / dark theme ----------
+const THEME_STORAGE_KEY = 'luckyGuideTheme';
+const themeToggle = document.getElementById('themeToggle');
+const systemDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+
+function updateThemeToggle(){
+  const isDark = document.documentElement.dataset.theme === 'dark';
+  const label = isDark ? '라이트 모드로 전환' : '다크 모드로 전환';
+  themeToggle.setAttribute('aria-label', label);
+  themeToggle.setAttribute('aria-pressed', String(isDark));
+  themeToggle.title = label;
+}
+
+function applyTheme(theme, persist = false){
+  document.documentElement.dataset.theme = theme;
+  if(persist){
+    try{ localStorage.setItem(THEME_STORAGE_KEY, theme); }catch(_){ }
+  }
+  updateThemeToggle();
+}
+
+themeToggle.addEventListener('click', ()=>{
+  applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark', true);
+});
+
+systemDarkMode.addEventListener?.('change', event=>{
+  let savedTheme = null;
+  try{ savedTheme = localStorage.getItem(THEME_STORAGE_KEY); }catch(_){ }
+  if(savedTheme !== 'dark' && savedTheme !== 'light') applyTheme(event.matches ? 'dark' : 'light');
+});
+updateThemeToggle();
 
 // ---------- hamburger menu + calculator page ----------
 const menuBtn = document.getElementById('menuBtn');
