@@ -643,7 +643,6 @@
     </div>
 
     <footer>
-      재화 정보 출처: by 시그너스 패배<br/>
       모바일에서 보기 편하도록 재구성한 버전입니다
     </footer>
   </div>
@@ -651,7 +650,6 @@
   <div id="blobPage" style="display:none;">
     <div class="calc-wrap" id="blobWrap"></div>
     <footer>
-      정보 출처: by 시그너스 패배 &amp; 가든이다<br/>
       효과 수치는 원본 자료가 XX%로 표기되어 있어 종류만 표시했습니다
     </footer>
   </div>
@@ -2338,6 +2336,14 @@ const TREASURE_DATA_LATEST = TREASURE_DATA_V2.map(treasure => {
   if (treasure.hero === '블롭' && treasure.name === '버블 헤드') return { ...treasure, tier: 'S' };
   if (treasure.hero === '냥법사' && treasure.name === '털실 뭉치') return { ...treasure, tier: 'A' };
   if (treasure.hero === '우치' && treasure.name === '흑요석 부채') return { ...treasure, tier: 'A' };
+  if (treasure.hero === '오크주술사' && treasure.name === '주술 목걸이') {
+    return {
+      ...treasure,
+      tier: 'S',
+      effect: '저주 스킬의 파멸의 저주 발동 확률 {}% 증가, 스킬 사용 확률 {}% 증가',
+      levels: [[5,0.1],[10,0.3],[15,0.5],[20,1],[25,1.5],[30,2],[40,2.5],[50,3],[60,3.5],[75,4],[90,5]]
+    };
+  }
   return treasure;
 });
 
