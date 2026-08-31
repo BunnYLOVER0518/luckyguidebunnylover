@@ -616,6 +616,115 @@
     .hero-detail-section{ padding:14px; }
     .hero-info-button{ font-size:9px; }
   }
+
+  /* ---------- 6 x 3 formation maker ---------- */
+  .formation-wrap{
+    --formation-slot-size:176px;
+    max-width:1280px; margin:0 auto; padding:26px 20px 58px;
+  }
+  .formation-toolbar{
+    display:flex; align-items:center; justify-content:space-between; gap:24px; min-height:108px;
+    margin-bottom:16px; padding:22px 26px;
+  }
+  .formation-toolbar-title{ color:#262119; font-size:25px; font-weight:900; letter-spacing:-.04em; }
+  .formation-toolbar-desc{ margin-top:8px; color:#766956; font-size:13.5px; line-height:1.6; }
+  .formation-actions{ display:flex; flex:0 0 auto; flex-wrap:wrap; justify-content:flex-end; gap:9px; }
+  .formation-action{
+    min-height:44px; padding:10px 17px; border:1px solid #bfae97; border-radius:11px;
+    background:#fffdf8; color:#382f25; font-size:12.5px; font-weight:850; cursor:pointer;
+  }
+  .formation-action:hover{ background:#f1e8dc; }
+  .formation-action.primary{ border-color:#6e3128; background:#7a2f24; color:#fff; }
+  .formation-action.primary:hover{ background:#66261e; }
+  .formation-status{ min-height:27px; padding:0 5px; color:#7a2f24; font-size:13px; font-weight:750; }
+  .formation-board-card{
+    overflow-x:auto; padding:20px; border:1px solid #cbbda8; border-radius:20px; background:#ded1be;
+    box-shadow:0 10px 28px rgba(44,36,26,.1); scrollbar-color:#a99579 transparent;
+  }
+  .formation-board{
+    display:grid; grid-template-columns:repeat(6,var(--formation-slot-size));
+    grid-template-rows:repeat(3,var(--formation-slot-size)); justify-content:center; gap:10px;
+    width:max-content; min-width:100%;
+  }
+  .formation-slot{
+    position:relative; width:var(--formation-slot-size); height:var(--formation-slot-size); overflow:hidden;
+    border:2px dashed rgba(93,75,53,.32); border-radius:15px;
+    background:linear-gradient(145deg,rgba(255,253,248,.8),rgba(244,237,225,.86)); cursor:pointer;
+    transition:border-color .15s,background .15s,transform .15s;
+  }
+  .formation-slot:hover,.formation-slot.drag-over{ border-color:#7a2f24; background:#fffaf1; }
+  .formation-slot.drag-over{ transform:scale(.985); }
+  .formation-slot.filled{ border-style:solid; border-color:#b9aa95; background:#fffdf8; }
+  .formation-slot-number{
+    position:absolute; top:7px; left:8px; z-index:2; display:flex; align-items:center; justify-content:center;
+    width:24px; height:24px; border-radius:8px; background:rgba(48,41,31,.76); color:#fff;
+    font-size:10.5px; font-weight:900;
+  }
+  .formation-slot-empty{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#9a8b78; font-size:12px; font-weight:800; }
+  .formation-slot-image{ display:block; width:100%; height:calc(100% - 29px); object-fit:contain; pointer-events:none; }
+  .formation-slot-name{
+    position:absolute; right:3px; bottom:3px; left:3px; overflow:hidden; padding:3px 2px;
+    border-radius:7px; background:rgba(44,36,27,.82); color:#fff; font-size:10px; font-weight:850;
+    text-align:center; text-overflow:ellipsis; white-space:nowrap; pointer-events:none;
+  }
+  .formation-slot-remove{
+    position:absolute; top:7px; right:7px; z-index:3; width:26px; height:26px; padding:0;
+    border:0; border-radius:8px; background:rgba(122,47,36,.9); color:#fff; font-size:15px;
+    font-weight:900; line-height:26px; cursor:pointer;
+  }
+  .formation-picker{ margin-top:18px; padding:20px; }
+  .formation-picker-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:15px; }
+  .formation-picker-title{ color:#2e271f; font-size:18px; font-weight:900; }
+  .formation-selection{ margin-top:5px; color:#766956; font-size:12px; }
+  .formation-search{
+    width:min(310px,45vw); min-height:42px; padding:10px 13px; border:1px solid #cbbda8;
+    border-radius:11px; background:#fff; color:#30291f; font:inherit; font-size:12.5px; outline:none;
+  }
+  .formation-search:focus{ border-color:#7a2f24; box-shadow:0 0 0 3px rgba(122,47,36,.12); }
+  .formation-grade-tabs{ display:flex; gap:7px; overflow-x:auto; margin-bottom:15px; padding-bottom:2px; scrollbar-width:none; }
+  .formation-grade-tabs::-webkit-scrollbar{ display:none; }
+  .formation-grade-tab{
+    flex:0 0 auto; min-height:35px; padding:7px 13px; border:1px solid #cbbda8; border-radius:999px;
+    background:#fff; color:#685b4b; font-size:11px; font-weight:850; cursor:pointer;
+  }
+  .formation-grade-tab.active{ border-color:#7a2f24; background:#7a2f24; color:#fff; }
+  .formation-hero-list{ display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); gap:10px; }
+  .formation-hero{
+    position:relative; min-width:0; padding:9px 7px 8px; border:1px solid #d8cbb8; border-radius:13px;
+    background:#fff; color:#332b22; cursor:grab; transition:transform .15s,border-color .15s,box-shadow .15s;
+  }
+  .formation-hero:hover{ transform:translateY(-2px); border-color:#9d8970; box-shadow:0 6px 14px rgba(54,43,29,.12); }
+  .formation-hero.selected{ border-color:#7a2f24; box-shadow:0 0 0 3px rgba(122,47,36,.18); }
+  .formation-hero.unavailable{ opacity:.42; cursor:not-allowed; filter:grayscale(.35); }
+  .formation-hero-image{ display:block; width:100%; height:78px; object-fit:contain; pointer-events:none; }
+  .formation-hero-name{ display:block; overflow:hidden; margin-top:4px; font-size:10.5px; font-weight:850; text-align:center; text-overflow:ellipsis; white-space:nowrap; }
+  .formation-hero-grade{ display:block; margin-top:3px; color:#8a7965; font-size:9px; font-weight:750; text-align:center; }
+  .formation-empty-search{ grid-column:1/-1; padding:28px 10px; color:#8a7965; font-size:11px; text-align:center; }
+  @media (max-width:1100px){
+    .formation-wrap{ --formation-slot-size:144px; }
+  }
+  @media (max-width:700px){
+    .formation-wrap{ --formation-slot-size:112px; padding:15px 8px 38px; }
+    .formation-toolbar{ align-items:flex-start; flex-direction:column; gap:15px; min-height:0; padding:18px 16px; }
+    .formation-toolbar-title{ font-size:21px; }
+    .formation-toolbar-desc{ margin-top:7px; font-size:12px; }
+    .formation-actions{ justify-content:flex-start; }
+    .formation-action{ min-height:40px; padding:9px 14px; font-size:11.5px; }
+    .formation-board-card{ padding:10px; border-radius:14px; }
+    .formation-board{ min-width:0; justify-content:start; gap:6px; }
+    .formation-slot{ border-width:1.5px; border-radius:10px; }
+    .formation-slot-number{ top:4px; left:4px; width:18px; height:18px; border-radius:6px; font-size:8px; }
+    .formation-slot-remove{ top:4px; right:4px; width:20px; height:20px; border-radius:6px; font-size:11px; line-height:20px; }
+    .formation-slot-empty{ font-size:9px; }
+    .formation-slot-image{ height:calc(100% - 21px); }
+    .formation-slot-name{ right:2px; bottom:2px; left:2px; padding:2px 1px; font-size:7.5px; }
+    .formation-picker{ padding:15px 11px; }
+    .formation-picker-head{ align-items:stretch; flex-direction:column; gap:8px; }
+    .formation-search{ width:100%; }
+    .formation-hero-list{ grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px; }
+    .formation-hero-image{ height:64px; }
+    .formation-hero:hover{ transform:none; }
+  }
 </style>
 </head>
 <body>
@@ -636,6 +745,7 @@
       <button type="button" class="desktop-nav-item" data-page="blob">블롭 피규어</button>
       <button type="button" class="desktop-nav-item" data-page="treasure">전설보물</button>
       <button type="button" class="desktop-nav-item" data-page="tiermaker">나만의 티어메이커</button>
+      <button type="button" class="desktop-nav-item" data-page="formation">배치표 만들기</button>
       <button type="button" class="desktop-nav-item" data-page="pet">불멸펫 계산</button>
       <button type="button" class="desktop-nav-item" data-page="boss">보스 정보</button>
       <a class="desktop-nav-item" href="https://luckydefense-exp.netlify.app/" target="_blank" rel="noopener">게임 계산기 ↗</a>
@@ -668,6 +778,10 @@
     <div class="menu-item" data-page="tiermaker">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16v4H4zM4 10h16v4H4zM4 16h16v4H4z"/><path d="M8 4v16"/></svg>
       나만의 티어메이커
+    </div>
+    <div class="menu-item" data-page="formation">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M6 4v16M9 4v16M12 4v16M15 4v16M18 4v16M3 9h18M3 14h18"/></svg>
+      배치표 만들기
     </div>
     <div class="menu-item" data-page="pet">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 4a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z"/><path d="M6 8a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z"/><path d="M18 8a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z"/><path d="M8 12c0 4 1.5 7 4 7s4-3 4-7"/></svg>
@@ -902,6 +1016,36 @@
           <div class="tier-maker-pool-count" id="tierMakerPoolCount"></div>
         </div>
         <div class="tier-maker-dropzone" id="tierMakerPool" data-tier-zone="unranked" aria-label="미배치 영웅"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="formationPage" style="display:none;">
+    <main class="formation-wrap">
+      <section class="calc-card formation-toolbar">
+        <div>
+          <div class="formation-toolbar-title">6 × 3 영웅 배치표</div>
+          <div class="formation-toolbar-desc">영웅을 선택한 뒤 원하는 칸을 누르거나 드래그하세요. 불멸은 한 번만, 그 외 등급은 중복 배치할 수 있습니다.</div>
+        </div>
+        <div class="formation-actions">
+          <button type="button" class="formation-action primary" id="formationDownload">PNG 저장</button>
+          <button type="button" class="formation-action" id="formationReset">전체 초기화</button>
+        </div>
+      </section>
+      <div class="formation-status" id="formationStatus" role="status" aria-live="polite"></div>
+      <section class="formation-board-card" aria-label="6열 3행 영웅 배치표">
+        <div class="formation-board" id="formationBoard"></div>
+      </section>
+      <section class="calc-card formation-picker">
+        <div class="formation-picker-head">
+          <div>
+            <div class="formation-picker-title">영웅 선택</div>
+            <div class="formation-selection" id="formationSelection">배치할 영웅을 선택해 주세요.</div>
+          </div>
+          <input class="formation-search" id="formationSearch" type="search" placeholder="영웅 이름 검색" autocomplete="off" />
+        </div>
+        <div class="formation-grade-tabs" id="formationGradeTabs" aria-label="영웅 등급 필터"></div>
+        <div class="formation-hero-list" id="formationHeroList"></div>
       </section>
     </main>
   </div>
@@ -2243,6 +2387,7 @@ function openHeroDetailPage(event, button){
   blobPage.style.display = 'none';
   treasurePage.style.display = 'none';
   tierMakerPage.style.display = 'none';
+  formationPage.style.display = 'none';
   petPage.style.display = 'none';
   bossPage.style.display = 'none';
   heroDetailPage.style.display = '';
@@ -2513,6 +2658,7 @@ const calcPage = document.getElementById('calcPage');
 const blobPage = document.getElementById('blobPage');
 const treasurePage = document.getElementById('treasurePage');
 const tierMakerPage = document.getElementById('tierMakerPage');
+const formationPage = document.getElementById('formationPage');
 const petPage = document.getElementById('petPage');
 const bossPage = document.getElementById('bossPage');
 const heroDetailPage = document.getElementById('heroDetailPage');
@@ -2540,6 +2686,7 @@ pageNavigationItems.forEach(item=>{
     blobPage.style.display = page === 'blob' ? '' : 'none';
     treasurePage.style.display = page === 'treasure' ? '' : 'none';
     tierMakerPage.style.display = page === 'tiermaker' ? '' : 'none';
+    formationPage.style.display = page === 'formation' ? '' : 'none';
     petPage.style.display = page === 'pet' ? '' : 'none';
     bossPage.style.display = page === 'boss' ? '' : 'none';
     heroDetailPage.style.display = 'none';
@@ -2549,6 +2696,7 @@ pageNavigationItems.forEach(item=>{
       : page === 'blob' ? '블롭 피규어 티어'
       : page === 'treasure' ? '전설보물 티어'
       : page === 'tiermaker' ? '나만의 티어메이커'
+      : page === 'formation' ? '영웅 배치표 만들기'
       : page === 'pet' ? '불멸펫 펫먹이 계산'
       : '지옥&신&태초 보스 정보';
     closeMenu();
@@ -3229,5 +3377,6 @@ document.getElementById('originBossBody').innerHTML = ORIGIN_BOSS_DATA.map(b => 
 
 render();
 </script>
+<script src="formation.js"></script>
 </body>
 </html>
