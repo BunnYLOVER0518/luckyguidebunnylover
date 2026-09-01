@@ -1,9 +1,6 @@
 (() => {
   'use strict';
 
-  const page = document.getElementById('formationPage');
-  if (!page) return;
-
   const GRADE_ORDER = ['전체', '불멸', '신화', '전설', '영웅', '희귀', '일반'];
   const LOCAL_HERO_NAMES = {
     '신화': ['개구리 왕자', '골라조', '냥법사', '닌자', '드래곤', '랜슬롯', '레이', '로카', '로켓츄', '마마', '마스터 쿤', '모노폴리맨', '밤바', '배트맨', '베인', '블롭', '아이언미야옹', '아토', '오크주술사', '와트', '우치', '인디', '중력자탄', '지지', '채드', '초나', '콜디', '타르', '펄스생성기', '펭귄악사', '헤일리'],
@@ -29,7 +26,34 @@
     })))
   ];
   const HERO_BY_ID = new Map(HEROES.map(hero => [hero.id, hero]));
-  const STORAGE_KEY = 'luckyGuideFormationV1';
+
+  const FORMATION_CONFIGS = [
+    {
+      pageId: 'formationPage',
+      prefix: 'formation',
+      slotCount: 18,
+      rows: 3,
+      storageKey: 'luckyGuideFormationV1',
+      exportTitle: '6 × 3 영웅 배치표',
+      downloadName: '운빨존많겜_6x3_영웅배치표.png'
+    },
+    {
+      pageId: 'guildFormationPage',
+      prefix: 'guildFormation',
+      slotCount: 36,
+      rows: 6,
+      storageKey: 'luckyGuideGuildFormationV1',
+      exportTitle: '6 × 6 길드레이드 배치표',
+      downloadName: '운빨존많겜_6x6_길드레이드배치표.png'
+    }
+  ];
+
+  function initFormation(config) {
+  const page = document.getElementById(config.pageId);
+  if (!page) return;
+  const byId = suffix => document.getElementById(`${config.prefix}${suffix}`);
+  const slotCount = config.slotCount;
+  const STORAGE_KEY = config.storageKey;
   let selectedHeroId = null;
   let selectedGrade = '전체';
   let query = '';
@@ -44,14 +68,14 @@
   }
 
   function freshState() {
-    return { slots: Array(18).fill(null) };
+    return { slots: Array(slotCount).fill(null) };
   }
 
   function normalizeState(saved) {
-    const source = Array.isArray(saved?.slots) ? saved.slots.slice(0, 18) : [];
+    const source = Array.isArray(saved?.slots) ? saved.slots.slice(0, slotCount) : [];
     const seenUnique = new Set();
     return {
-      slots: Array.from({ length: 18 }, (_, index) => {
+      slots: Array.from({ length: slotCount }, (_, index) => {
         const id = typeof source[index] === 'string' && HERO_BY_ID.has(source[index]) ? source[index] : null;
         if (!id) return null;
         const hero = HERO_BY_ID.get(id);
@@ -73,7 +97,7 @@
   let state = loadState();
 
   function setStatus(message) {
-    document.getElementById('formationStatus').textContent = message || '';
+    byId('Status').textContent = message || '';
   }
 
   function saveState() {
@@ -89,7 +113,7 @@
   }
 
   function renderBoard() {
-    document.getElementById('formationBoard').innerHTML = state.slots.map((heroId, index) => {
+    byId('Board').innerHTML = state.slots.map((heroId, index) => {
       const hero = heroId ? HERO_BY_ID.get(heroId) : null;
       const label = `${index + 1}번 칸${hero ? `, ${hero.name}` : ', 비어 있음'}`;
       return `<div class="formation-slot${hero ? ' filled' : ''}" data-formation-slot="${index}" tabindex="0" role="button" draggable="${Boolean(hero)}" aria-label="${escapeHtml(label)}">
@@ -103,7 +127,7 @@
   }
 
   function renderGradeTabs() {
-    document.getElementById('formationGradeTabs').innerHTML = GRADE_ORDER.map(grade => {
+    byId('GradeTabs').innerHTML = GRADE_ORDER.map(grade => {
       const count = grade === '전체' ? HEROES.length : HEROES.filter(hero => hero.grade === grade).length;
       return `<button type="button" class="formation-grade-tab${selectedGrade === grade ? ' active' : ''}" data-formation-grade="${grade}">${grade} ${count}</button>`;
     }).join('');
@@ -116,7 +140,7 @@
       const nameMatches = !normalizedQuery || hero.name.toLowerCase().replace(/\s+/g, '').includes(normalizedQuery);
       return gradeMatches && nameMatches;
     });
-    document.getElementById('formationHeroList').innerHTML = filtered.length ? filtered.map(hero => {
+    byId('HeroList').innerHTML = filtered.length ? filtered.map(hero => {
       const unavailable = hero.unique && isUsed(hero.id);
       const selected = selectedHeroId === hero.id;
       return `<button type="button" class="formation-hero${selected ? ' selected' : ''}${unavailable ? ' unavailable' : ''}" draggable="${!unavailable}" data-formation-hero="${escapeHtml(hero.id)}" aria-pressed="${selected}" aria-disabled="${unavailable}">
@@ -126,7 +150,7 @@
       </button>`;
     }).join('') : '<div class="formation-empty-search">검색 결과가 없습니다.</div>';
     const selected = HERO_BY_ID.get(selectedHeroId);
-    document.getElementById('formationSelection').innerHTML = selected
+    byId('Selection').innerHTML = selected
       ? `<strong>${escapeHtml(selected.name)}</strong> 선택됨 · 배치할 칸을 눌러 주세요.`
       : '배치할 영웅을 선택해 주세요.';
   }
@@ -140,7 +164,7 @@
   function placeHero(heroId, slotIndex) {
     const hero = HERO_BY_ID.get(heroId);
     const index = Number(slotIndex);
-    if (!hero || !Number.isInteger(index) || index < 0 || index >= 18) return;
+    if (!hero || !Number.isInteger(index) || index < 0 || index >= slotCount) return;
     const usedIndex = hero.unique ? state.slots.indexOf(hero.id) : -1;
     if (usedIndex >= 0 && usedIndex !== index) {
       setStatus(`${hero.name}은(는) 불멸 영웅이라 중복 배치할 수 없습니다.`);
@@ -252,7 +276,7 @@
     else if (payload.startsWith('slot:')) moveSlot(payload.slice(5), slot.dataset.formationSlot);
   });
 
-  document.getElementById('formationGradeTabs').addEventListener('click', event => {
+  byId('GradeTabs').addEventListener('click', event => {
     const button = event.target.closest('[data-formation-grade]');
     if (!button) return;
     selectedGrade = button.dataset.formationGrade;
@@ -260,13 +284,13 @@
     renderHeroList();
   });
 
-  document.getElementById('formationSearch').addEventListener('input', event => {
+  byId('Search').addEventListener('input', event => {
     query = event.target.value || '';
     renderHeroList();
   });
 
-  document.getElementById('formationReset').addEventListener('click', () => {
-    if (!confirm('18칸의 모든 영웅 배치를 초기화할까요?')) return;
+  byId('Reset').addEventListener('click', () => {
+    if (!confirm(`${slotCount}칸의 모든 영웅 배치를 초기화할까요?`)) return;
     state = freshState();
     selectedHeroId = null;
     saveState();
@@ -293,7 +317,7 @@
 
   async function buildCanvas() {
     const width = 1800;
-    const height = 1040;
+    const height = 154 + config.rows * 260 + (config.rows - 1) * 12 + 54;
     const margin = 54;
     const gap = 12;
     const startY = 154;
@@ -307,7 +331,7 @@
     context.fillRect(0, 0, width, height);
     context.fillStyle = '#201d18';
     context.font = '900 42px "Noto Sans KR", sans-serif';
-    context.fillText('6 × 3 영웅 배치표', margin, 64);
+    context.fillText(config.exportTitle, margin, 64);
     context.fillStyle = '#766956';
     context.font = '700 18px "Noto Sans KR", sans-serif';
     context.fillText('운빨존많겜 종합 가이드', margin, 98);
@@ -360,8 +384,8 @@
     return canvas;
   }
 
-  document.getElementById('formationDownload').addEventListener('click', async () => {
-    const button = document.getElementById('formationDownload');
+  byId('Download').addEventListener('click', async () => {
+    const button = byId('Download');
     button.disabled = true;
     setStatus('배치표 이미지를 만드는 중입니다...');
     try {
@@ -370,7 +394,7 @@
       if (!blob) throw new Error('PNG 생성 실패');
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = '운빨존많겜_6x3_영웅배치표.png';
+      link.download = config.downloadName;
       link.click();
       setTimeout(() => URL.revokeObjectURL(link.href), 1000);
       setStatus('PNG 파일로 저장했습니다.');
@@ -382,4 +406,7 @@
   });
 
   render();
+  }
+
+  FORMATION_CONFIGS.forEach(initFormation);
 })();
