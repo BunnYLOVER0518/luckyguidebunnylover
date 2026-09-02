@@ -40,11 +40,11 @@
     {
       pageId: 'guildFormationPage',
       prefix: 'guildFormation',
-      slotCount: 36,
-      rows: 6,
+      slotCount: 24,
+      rows: 4,
       storageKey: 'luckyGuideGuildFormationV1',
-      exportTitle: '6 × 6 길드레이드 배치표',
-      downloadName: '운빨존많겜_6x6_길드레이드배치표.png'
+      exportTitle: '6 × 4 길드레이드 배치표',
+      downloadName: '운빨존많겜_6x4_길드레이드배치표.png'
     }
   ];
 

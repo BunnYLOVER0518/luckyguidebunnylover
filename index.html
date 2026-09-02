@@ -752,6 +752,9 @@
     grid-template-rows:repeat(3,var(--formation-slot-size)); justify-content:center; gap:10px;
     width:max-content; min-width:100%;
   }
+  .guild-formation-wrap .formation-board{
+    grid-template-rows:repeat(4,var(--formation-slot-size));
+  }
   .formation-slot{
     position:relative; width:var(--formation-slot-size); height:var(--formation-slot-size); overflow:hidden;
     border:2px dashed rgba(93,75,53,.32); border-radius:15px;
@@ -1323,8 +1326,8 @@
     <main class="formation-wrap guild-formation-wrap">
       <section class="calc-card formation-toolbar">
         <div>
-          <div class="formation-toolbar-title">6 × 6 길드레이드 배치표</div>
-          <div class="formation-toolbar-desc">36칸에 영웅을 자유롭게 배치하세요. 불멸은 한 번만, 그 외 등급은 중복 배치할 수 있습니다.</div>
+          <div class="formation-toolbar-title">6 × 4 길드레이드 배치표</div>
+          <div class="formation-toolbar-desc">24칸에 영웅을 자유롭게 배치하세요. 불멸은 한 번만, 그 외 등급은 중복 배치할 수 있습니다.</div>
         </div>
         <div class="formation-actions">
           <button type="button" class="formation-action primary" id="guildFormationDownload">PNG 저장</button>
@@ -1332,7 +1335,7 @@
         </div>
       </section>
       <div class="formation-status" id="guildFormationStatus" role="status" aria-live="polite"></div>
-      <section class="formation-board-card" aria-label="6열 6행 길드레이드 영웅 배치표">
+      <section class="formation-board-card" aria-label="6열 4행 길드레이드 영웅 배치표">
         <div class="formation-board" id="guildFormationBoard"></div>
       </section>
       <section class="calc-card formation-picker">
@@ -3857,6 +3860,6 @@ document.getElementById('originBossBody').innerHTML = ORIGIN_BOSS_DATA.map(b => 
 render();
 </script>
 <script src="formation-assets.js?v=20260901-transparent-fix"></script>
-<script src="formation.js"></script>
+<script src="formation.js?v=20260902-guild-6x4"></script>
 </body>
 </html>
