@@ -489,8 +489,13 @@
   }
   .blob-grade-label{
     display:inline-flex; align-items:center; justify-content:center; min-height:22px;
-    border-radius:6px; background:var(--accent-soft); color:var(--accent); font-size:10.5px; font-weight:900;
+    border:1px solid transparent; border-radius:6px; font-size:10.5px; font-weight:900;
   }
+  .blob-grade-label[data-grade="일반"]{ background:#fff; border-color:#d6d6d6; color:#282828; }
+  .blob-grade-label[data-grade="희귀"]{ background:#62bff2; border-color:#48a9df; color:#102d41; }
+  .blob-grade-label[data-grade="영웅"]{ background:#9b6be8; border-color:#8654d5; color:#fff; }
+  .blob-grade-label[data-grade="전설"]{ background:#f4d64f; border-color:#dcbc31; color:#3d3200; }
+  .blob-grade-label[data-grade="신화"]{ background:#f39a43; border-color:#dc8130; color:#3d2107; }
   .blob-grade-effect{ padding-top:2px; color:var(--text); font-size:12px; line-height:1.45; }
   .blob-missing{ color:var(--muted-2); font-size:12px; }
   @media (max-width:700px){
@@ -1739,7 +1744,7 @@ const HERO_RUNE_GRADE_UPDATES = {
   "사신 개구리": {
     "마력 수확": "S", "불사의 맹세": "S", "집중 조준": "S",
     "사냥꾼": "A", "제압자": "A", "파동": "A", "불멸 공명": "A",
-    "강타": "B", "마법": "B"
+    "마법": "B"
   },
   "원시 밤바": {
     "신속": "S", "연쇄": "S",
@@ -1759,7 +1764,7 @@ const HERO_RUNE_GRADE_UPDATES = {
   "닥터 펄스": {
     "강타": "S", "마력 순환": "S", "집중 조준": "S",
     "마력 수확": "A", "사냥꾼": "A", "전투 여운": "A", "제압자": "A", "마력 강화": "A", "불멸 공명": "A",
-    "흡수": "B", "마법": "B"
+    "흡수": "B", "마법": "B", "연격": "B", "무한 난타": "B"
   },
   "탑 베인": {
     "집중": "S", "육체 강화": "S", "집중 조준": "S", "사냥꾼": "S",
@@ -3996,7 +4001,7 @@ document.getElementById('blobWrap').addEventListener('click', event => {
       ${figure?.grades?.length
         ? figure.grades.map(grade => `
           <div class="blob-grade-row">
-            <span class="blob-grade-label">${escapeBlobText(grade.grade)}</span>
+            <span class="blob-grade-label" data-grade="${escapeBlobText(grade.grade)}">${escapeBlobText(grade.grade)}</span>
             <span class="blob-grade-effect">${escapeBlobText(grade.effect)}</span>
           </div>
         `).join('')
