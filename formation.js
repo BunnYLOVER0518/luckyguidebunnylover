@@ -1,8 +1,52 @@
-export function initFormation(HEROES,FORMATION_CONFIGS){
-const GRADE_ORDER=['전체','불멸','신화','전설','영웅','희귀','일반'];
+(() => {
+  'use strict';
+
+  const GRADE_ORDER = ['전체', '불멸', '신화', '전설', '영웅', '희귀', '일반'];
+  const LOCAL_HERO_NAMES = {
+    '신화': ['개구리 왕자', '골라조', '냥법사', '닌자', '드래곤', '랜슬롯', '레이', '로카', '로켓츄', '마마', '마스터 쿤', '모노폴리맨', '밤바', '배트맨', '베인', '블롭', '아이언미야옹', '아토', '오크주술사', '와트', '우치', '인디', '중력자탄', '지지', '채드', '초나', '콜디', '타르', '펄스생성기', '펭귄악사', '헤일리'],
+    '전설': ['보안관', '워머신', '폭풍거인', '호랑이사부'],
+    '영웅': ['나무', '늑대전사', '독수리장군', '사냥꾼', '전기로봇'],
+    '희귀': ['레인저', '샌드맨', '성기사', '악마병사', '충격로봇'],
+    '일반': ['궁수', '물의정령', '산적', '야만인', '투척병']
+  };
+  const HEROES = [
+    ...DATA.heroes.map(hero => ({
+      id: `immortal:${hero.id}`,
+      name: hero.name,
+      grade: '불멸',
+      image: HERO_IMG(hero.id),
+      unique: true
+    })),
+    ...Object.entries(LOCAL_HERO_NAMES).flatMap(([grade, names]) => names.map(name => ({
+      id: `local:${grade}:${name}`,
+      name,
+      grade,
+      image: window.FORMATION_IMAGE_DATA?.[`${grade}_${name}`] || `영웅모음/${grade}_${name}.png`,
+      unique: false
+    })))
+  ];
   const HERO_BY_ID = new Map(HEROES.map(hero => [hero.id, hero]));
 
-  
+  const FORMATION_CONFIGS = [
+    {
+      pageId: 'formationPage',
+      prefix: 'formation',
+      slotCount: 18,
+      rows: 3,
+      storageKey: 'luckyGuideFormationV1',
+      exportTitle: '6 × 3 영웅 배치표',
+      downloadName: '운빨존많겜_6x3_영웅배치표.png'
+    },
+    {
+      pageId: 'guildFormationPage',
+      prefix: 'guildFormation',
+      slotCount: 24,
+      rows: 4,
+      storageKey: 'luckyGuideGuildFormationV1',
+      exportTitle: '6 × 4 길드레이드 배치표',
+      downloadName: '운빨존많겜_6x4_길드레이드배치표.png'
+    }
+  ];
 
   function initFormation(config) {
   const page = document.getElementById(config.pageId);
@@ -365,4 +409,4 @@ const GRADE_ORDER=['전체','불멸','신화','전설','영웅','희귀','일반
   }
 
   FORMATION_CONFIGS.forEach(initFormation);
-}
+})();
