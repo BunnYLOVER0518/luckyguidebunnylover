@@ -6,7 +6,6 @@ window.GUILD_MEMBERS = [
   {"name":"ᴸᴹ  림춘봉. 23 ᵐᵃˣ ⏩️","role":"운영진","image":"guild-members/member-004.jpg","id":"","intro":"리미티드 최초 침공 클리어"},
   {"name":"솜이ღ. 21 ¹⁰¹⁰¹⁰⏩️","role":"운영진","image":"guild-members/member-007.jpg","id":"","intro":""},
   {"name":"ᴸᴹ  BunnY  22⁰⁹⁰","role":"운영진","image":"guild-members/member-003.jpg","id":"","intro":"종합가이드 제작자"},
-  {"name":"Loveღ개굴. 23 ⁰⁰⁰","role":"길드원","image":"guild-members/member-008.jpg","id":"","intro":""},
   {"name":"ᴸᴹ  04T. 22 ⁰¹⁰⏩️","role":"길드원","image":"guild-members/member-010.jpg","id":"","intro":""},
   {"name":"ᴸᴹ  ooo더보기. 20 ⁷⁷⁷⏩️","role":"길드원","image":"guild-members/member-011.jpg","id":"","intro":""},
   {"name":"ᴸᴹ  감자. 21 ⁷⁸⁸⏩️","role":"길드원","image":"guild-members/member-012.jpg","id":"","intro":""},
@@ -33,6 +32,7 @@ window.GUILD_MEMBERS = [
   {"name":"ᴸᴹ 초월. 20 ⁸⁸⁹ ⏩️","role":"길드원","image":"guild-members/member-033.jpg","id":"","intro":""},
   {"name":"ᴸᴹ 파츠. 22 ᵐᵃˣ⏩️","role":"길드원","image":"guild-members/member-034.jpg","id":"","intro":"태초귀신"},
   {"name":"ᴸᴹ 폐급손가락.20⁰¹⁰⏩️","role":"길드원","image":"guild-members/member-035.jpg","id":"","intro":""},
+  {"name":"Loveღ개굴. 23 ⁰⁰⁰","role":"용병","image":"guild-members/member-008.jpg","id":"","intro":""},
   {"name":"ɪᴛᴇʀ•Jin / 20/ ⁹¹⁰⁹","role":"용병","image":"guild-members/member-009.jpg","id":"","intro":""},
   {"name":"달마/24","role":"용병","image":"guild-members/member-036.jpg","id":"","intro":"방랑자"}
 ];
