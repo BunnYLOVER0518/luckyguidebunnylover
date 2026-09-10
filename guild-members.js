@@ -31,8 +31,8 @@ window.GUILD_MEMBERS = [
   {"name":"ᴸᴹ 선녀사랑. 21⁹⁹⁰  ⏩️","role":"길드원","image":"guild-members/member-031.jpg","id":"","intro":""},
   {"name":"ᴸᴹ 안난진/21/ᵐᵃˣ","role":"길드원","image":"guild-members/member-032.jpg","id":"","intro":""},
   {"name":"ᴸᴹ 초월. 20 ⁸⁸⁹ ⏩️","role":"길드원","image":"guild-members/member-033.jpg","id":"","intro":""},
-  {"name":"ᴸᴹ 파츠. 22 ᵐᵃˣ⏩️","role":"길드원","image":"guild-members/member-034.jpg","id":"","intro":""},
+  {"name":"ᴸᴹ 파츠. 22 ᵐᵃˣ⏩️","role":"길드원","image":"guild-members/member-034.jpg","id":"","intro":"태초귀신"},
   {"name":"ᴸᴹ 폐급손가락.20⁰¹⁰⏩️","role":"길드원","image":"guild-members/member-035.jpg","id":"","intro":""},
   {"name":"ɪᴛᴇʀ•Jin / 20/ ⁹¹⁰⁹","role":"용병","image":"guild-members/member-009.jpg","id":"","intro":""},
-  {"name":"달마/24","role":"용병","image":"guild-members/member-036.jpg","id":"","intro":""}
+  {"name":"달마/24","role":"용병","image":"guild-members/member-036.jpg","id":"","intro":"방랑자"}
 ];
