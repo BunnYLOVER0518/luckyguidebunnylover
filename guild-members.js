@@ -3,7 +3,7 @@ window.GUILD_MEMBERS = [
   {"name":"ᴸᴹ  태리. 22 ᵐᵃˣ ⏩️","role":"부길드장","image":"guild-members/member-001.jpg","id":"","intro":"리미티드 최강전력"},
   {"name":"ᴸᴹ  태초가실분. 22 ᵐᵃˣ ⏩️","role":"운영진","image":"guild-members/member-005.jpg","id":"","intro":""},
   {"name":"ᴸᴹ  팬텀. 24 ᵐᵃˣ ⏩️","role":"운영진","image":"guild-members/member-006.jpg","id":"","intro":"리미티드 길레장인"},
-  {"name":"ᴸᴹ  림춘봉. 23 ᵐᵃˣ ⏩️","role":"운영진","image":"guild-members/member-004.jpg","id":"","intro":"리미티드 최초 침공 클리어"},
+  {"name":"ᴸᴹ  림춘봉. 23 ᵐᵃˣ ⏩️","role":"운영진","image":"guild-members/member-004.jpg","id":"","intro":"리미티드 유일무이 최초 침공 클리어"},
   {"name":"솜이ღ. 21 ¹⁰¹⁰¹⁰⏩️","role":"운영진","image":"guild-members/member-007.jpg","id":"","intro":""},
   {"name":"ᴸᴹ  BunnY  22⁰⁹⁰","role":"운영진","image":"guild-members/member-003.jpg","id":"","intro":"종합가이드 제작자"},
   {"name":"ᴸᴹ  04T. 22 ⁰¹⁰⏩️","role":"길드원","image":"guild-members/member-010.jpg","id":"","intro":""},
