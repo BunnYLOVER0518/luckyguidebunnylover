@@ -1,5 +1,5 @@
 window.GUILD_MEMBERS = [
-  {"name":"Lm폭파/24/max/x2","role":"길드장","image":"guild-members/member-002.jpg","id":"","intro":""},
+  {"name":"Lm폭파/24/max/x2","role":"길드장","image":"guild-members/member-002.jpg","id":"","intro":"돌싱 1년차 연애가능 ＊여친급구＊"},
   {"name":"ᴸᴹ  태리. 22 ᵐᵃˣ ⏩️","role":"부길드장","image":"guild-members/member-001.jpg","id":"","intro":"리미티드 최강전력"},
   {"name":"ᴸᴹ  태초가실분. 22 ᵐᵃˣ ⏩️","role":"운영진","image":"guild-members/member-005.jpg","id":"","intro":""},
   {"name":"ᴸᴹ  팬텀. 24 ᵐᵃˣ ⏩️","role":"운영진","image":"guild-members/member-006.jpg","id":"","intro":"리미티드 길레장인"},
