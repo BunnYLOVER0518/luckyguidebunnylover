@@ -2049,7 +2049,7 @@ function HERO_IMG(id){
   if(HERO_IMG_OVERRIDES[id]) return HERO_IMG_OVERRIDES[id];
   return `https://ld-rune.vercel.app/_next/image?url=%2Fhero%2F${id}.png&w=384&q=75`;
 }
-function RUNE_IMG(id){ return `https://ld-rune.vercel.app/_next/image?url=%2Frune%2F${id}.png&w=256&q=75`; }
+function RUNE_IMG(id){ return `rune/${id}.png`; }
 
 // Full per-rarity-tier effect text, captured directly from the rune detail
 // popovers on ld-rune.vercel.app (click each rune icon there to see the same info).
