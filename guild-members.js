@@ -13,7 +13,7 @@ window.GUILD_MEMBERS = [
   {"id":"member-50ddf76d198cbad09ca0","name":"ᴸᴹ  공배기. 21 ⁹⁹⁸ ⏩️","role":"길드원","image":"guild-members/member-014.jpg","intro":""},
   {"id":"member-8a7f35c9e1deeecb051a","name":"ᴸᴹ  그만키워. 22 ⁰⁰⁰⏩️","role":"길드원","image":"guild-members/member-015.jpg","intro":""},
   {"id":"member-cce2db5203054e25e3d1","name":"ᴸᴹ  깅땅. 20 ⁹⁹⁸⏩️","role":"길드원","image":"guild-members/member-016.jpg","intro":""},
-  {"id":"member-4fdb5bc995d8c14035cf","name":"ᴸᴹ  란츠. 20 ¹¹¹ ⏩️","role":"길드원","image":"guild-members/member-017.jpg","intro":""},
+  {"id":"member-4fdb5bc995d8c14035cf","name":"ᴸᴹ  란츠. 20 ᵐᵃˣ⏩️","role":"길드원","image":"guild-members/member-017.jpg","intro":""},
   {"id":"member-6f7f7356ebc453e6f636","name":"ᴸᴹ  리쭈리. 18 ⁹⁸⁹⏩️","role":"길드원","image":"guild-members/member-018.jpg","intro":""},
   {"id":"member-379b08ae4b2fa63f98e2","name":"ᴸᴹ  모카. 23 ⁰⁰⁰","role":"길드원","image":"guild-members/member-019.jpg","intro":""},
   {"id":"member-1451696d6852fcb05b87","name":"ᴸᴹ  물딜러. 20 ⁸⁷⁸⏩️","role":"길드원","image":"guild-members/member-020.jpg","intro":""},
@@ -34,8 +34,9 @@ window.GUILD_MEMBERS = [
   {"id":"member-8955589519b91a9db650","name":"ᴸᴹ 안난진/21/ᵐᵃˣ","role":"길드원","image":"guild-members/member-035.jpg","intro":""},
   {"id":"member-35bde0806985c11da07d","name":"ᴸᴹ 초월. 20 ⁸⁸⁹ ⏩️","role":"길드원","image":"guild-members/member-036.jpg","intro":""},
   {"id":"member-ed434f4871ceaf5a0053","name":"ᴸᴹ 폐급손가락.20ᵐᵃˣ⏩️","role":"길드원","image":"guild-members/member-037.jpg","intro":""},
-  {"id":"member-f152398d5fafa121a1fd","name":"ᴸᴹ악마/23/𝓶𝓪𝔁/⏩️","role":"길드원","image":"guild-members/member-038.jpg","intro":""},
+  {"id":"member-a4b44ef946895b9cd4b6","name":"ᴸᴹ신의재능종근.22 ¹⁰¹⁰⁹","role":"길드원","image":"guild-members/member-038.jpg","intro":""},
+  {"id":"member-f152398d5fafa121a1fd","name":"ᴸᴹ악마/23/𝓶𝓪𝔁/⏩️","role":"길드원","image":"guild-members/member-039.jpg","intro":""},
   {"id":"member-2ca6198ba6ef9b6a3cd5","name":"Loveღ개굴. 23 ⁰⁰⁰","role":"용병","image":"guild-members/member-008.jpg","intro":""},
   {"id":"member-efbc446c2b5bc4b1542e","name":"ɪᴛᴇʀ•Jin / 20/ ¹⁰¹⁰⁹","role":"용병","image":"guild-members/member-009.jpg","intro":""},
-  {"id":"member-c62b9acaf88ae006820a","name":"달마/24","role":"용병","image":"guild-members/member-039.jpg","intro":"방랑자"}
+  {"id":"member-c62b9acaf88ae006820a","name":"달마/24","role":"용병","image":"guild-members/member-040.jpg","intro":"방랑자"}
 ];
