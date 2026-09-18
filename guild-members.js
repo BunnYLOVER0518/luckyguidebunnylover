@@ -33,9 +33,9 @@ window.GUILD_MEMBERS = [
   {"id":"member-35bde0806985c11da07d","name":"ᴸᴹ 초월. 20 ⁸⁸⁹ ⏩️","role":"길드원","image":"guild-members/member-037.jpg","intro":""},
   {"id":"member-ed434f4871ceaf5a0053","name":"ᴸᴹ 폐급손가락.20ᵐᵃˣ⏩️","role":"길드원","image":"guild-members/member-038.jpg","intro":""},
   {"id":"member-f152398d5fafa121a1fd","name":"ᴸᴹ악마/23/𝓶𝓪𝔁/⏩️","role":"길드원","image":"guild-members/member-039.jpg","intro":""},
+  {"id":"member-82cd07a7e59a7366e067","name":"ᴘʀᴀᴅᴀ바비 21 x2 서폿","role":"길드원","image":"guild-members/member-009.jpg","intro":""},
   {"id":"member-a56e2b7a1b6c5eb4ad7a","name":"ᴸᴹ  ooo더보기. 20 ⁷⁷⁷⏩️","role":"예비 길드원","image":"guild-members/member-012.jpg","intro":""},
   {"id":"member-2462ec6dea4d5f9b06d3","name":"ᴸᴹ  인디(천사). 20 ⁸⁸⁹⏩️","role":"예비 길드원","image":"guild-members/member-025.jpg","intro":""},
-  {"id":"member-82cd07a7e59a7366e067","name":"ᴘʀᴀᴅᴀ바비 21 x2 서폿","role":"용병","image":"guild-members/member-009.jpg","intro":""},
   {"id":"member-2ca6198ba6ef9b6a3cd5","name":"Loveღ개굴. 23 ⁰⁰⁰","role":"용병","image":"guild-members/member-007.jpg","intro":""},
   {"id":"member-efbc446c2b5bc4b1542e","name":"ɪᴛᴇʀ•Jin/ 20/ ¹⁰¹⁰¹⁰","role":"용병","image":"guild-members/member-008.jpg","intro":""},
   {"id":"member-c62b9acaf88ae006820a","name":"달마/24","role":"용병","image":"guild-members/member-040.jpg","intro":"방랑자"}
