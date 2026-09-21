@@ -33,7 +33,7 @@ window.GUILD_MEMBERS = [
   {"id":"member-35bde0806985c11da07d","name":"ᴸᴹ 초월. 20 ⁸⁸⁹ ⏩️","role":"길드원","image":"guild-members/member-036.jpg","intro":""},
   {"id":"member-ed434f4871ceaf5a0053","name":"ᴸᴹ 폐급손가락♚.20ᵐᵃˣ⏩️","role":"길드원","image":"guild-members/member-037.jpg","intro":""},
   {"id":"member-f79d8bfa52253a41f467","name":"ᴸᴹ  조커. 21 ⁰⁰⁹⏩️","role":"길드원","image":"guild-members/member-025.jpg","intro":""},
-  {"id":"member-a56e2b7a1b6c5eb4ad7a","name":"ᴸᴹ  ooo더보기. 20 ⁷⁷⁷⏩️","role":"예비 길드원","image":"guild-members/member-012.jpg","intro":""},
+  {"id":"member-a56e2b7a1b6c5eb4ad7a","name":"ᴸᴹ  ooo더보기. 20 ⁷⁷⁷⏩️","role":"길드원","image":"guild-members/member-012.jpg","intro":""},
   {"id":"member-2ca6198ba6ef9b6a3cd5","name":"Loveღ개굴. 23 ⁰⁰⁰","role":"용병","image":"guild-members/member-007.jpg","intro":""},
   {"id":"member-efbc446c2b5bc4b1542e","name":"ɪᴛᴇʀ•Jin/ 20/ ¹⁰¹⁰¹⁰","role":"용병","image":"guild-members/member-008.jpg","intro":""},
   {"id":"member-c62b9acaf88ae006820a","name":"달마/28","role":"용병","image":"guild-members/member-038.jpg","intro":"방랑자"}
