@@ -351,6 +351,20 @@
     font-size:11px; color:var(--muted-2); font-weight:700; text-transform:uppercase;
     letter-spacing:1px; padding: 4px 10px 10px;
   }
+  .tips-wrap{ max-width:1000px; margin:0 auto; padding-bottom:24px; }
+  .tips-wrap h2{ margin:0 0 8px; }
+  .tip-article{ padding:0; overflow:hidden; }
+  .tip-article summary{ padding:20px; cursor:pointer; font-size:16px; font-weight:700; line-height:1.6; }
+  .tip-article summary::marker{ color:var(--muted); }
+  .tip-content{ padding:0 20px 20px; font-size:14px; line-height:1.85; }
+  .tip-content p{ margin:0 0 12px; }
+  .tip-content p:last-child{ margin-bottom:0; }
+  .tip-content ul{ padding-left:20px; }
+  .tip-content li + li{ margin-top:8px; }
+  .tip-content .calc-table{ min-width:540px; }
+  .tip-formula{ padding:12px 14px; border-radius:10px; background:var(--surface-2); overflow-wrap:anywhere; }
+  .tip-note{ color:var(--muted); font-size:13px; }
+  button.menu-item{ width:100%; border:0; background:transparent; font-family:inherit; text-align:left; }
   .menu-item{
     display:flex; align-items:center; gap:10px; padding:12px 12px; border-radius:10px;
     color: var(--muted); font-size:14.5px; font-weight:600; cursor:pointer; text-decoration:none;
@@ -1233,6 +1247,7 @@
     </div>
     <nav class="desktop-nav" id="desktopNav" aria-label="주요 메뉴">
       <button type="button" class="desktop-nav-item active" data-page="guide">룬 가이드</button>
+      <button type="button" class="desktop-nav-item" data-page="tips">알아두면 좋은 운빨 팁</button>
       <button type="button" class="desktop-nav-item" data-page="calc">영웅 강화 재화</button>
       <button type="button" class="desktop-nav-item" data-page="artifact">유물 정보</button>
       <button type="button" class="desktop-nav-item" data-page="blob">블롭 피규어</button>
@@ -1257,6 +1272,10 @@
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M9 9h.01M15 9h.01M9 15c.8.7 1.9 1 3 1s2.2-.3 3-1"/></svg>
       룬 가이드
     </div>
+    <button type="button" class="menu-item" data-page="tips">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M9 18h6M10 22h4M8 14a7 7 0 1 1 8 0c-1 1-1 2-1 4H9c0-2 0-3-1-4Z"/></svg>
+      알아두면 좋은 운빨 팁
+    </button>
     <div class="menu-item" data-page="calc">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg>
       영웅 강화 재화 계산
@@ -1299,6 +1318,88 @@
     </div>
   </div>
 
+
+  <div id="tipsPage" style="display:none;">
+    <div class="calc-wrap tips-wrap">
+      <section class="calc-card" aria-labelledby="tipsHeading">
+        <div class="calc-card-head">
+          <h2 class="calc-card-title" id="tipsHeading">알아두면 좋은 운빨 팁</h2>
+          <p class="calc-card-sub">룬 효과와 영웅의 동작, 알아두면 도움이 되는 게임 정보를 모아 소개합니다.</p>
+        </div>
+      </section>
+      <details class="calc-card tip-article">
+        <summary>01. 불사의 맹세 적용 범위</summary>
+        <div class="tip-content">
+          <p>불사의 맹세는 부활 효과가 발동한 영웅의 <strong>스킬 피해</strong>를 증가시킵니다. 일반 스킬과 궁극기 피해에 적용되며, 기본공격 피해에는 적용되지 않습니다.</p>
+          <p>룬의 스킬 피해 증가 수치는 기존 스킬 피해 증가 합계에 더해집니다. 따라서 옵션에 60%가 표시되어 있어도 전체 피해가 그대로 60% 증가하는 것은 아닙니다.</p>
+          <ul>
+            <li><strong>사신 개구리 → 사신 다이안:</strong> 사신 개구리로 부활한 뒤 다시 승천하는 경우, 확인한 승천 처리에서는 부활 후 스킬 피해 증가가 다이안에게 승계되지 않는 것으로 판단됩니다.</li>
+            <li><strong>에이스 배트맨의 타자폼·투수폼:</strong> 선택한 폼에서 룬으로 부활하면 같은 폼으로 부활하며, 부활 후 스킬 피해 증가를 받는 것으로 판단됩니다.</li>
+            <li><strong>선택 전 배트맨 → 폼 선택:</strong> 선택 전 상태에서 부활한 뒤 타자폼 또는 투수폼을 선택하는 경우에는 부활 보너스가 승계되지 않는 것으로 판단됩니다.</li>
+          </ul>
+          <p class="tip-note">룬을 장착한 상태와 부활 효과가 발동한 상태는 구분해야 합니다. 진화·재료 소비 등 모든 영웅 소멸이 부활을 발동시키는 것은 아닙니다.</p>
+        </div>
+      </details>
+      <details class="calc-card tip-article">
+        <summary>02. 범위 피해와 단일 피해의 구분</summary>
+        <div class="tip-content">
+          <p>단일·범위 피해는 <strong>실제로 맞은 적의 수가 아니라 해당 공격에 지정된 피해 분류</strong>에 따라 적용됩니다.</p>
+          <ul>
+            <li>범위 공격으로 적 한 명만 타격하더라도 단일 피해로 변경되지 않습니다. 따라서 이 경우 집중의 룬의 단일 피해 증가가 적용되지 않습니다.</li>
+            <li>원시 밤바·닥터 펄스·요정왕 에밀리의 기본공격은 범위 판정입니다.</li>
+            <li>사신 다이안의 연쇄 번개는 여러 적에게 이어지더라도 단일 피해 분류입니다.</li>
+            <li>귀신 닌자의 참수처럼 하나의 궁극기에 단일 타격과 범위 타격이 나뉘어 있는 경우에는 각 타격의 분류를 따릅니다.</li>
+          </ul>
+          <p>집중의 룬은 단일 피해에, 파동의 룬은 범위 피해에 적용됩니다. 공격 이펙트나 적중한 적의 수만으로 룬의 적용 여부를 판단해서는 안 됩니다.</p>
+        </div>
+      </details>
+      <details class="calc-card tip-article">
+        <summary>03. 결전의 룬과 주문강화의 룬 적용 범위</summary>
+        <div class="tip-content">
+          <p><strong>주문강화의 룬은 일반 스킬과 궁극기 피해 모두에 적용됩니다.</strong> 결전의 룬은 궁극기 피해에만 적용됩니다.</p>
+          <p>결전의 옵션 수치 자체가 스킬 피해 증가에 의해 커지는 것은 아닙니다. 스킬 피해 증가가 반영된 궁극기 피해에 궁극기 피해 배율이 추가로 적용되는 구조입니다.</p>
+          <p><strong>궁극기 사용 중 발생한 모든 피해가 궁극기 피해는 아닙니다.</strong> 펄스의 과열 중 평타는 기본공격이며, 종료 자폭은 궁극기 피해로 구분됩니다. 버프형 궁극기로 강화된 평타 역시 궁극기 피해로 자동 변경되지 않습니다.</p>
+        </div>
+      </details>
+      <details class="calc-card tip-article">
+        <summary>04. 우치·로카의 집중조준과 사거리 패시브</summary>
+        <div class="tip-content">
+          <p>집중조준으로 사거리가 감소하더라도 <strong>천룡 우치와 캡틴 로카의 거리 패시브 최대치는 감소하지 않습니다.</strong></p>
+          <p>우치는 실제 거리를 현재 사거리와 비교하여 피해 보너스를 계산합니다. 로카 역시 일정한 근거리 구간을 제외한 거리를 현재 사거리 기준으로 비교하여 치명타 확률 보너스를 계산합니다.</p>
+          <p>따라서 룬 장착 후 줄어든 사거리의 끝에서 공격하면 두 영웅 모두 최대 거리 보너스를 받을 수 있습니다. 최대치에 도달하는 데 필요한 실제 거리가 줄어드는 것입니다.</p>
+          <p><strong>기존 위치에서 계속 공격할 수 있다는 뜻은 아닙니다.</strong> 적이 줄어든 사거리 밖에 있다면 공격이 불가능하므로 배치를 조정해야 합니다. 사거리 감소율을 그대로 패시브 감소율로 계산해서는 안 됩니다.</p>
+        </div>
+      </details>
+      <details class="calc-card tip-article">
+        <summary>05. 돌파 옵션 중 궁극기 피해로 적용되는 항목</summary>
+        <div class="tip-content">
+          <p>돌파로 추가되는 공격 중 아래 항목은 <strong>궁극기 피해 증가의 적용 대상</strong>입니다. 일반 스킬 피해로 따로 분류되는 공격과 구분해야 합니다.</p>
+          <div class="calc-table-scroll"><table class="calc-table">
+            <thead><tr><th scope="col">영웅</th><th scope="col">돌파 레벨</th><th scope="col">궁극기 피해로 적용되는 효과</th></tr></thead>
+            <tbody>
+              <tr><td>각성 헤일리</td><td>23·24</td><td>궁극기 종료 태양·추가 피해</td></tr>
+              <tr><td>용사 레이</td><td>23·24</td><td>거대한 검·충격파</td></tr>
+              <tr><td>기사 랜슬롯</td><td>23·25</td><td>불기둥·불기둥 피해 증가</td></tr>
+              <tr><td>사신 다이안</td><td>24</td><td>죽음의 손길 종료 폭발</td></tr>
+              <tr><td>귀신 닌자</td><td>23·24</td><td>참수의 추가 분신 타격·잔류 피해</td></tr>
+              <tr><td>마왕 드래곤</td><td>23·24</td><td>종료 메테오·메테오 강화</td></tr>
+              <tr><td>선인 쿤</td><td>23·24</td><td>득도 종료 화염구·추가 화염구</td></tr>
+              <tr><td>마도학자 지지</td><td>24</td><td>최종 실험 종료 후 에너지 볼</td></tr>
+              <tr><td>요정왕 에밀리</td><td>23·25</td><td>종료 시 정령의 화살·해당 화살 피해 증가</td></tr>
+            </tbody>
+          </table></div>
+          <p class="tip-note">표의 레벨에는 추가 공격을 생성하는 돌파와 그 공격을 강화하는 돌파가 함께 포함되어 있습니다. 모든 돌파 효과가 궁극기 피해인 것은 아닙니다. 쿤의 일반 회전 화염구나 궁극기 버프로 강화된 평타에 이 분류를 확대 적용하지 않습니다.</p>
+        </div>
+      </details>
+      <details class="calc-card tip-article">
+        <summary>06. 확산사격의 룬은 버프 범위를 늘리지 않습니다</summary>
+        <div class="tip-content">
+          <p>확산사격의 룬의 사거리 증가 효과는 <strong>버프의 적용 범위를 확대하지 않습니다.</strong></p>
+          <p>공격 사거리와 주변 아군에게 효과를 주는 버프 범위는 구분됩니다. 확산사격을 장착하더라도 버프를 받는 아군의 배치 범위가 넓어지는 것은 아니므로, 버프 적용을 위한 배치는 기존 범위를 기준으로 판단해야 합니다.</p>
+        </div>
+      </details>
+    </div>
+  </div>
 
   <div id="guidePage">
   <section class="rune-guide-criteria" aria-label="룬 티어 기준 및 계산 조건">
@@ -4491,6 +4592,7 @@ function showHeroDetailPage(heroName, options = {}){
   heroDetailBackBtn.textContent = heroDetailReturnPage === 'treasure' ? '← 전설보물 목록으로' : '← 영웅 목록으로';
 
   guidePage.style.display = 'none';
+  document.getElementById('tipsPage').style.display = 'none';
   calcPage.style.display = 'none';
   blobPage.style.display = 'none';
   treasurePage.style.display = 'none';
@@ -4885,6 +4987,7 @@ const pageNavigationItems = document.querySelectorAll('.menu-item[data-page], .d
 pageNavigationItems.forEach(item=>{
   item.addEventListener('click', ()=>{
     const page = item.dataset.page;
+    document.getElementById('tipsPage').style.display = page === 'tips' ? '' : 'none';
     pageNavigationItems.forEach(x=>x.classList.toggle('active', x.dataset.page === page));
     guidePage.style.display = page === 'guide' ? '' : 'none';
     calcPage.style.display = page === 'calc' ? '' : 'none';
@@ -4900,6 +5003,7 @@ pageNavigationItems.forEach(item=>{
     heroDetailPage.style.display = 'none';
     mainTabs.style.display = page === 'guide' ? '' : 'none';
     pageTitle.textContent = page === 'guide' ? '운빨존많겜 종합 가이드'
+      : page === 'tips' ? '알아두면 좋은 운빨 팁'
       : page === 'calc' ? '영웅 강화 재화 계산'
       : page === 'artifact' ? '유물 정보'
       : page === 'blob' ? '블롭 피규어 티어'
