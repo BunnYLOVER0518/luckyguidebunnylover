@@ -137,7 +137,7 @@
   }
 
   .desktop-nav{
-    display:flex; align-items:center; justify-content:center; gap:6px; margin-top:13px; padding-top:11px;
+    display:grid; grid-template-columns:repeat(7,minmax(0,max-content)); justify-content:center; align-items:stretch; column-gap:7px; row-gap:6px; margin-top:13px; padding-top:11px;
     border-top:1px solid rgba(96,82,62,.12); overflow-x:auto; scrollbar-width:none;
   }
   .desktop-nav::-webkit-scrollbar{ display:none; }
@@ -1222,6 +1222,23 @@
   .hero-stats-table th{background:var(--surface-2);}
   .hero-stats-table th:first-child,.hero-stats-table td:first-child{text-align:left;}
   .hero-stats-note{color:var(--muted);font-size:13px;line-height:1.7;margin:12px 0;}
+
+  .desktop-nav-item{white-space:normal;word-break:keep-all;min-width:0;padding-left:12px;padding-right:12px;}
+  #raySwordPage .calc-wrap{max-width:1120px;margin-left:auto;margin-right:auto;}
+  .extra-info-table{width:100%;border-collapse:collapse;font-size:13px;line-height:1.7;}
+  .extra-info-scroll{overflow-x:auto;}
+  .extra-info-table th,.extra-info-table td{padding:13px 15px;border-bottom:1px solid var(--border);text-align:left;min-width:125px;}
+  .extra-info-table th{background:var(--surface-2);font-weight:700;}
+  .extra-info-table th:first-child{min-width:155px;}
+  .extra-info-note{color:var(--muted);font-size:13px;line-height:1.8;padding:0 20px 16px;}
+  .extra-info-note a{color:var(--accent);}
+  @media(min-width:701px) and (max-width:1000px){.desktop-nav-item{padding:9px 4px;font-size:11px;}}
+
+  #raySwordPage .ray-core-option{background:rgba(214,154,32,.10);}
+  #raySwordPage .ray-core-option td:first-child{color:#8a5900;font-weight:800;box-shadow:inset 3px 0 #c99024;}
+  html[data-theme="dark"] #raySwordPage .ray-core-option{background:rgba(240,201,120,.10);}
+  html[data-theme="dark"] #raySwordPage .ray-core-option td:first-child{color:#f0c978;box-shadow:inset 3px 0 #e4b657;}
+
 </style>
 <script src="blob-assets.js?v=20260902-blob-effects-v1"></script>
 </head>
@@ -1257,7 +1274,8 @@
       <button type="button" class="desktop-nav-item" data-page="guildformation">길드레이드 배치표</button>
       <button type="button" class="desktop-nav-item" data-page="pet">불멸펫 계산</button>
       <button type="button" class="desktop-nav-item" data-page="boss">보스 정보</button>
-      <button type="button" class="desktop-nav-item" data-page="guild">리미티드 길드</button>
+      <button type="button" class="desktop-nav-item" data-page="raysword">레이 검 소환</button>
+    <button type="button" class="desktop-nav-item" data-page="guild">리미티드 길드</button>
     </nav>
     <div class="tabs" id="mainTabs">
       <div class="tab active" data-view="hero">영웅별 보기</div>
@@ -1312,6 +1330,7 @@
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3l2.5 5 5.5.8-4 4 1 5.5L12 16l-5 2.3 1-5.5-4-4 5.5-.8z"/></svg>
       지옥&amp;신&amp;태초 보스 정보
     </div>
+    <button type="button" class="menu-item" data-page="raysword">레이 검 소환</button>
     <div class="menu-item" data-page="guild">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20c.4-4 2.3-6 5.5-6s5.1 2 5.5 6M13 15c1-.8 2.2-1.2 3.6-1.2 2.8 0 4.4 1.8 4.9 5.2"/></svg>
       리미티드 길드
@@ -1319,7 +1338,8 @@
   </div>
 
 
-  <div id="tipsPage" style="display:none;">
+<div id="raySwordPage" style="display:none;"><div class="calc-wrap"><section class="calc-card"><div class="calc-card-head"><h2 class="calc-card-title">레이 검 소환</h2><p class="calc-card-sub">검 소환으로 획득하는 등급별 효과입니다.</p></div><div class="extra-info-scroll"><table class="extra-info-table"><thead><tr><th scope="col">항목</th><th scope="col">전설</th><th scope="col">영웅</th><th scope="col">희귀</th><th scope="col">일반</th></tr></thead><tbody><tr><td>공격력 증가</td><td>공격력 500% 증가</td><td>공격력 300% 증가</td><td>공격력 200% 증가</td><td>공격력 100% 증가</td></tr><tr><td>사거리 증가</td><td>사거리 35% 증가</td><td>사거리 25% 증가</td><td>사거리 15% 증가</td><td>사거리 10% 증가</td></tr><tr><td>기본 공격 피해량 증가</td><td>기본 공격 피해량 100% 증가</td><td>기본 공격 피해량 50% 증가</td><td>기본 공격 피해량 30% 증가</td><td>기본 공격 피해량 20% 증가</td></tr><tr class="ray-core-option"><td>일반 스킬 피해량 증가</td><td>일반 스킬 피해량 30% 증가</td><td>일반 스킬 피해량 20% 증가</td><td>일반 스킬 피해량 10% 증가</td><td>일반 스킬 피해량 5% 증가</td></tr><tr class="ray-core-option"><td>쿨타임 감소</td><td>쿨타임 25% 감소</td><td>쿨타임 15% 감소</td><td>쿨타임 10% 감소</td><td>쿨타임 5% 감소</td></tr><tr><td>이속 증가</td><td>이동 속도 50% 증가</td><td>이동 속도 35% 증가</td><td>이동 속도 20% 증가</td><td>이동 속도 10% 증가</td></tr><tr><td>범위피해 적용</td><td>100% 확률로 기본 공격이 범위로 피해 적용</td><td>50% 확률로 기본 공격이 범위로 피해 적용</td><td>30% 확률로 기본 공격이 범위로 피해 적용</td><td>10% 확률로 기본 공격이 범위로 피해 적용</td></tr><tr><td>스킬 피해 증가</td><td>[검의 비]의 검 1개 당 [검의 비] 스킬의 피해량 2.5% 증가</td><td>[검의 비]의 검 1개 당 [검의 비] 스킬의 피해량 1.5% 증가</td><td>[검의 비]의 검 1개 당 [검의 비] 스킬의 피해량 1.0% 증가</td><td>[검의 비]의 검 1개 당 [검의 비] 스킬의 피해량 0.5% 증가</td></tr><tr class="ray-core-option"><td>무작위 피해</td><td>피해량이 70~170% 사이의 무작위 값으로 적용</td><td>-</td><td>-</td><td>피해량이 50~150% 사이의 무작위 값으로 적용</td></tr><tr><td>방어무시</td><td>방어력 30% 무시</td><td>방어력 15% 무시</td><td>방어력 10% 무시</td><td>수치 미확인</td></tr><tr class="ray-core-option"><td>스킬 후 공속 증가</td><td>[검의 비] 스킬 사용 후 15초 간 공격속도 30% 증가</td><td>[검의 비] 스킬 사용 후 15초 간 공격속도 20% 증가</td><td>[검의 비] 스킬 사용 후 15초 간 공격속도 10% 증가</td><td>[검의 비] 스킬 사용 후 15초 간 공격속도 5% 증가</td></tr><tr class="ray-core-option"><td>스킬 검 개수 증가</td><td>[검의 비] 스킬의 검 개수 7개 증가</td><td>[검의 비] 스킬의 검 개수 5개 증가</td><td>[검의 비] 스킬의 검 개수 3개 증가</td><td>[검의 비] 스킬의 검 개수 1개 증가</td></tr><tr><td>이동속도만큼 공속 증가</td><td>이동 속도의 15%만큼 공격속도 증가</td><td>이동 속도의 10%만큼 공격속도 증가</td><td>이동 속도의 5%만큼 공격속도 증가</td><td>이동 속도의 3%만큼 공격속도 증가</td></tr><tr><td>대검 낙하 스킬</td><td>7초마다 적에게 대검 낙하 공격</td><td>15초마다 적에게 대검 낙하 공격</td><td>30초마다 적에게 대검 낙하 공격</td><td>40초마다 적에게 대검 낙하 공격</td></tr><tr class="ray-core-option"><td>꿰뚫기 추가 사용</td><td>[꿰뚫기] 스킬 사용 시 40% 확률로 추가 사용</td><td>[꿰뚫기] 스킬 사용 시 25% 확률로 추가 사용</td><td>[꿰뚫기] 스킬 사용 시 20% 확률로 추가 사용</td><td>[꿰뚫기] 스킬 사용 시 10% 확률로 추가 사용</td></tr><tr><td>대검 낙하 범위</td><td>대검 낙하가 범위 내 적에게 100% 피해</td><td>대검 낙하가 범위 내 적에게 50% 피해</td><td>대검 낙하가 범위 내 적에게 30% 피해</td><td>대검 낙하가 범위 내 적에게 10% 피해</td></tr><tr><td>대검 낙하 피해량 증가</td><td>대검 낙하 피해량 100% 증가</td><td>대검 낙하 피해량 50% 증가</td><td>대검 낙하 피해량 30% 증가</td><td>대검 낙하 피해량 10% 증가</td></tr></tbody></table></div></section></div></div>
+<div id="tipsPage" style="display:none;">
     <div class="calc-wrap tips-wrap">
       <section class="calc-card" aria-labelledby="tipsHeading">
         <div class="calc-card-head">
@@ -4302,6 +4322,7 @@ function showHeroDetailPage(heroName, options = {}){
 
   guidePage.style.display = 'none';
   document.getElementById('tipsPage').style.display = 'none';
+  document.getElementById('raySwordPage').style.display = 'none';
   calcPage.style.display = 'none';
   blobPage.style.display = 'none';
   treasurePage.style.display = 'none';
@@ -4697,6 +4718,7 @@ pageNavigationItems.forEach(item=>{
   item.addEventListener('click', ()=>{
     const page = item.dataset.page;
     document.getElementById('tipsPage').style.display = page === 'tips' ? '' : 'none';
+    document.getElementById('raySwordPage').style.display = page === 'raysword' ? '' : 'none';
     pageNavigationItems.forEach(x=>x.classList.toggle('active', x.dataset.page === page));
     guidePage.style.display = page === 'guide' ? '' : 'none';
     calcPage.style.display = page === 'calc' ? '' : 'none';
@@ -4712,6 +4734,7 @@ pageNavigationItems.forEach(item=>{
     heroDetailPage.style.display = 'none';
     mainTabs.style.display = page === 'guide' ? '' : 'none';
     pageTitle.textContent = page === 'guide' ? '운빨존많겜 종합 가이드'
+      : page === 'raysword' ? '레이 검 소환'
       : page === 'tips' ? '알아두면 좋은 운빨 팁'
       : page === 'calc' ? '영웅 강화 재화 계산'
       : page === 'artifact' ? '유물 정보'
