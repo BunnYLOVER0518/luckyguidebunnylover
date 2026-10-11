@@ -1257,6 +1257,31 @@
   #monopolyShopPage .monopoly-shop-table th:nth-child(3),#monopolyShopPage .monopoly-shop-table td:nth-child(3){border-left:2px solid var(--border);}
   #monopolyShopPage .monopoly-empty{background:var(--surface-2);}
   @media(max-width:700px){#monopolyShopPage .extra-info-table th,#monopolyShopPage .extra-info-table td{padding:11px 9px;}}
+  .rune-chat{margin:0 0 22px;padding:22px;border:1px solid var(--border);border-radius:18px;background:var(--surface);color:var(--text);box-shadow:0 5px 24px #00000006;}
+  .rc-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+  .rune-chat h2{font-size:21px;margin:0 0 6px;letter-spacing:-.5px;}
+  .rc-caption{margin:0 0 16px;color:var(--muted);font-size:13px;}
+  .rc-form{display:flex;gap:8px;}
+  .rc-form input{min-width:0;flex:1;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);color:var(--text);padding:13px;font:inherit;}
+  .rune-chat button,.rune-chat select{font:inherit;cursor:pointer;}
+  .rc-form button{border:0;border-radius:10px;background:#7a2f24;color:#fff;padding:12px 18px;font-weight:700;white-space:nowrap;}
+  .rc-form button:disabled{opacity:.65;cursor:wait;}
+  .rc-examples{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:12px 0;}
+  .rc-examples-label{font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap;margin-right:3px;}
+  .rc-examples button,.rc-toggle,.rc-reset{border:1px solid var(--border);background:var(--surface-2);color:var(--text);border-radius:20px;padding:7px 11px;font-size:12px!important;}
+  .rc-options{font-size:12px;color:var(--muted);}
+  .rc-options summary{cursor:pointer;padding:5px 0;}
+  .rc-fields{display:flex;flex-wrap:wrap;gap:10px;padding:10px 0;}
+  .rc-fields label{display:flex;flex-direction:column;gap:5px;}
+  .rune-chat select{max-width:100%;border:1px solid var(--border);border-radius:7px;padding:7px;background:var(--surface-2);color:var(--text);}
+  .rc-log{max-height:380px;overflow:auto;margin-top:15px;overscroll-behavior:contain;}
+  .rc-message{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.85;padding:13px 16px;border-radius:12px;margin:10px 0;}
+  .rc-user{width:fit-content;max-width:85%;box-sizing:border-box;margin-left:auto;background:var(--surface-2);border-bottom-right-radius:4px;}
+  .rc-bot{width:fit-content;max-width:100%;box-sizing:border-box;margin-right:auto;border:1px solid var(--border);border-left:3px solid #b77a42;border-bottom-left-radius:4px;}
+  .rc-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;font-size:12px;}
+  .rc-footer a{color:var(--muted);}
+  .rune-chat :focus-visible{outline:3px solid #b77a42;outline-offset:3px;}
+  @media(max-width:600px){.rune-chat{padding:16px 12px;}.rune-chat h2{font-size:18px;}.rc-form input{font-size:16px;padding:11px 9px;}.rc-form button{padding:10px;}.rc-fields label{flex:1 1 40%;}}
 </style>
 <script src="js/blob-assets.js?v=20260928-layout"></script>
 </head>
@@ -1463,6 +1488,31 @@
   </div>
 
   <div id="guidePage">
+    <section id="runeChat" class="rune-chat" aria-labelledby="runeChatTitle">
+      <div class="rc-heading"><h2 id="runeChatTitle">어떤 룬이 궁금하세요?</h2><button type="button" class="rc-reset">대화 초기화</button></div>
+      <p class="rc-caption">단일 룬 비교부터 2룬 조합 추천까지, DPM 계산 자료로 답해드려요.</p>
+      <form class="rc-form"><input aria-label="룬 질문" placeholder="ex ) 시공아토 순환 vs 연쇄" maxlength="500" autocomplete="off" required><button type="submit">질문하기</button></form>
+      <div class="rc-examples" aria-label="질문 예시">
+        <span class="rc-examples-label">예시 질문</span>
+        <button type="button" data-question="시공아토 룬 추천">시공아토 룬 추천</button>
+        <button type="button" data-question="시공아토 12레벨 신화 순환 vs 연쇄">순환 vs 연쇄</button>
+        <button type="button" data-question="헤일리 룬 2개 뭐 끼는 게 제일 좋아?">헤일리 2룬 조합 추천</button>
+        <button type="button" data-question="헤일리 불멸 마법룬 VS 전설 집중조준 뭐가 더 좋아?">서로 다른 등급 비교</button>
+        <button type="button" data-question="속공의 룬은 누가 끼면 좋아?">속공 추천 영웅</button>
+      </div>
+      <details class="rc-options"><summary>계산 조건 · 기본: 최고레벨 / 신화 / 태초80 / 아토6·대냥12</summary>
+        <div class="rc-fields">
+          <label>영웅 레벨<select data-option="level"><option value="">보유 최고레벨</option><option>6</option><option>12</option><option>15</option><option>16</option><option>19</option><option>22</option><option>23</option><option>24</option><option>25</option></select></label>
+          <label>룬 등급<select data-option="grade"><option>신화</option><option>불멸</option><option>초월</option><option>전설</option></select></label>
+          <label>전투 조건<select data-option="scenario"><option value="dense">태초80</option><option value="raid">길드 레이드</option></select></label>
+          <label>딜러 지원 레벨<select data-option="support"><option value="">자동 · 아토6 / 대냥12</option><option>0</option><option>6</option><option>12</option></select></label>
+          <label>서포터 덱<select data-option="deck"><option value="">질문으로 선택</option><option>물리</option><option>마법</option></select></label>
+        </div><p>질문에 적은 레벨·룬 등급이 우선합니다. 서포터는 별도 고정 실험 조건이며, 서포터·물리 딜러·마법 딜러의 2룬 조합 상담은 모두 신화 + 신화만 지원합니다. 단일 룬 추천·비교는 모든 등급을 지원합니다.</p>
+      </details>
+      <div id="runeChatLog" class="rc-log" role="log" aria-label="룬 상담 대화" aria-live="polite" hidden></div>
+      <div class="rc-choices"></div>
+      <div class="rc-footer"><a href="https://bunnylover0518.github.io/luckydpmbunny/" target="_blank" rel="noopener">DPM 계산 기준 보기 ↗</a><button type="button" class="rc-toggle" aria-controls="runeChatLog" aria-expanded="false" hidden>대화 접기</button></div>
+    </section>
   <section class="rune-guide-criteria" aria-label="룬 티어 기준 및 계산 조건">
     <strong>룬 티어 기준 · 딜 증가량</strong>
     <div class="rune-guide-thresholds">
@@ -5816,5 +5866,6 @@ render();
 <script src="js/artifacts.js?v=20260928-layout"></script>
 <script src="js/formation-assets.js?v=20260928-layout"></script>
 <script src="js/formation.js?v=20260928-layout"></script>
+<script src="js/rune-chat.js?v=20261011-inversion-notice-27"></script>
 </body>
 </html>
