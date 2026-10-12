@@ -28,6 +28,39 @@
   };
   root.innerHTML = `<div class="cq-heading"><p class="cq-eyebrow">PRESEASON 11 · GUILD CONQUEST</p><h2>길드 점령전</h2><p>길드원 카드를 지도 속 구역으로 드래그하면 1회 배정됩니다.<br>카드를 선택한 뒤 구역을 눌러도 배정할 수 있습니다. 1인 최대 3회.</p></div><div class="cq-stats" aria-live="polite"></div><div class="cq-map" aria-label="점령전 구역 선택"></div><p class="cq-caption">원본 이미지의 점수·시간·잔여 횟수는 촬영 당시 표시입니다. 각 구역 위 배지가 현재 배정 현황입니다.</p><div class="cq-pool"><div class="cq-pool-head"><h3>길드원 카드</h3><label class="cq-search-label">길드원 검색<input class="cq-search" type="search" placeholder="이름 또는 직책 검색"></label></div><p class="cq-selection" aria-live="polite"></p><div class="cq-roster"></div></div><div class="cq-panel"><h3 class="cq-zone-title"></h3><p class="cq-caption">선택 구역의 배정 명단 · 이름을 누르면 1회 취소됩니다. 카드의 + / −로도 조절할 수 있습니다.</p><div class="cq-assigned"></div></div><div class="cq-actions"></div><p class="cq-status" role="status"></p><p class="cq-caption">이 브라우저에 자동 저장됩니다. 다른 기기나 길드원과 자동으로 공유되지 않습니다.</p><details class="cq-export"><summary>전체 분배표 · 복사할 내용 확인</summary><textarea readonly aria-label="전체 점령전 분배표"></textarea></details>`;
   const $ = s => root.querySelector(s);
+  const namesKey = 'limited-conquest-share-names-v1';
+  let shareNames = {};
+  try {
+    const saved=JSON.parse(localStorage.getItem(namesKey)||'{}');
+    if(saved && !Array.isArray(saved) && typeof saved==='object') {
+      for(const m of members) if(typeof saved[m.id]==='string') shareNames[m.id]=saved[m.id].replace(/\s+/g,' ').trim().slice(0,40);
+    }
+  } catch { notice='공유용 이름을 읽지 못해 기본 이름을 사용합니다.'; }
+  function defaultShareName(name){
+    return name.replace(/^[ᴸᴹ\s]+/u,'').trim()
+      .replace(/(?:[./]\s*\d{2}|\s+\d{2}|(?<=[가-힣])\d{2}).*$/u,'')
+      .replace(/[^a-zA-Z0-9가-힣]/gu,'') || name;
+  }
+  const shortName = m => shareNames[m.id] || defaultShareName(m.name);
+  const sharedLabel = m => members.some(other=>other.id!==m.id && shortName(other)===shortName(m)) ? `${shortName(m)} (${m.name})` : shortName(m);
+  const kakaoPreview=el('details',undefined,'cq-kakao-preview');
+  kakaoPreview.append(el('summary','카톡용 분배표 미리보기'));
+  const kakaoText=el('textarea');kakaoText.readOnly=true;kakaoText.setAttribute('aria-label','카톡용 분배표');kakaoPreview.append(kakaoText);
+  $('.cq-export').before(kakaoPreview);
+  $('.cq-export summary').textContent='관리용 분배표 미리보기';
+  const nameEditor=el('details',undefined,'cq-name-editor');
+  nameEditor.append(el('summary','공유용 이름 수정'),el('p','카톡용 복사에 사용할 이름입니다. 빈칸은 기본 이름으로 돌아갑니다. 이 브라우저에 저장되며, 이름이 겹치면 원래 이름을 함께 표시합니다.','cq-caption'));
+  const nameGrid=el('div',undefined,'cq-name-grid');
+  for(const m of members){
+    const label=el('label',m.name);const input=el('input');input.type='text';input.maxLength=40;input.value=shortName(m);input.placeholder=defaultShareName(m.name);input.setAttribute('aria-label',`${m.name} 공유용 이름`);
+    input.addEventListener('input',()=>{
+      shareNames[m.id]=input.value.replace(/\s+/g,' ').trim();
+      try{localStorage.setItem(namesKey,JSON.stringify(shareNames));notice='공유용 이름을 저장했습니다.';}catch{notice='공유용 이름을 저장하지 못했습니다. 현재 화면에서만 적용됩니다.';}
+      kakaoText.value=kakaoReport();$('.cq-status').textContent=notice;
+    });
+    label.append(input);nameGrid.append(label);
+  }
+  nameEditor.append(nameGrid);kakaoPreview.before(nameEditor);
   const layout = el('div', undefined, 'cq-layout');
   const mapColumn = el('div', undefined, 'cq-map-column');
   const map = $('.cq-map'), caption = map.nextElementSibling, pool = $('.cq-pool');
@@ -113,6 +146,17 @@
     members.forEach(m => lines.push(`${m.name}: ${total(m.id)}회 / ${limit-total(m.id)}회 남음`));
     return lines.join('\n');
   }
+  function kakaoReport(){
+    const sorted=[...members].sort((a,b)=>shortName(a).localeCompare(shortName(b),'ko',{numeric:true}) || a.name.localeCompare(b.name,'ko'));
+    const lines=['📌 점령전 프리시즌 11 배정표','본인 이름을 찾아 지정된 구역에 참여해주세요.','괄호는 공격 횟수입니다.',''];
+    for(const m of sorted.filter(m=>total(m.id)>0)){
+      const targets=caps.flatMap((cap,z)=>{const n=entries.filter(e=>e.id===m.id&&e.zone===z).length;return n?[`${z+1}구역(${n}회)`]:[];});
+      lines.push(`${sharedLabel(m)} → ${targets.join(' · ')}`);
+    }
+    const waiting=sorted.filter(m=>total(m.id)===0);
+    if(waiting.length)lines.push('','⏳ 배정 대기',waiting.map(sharedLabel).join(' · '));
+    return lines.join('\n');
+  }
   function renderRoster() {
     const roster = $('.cq-roster'); roster.replaceChildren();
     const shown = members.filter(m => `${m.name} ${m.role}`.toLocaleLowerCase().includes(query.toLocaleLowerCase()));
@@ -170,14 +214,16 @@
     $('.cq-assigned').replaceChildren();
     assigned.forEach(m=>$('.cq-assigned').append(button(`${m.name} × ${entries.filter(e=>e.id===m.id&&e.zone===zone).length}회 ×`,()=>change(m.id,-1))));
     if(!assigned.length) $('.cq-assigned').textContent='아직 배정된 길드원이 없습니다.';
-    renderRoster(); renderOverview(); $('.cq-status').textContent = notice; $('.cq-export textarea').value = report();
+    renderRoster(); renderOverview(); $('.cq-status').textContent = notice; $('.cq-export textarea').value = report();kakaoText.value=kakaoReport();
   }
   $('.cq-search').addEventListener('input', e => {query=e.target.value; renderRoster();});
-  $('.cq-actions').append(button('분배표 복사', async () => {
-    try { await navigator.clipboard.writeText(report()); notice='분배표를 복사했습니다.'; }
-    catch { $('.cq-export').open=true; $('.cq-export textarea').focus(); $('.cq-export textarea').select(); notice='자동 복사가 차단되어 내용을 선택했습니다. Ctrl+C 또는 길게 눌러 복사하세요.'; }
+  async function copyReport(kind){
+    const isKakao=kind==='kakao',text=isKakao?kakaoReport():report();
+    try { await navigator.clipboard.writeText(text); notice=`${isKakao?'카톡용':'관리용'} 분배표를 복사했습니다.`; }
+    catch { const panel=isKakao?kakaoPreview:$('.cq-export'),area=panel.querySelector('textarea');panel.open=true;area.value=text;area.focus();area.select();notice='자동 복사가 차단되어 내용을 선택했습니다. Ctrl+C 또는 길게 눌러 복사하세요.'; }
     $('.cq-status').textContent=notice;
-  }, 'cq-primary'), button('배정 전체 초기화', () => {
+  }
+  $('.cq-actions').append(button('카톡용 복사',()=>copyReport('kakao'),'cq-primary'),button('관리용 복사',()=>copyReport('admin')), button('배정 전체 초기화', () => {
     if (!entries.length || !confirm('이 브라우저에 저장된 점령전 배정을 모두 초기화할까요?')) return;
     entries=[]; save(); render();
   }));
