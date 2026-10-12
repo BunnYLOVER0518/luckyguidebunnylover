@@ -208,7 +208,7 @@
       if(parts.length===2){const sets=parts.map(p=>mentions(data,p).map(h=>h.name));if(sets.every(s=>s.length===2&&s[0]!==s[1]))pairComparison=sets;}
     }
     const runeNames=[...new Set(data.catalog.map(r=>r.name))].sort((a,b)=>compact(b).length-compact(a).length);
-    const findRunes=text=>{const names=[];for(const name of runeNames){if(text.includes(compact(name))){names.push(name);text=text.replaceAll(compact(name),'');}}return {names,text};};
+    const findRunes=text=>{text=text.replace(/물리덱|마법덱|물덱|마덱/g,'');const names=[];for(const name of runeNames){if(text.includes(compact(name))){names.push(name);text=text.replaceAll(compact(name),'');}}return {names,text};};
     // Remove complete rune names first: "불멸 공명" is a name, not a grade.
     const gradeText=findRunes(q).text;
     const grades = ['전설','신화','불멸','초월'].filter(g => gradeText.includes(g));
