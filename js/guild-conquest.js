@@ -4,6 +4,9 @@
   if (!root) return;
   const members = (window.GUILD_MEMBERS || []).filter(m => !['용병','예비길드원','리미티드2기'].includes((m.role || '').replace(/\s/g,'')));
   const caps = root.dataset.capacities.split(',').map(Number);
+  const bosses = root.dataset.bosses.split(',');
+  const restrictedZones = new Set(root.dataset.restrictedZones.split(',').map(Number));
+  const zoneInfo = z => `${bosses[z]} · 영웅 제한 ${restrictedZones.has(z+1)?'있음':'없음'}`;
   const limit = Number(root.dataset.memberLimit), key = 'limited-conquest-preseason11-v1';
   const positions = [[14,43],[30,33],[49,37],[70,33],[88,40],[33,50],[53,58],[70,45],[87,52],[17,79],[34,63],[57,84],[72,72],[88,67],[88,81]];
   let zone = 0, query = '', notice = '', entries = [], selectedMember = null;
@@ -28,6 +31,8 @@
   };
   root.innerHTML = `<div class="cq-heading"><p class="cq-eyebrow">PRESEASON 11 · GUILD CONQUEST</p><h2>길드 점령전</h2><p>길드원 카드를 지도 속 구역으로 드래그하면 1회 배정됩니다.<br>카드를 선택한 뒤 구역을 눌러도 배정할 수 있습니다. 1인 최대 3회.</p></div><div class="cq-stats" aria-live="polite"></div><div class="cq-map" aria-label="점령전 구역 선택"></div><p class="cq-caption">원본 이미지의 점수·시간·잔여 횟수는 촬영 당시 표시입니다. 각 구역 위 배지가 현재 배정 현황입니다.</p><div class="cq-pool"><div class="cq-pool-head"><h3>길드원 카드</h3><label class="cq-search-label">길드원 검색<input class="cq-search" type="search" placeholder="이름 또는 직책 검색"></label></div><p class="cq-selection" aria-live="polite"></p><div class="cq-roster"></div></div><div class="cq-panel"><h3 class="cq-zone-title"></h3><p class="cq-caption">선택 구역의 배정 명단 · 이름을 누르면 1회 취소됩니다. 카드의 + / −로도 조절할 수 있습니다.</p><div class="cq-assigned"></div></div><div class="cq-actions"></div><p class="cq-status" role="status"></p><p class="cq-caption">이 브라우저에 자동 저장됩니다. 다른 기기나 길드원과 자동으로 공유되지 않습니다.</p><details class="cq-export"><summary>전체 분배표 · 복사할 내용 확인</summary><textarea readonly aria-label="전체 점령전 분배표"></textarea></details>`;
   const $ = s => root.querySelector(s);
+  const zoneMeta = el('p', undefined, 'cq-zone-meta');
+  $('.cq-zone-title').after(zoneMeta);
   const namesKey = 'limited-conquest-share-names-v1';
   let shareNames = {};
   try {
@@ -210,6 +215,7 @@
       map.append(b);
     });
     $('.cq-zone-title').textContent = `${zone+1}구역 · ${count(zone)}/${caps[zone]}회 배정`;
+    zoneMeta.textContent = zoneInfo(zone);
     const assigned = members.filter(m=>entries.some(e=>e.id===m.id&&e.zone===zone));
     $('.cq-assigned').replaceChildren();
     assigned.forEach(m=>$('.cq-assigned').append(button(`${m.name} × ${entries.filter(e=>e.id===m.id&&e.zone===zone).length}회 ×`,()=>change(m.id,-1))));
@@ -227,5 +233,107 @@
     if (!entries.length || !confirm('이 브라우저에 저장된 점령전 배정을 모두 초기화할까요?')) return;
     entries=[]; save(); render();
   }));
+  const tabs=el('div',undefined,'cq-tabs');
+  tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','점령전 화면');
+  const allocation=el('div',undefined,'cq-tab-panel');allocation.id='cq-allocation';
+  const information=el('section',undefined,'cq-tab-panel cq-zone-info');information.id='cq-information';
+  // Move existing controls together, keeping assignments and search state intact.
+  for(const node of [...root.children])if(!node.classList.contains('cq-heading'))allocation.append(node);
+  const panels=[allocation,information];
+  const tabButtons=['배치표','구역 정보'].map((label,i)=>{
+    const tab=button(label,()=>selectTab(i));tab.id=`cq-tab-${i}`;tab.setAttribute('role','tab');
+    tab.setAttribute('aria-controls',panels[i].id);
+    panels[i].setAttribute('role','tabpanel');panels[i].setAttribute('aria-labelledby',tab.id);
+    tab.addEventListener('keydown',e=>{
+      let target;
+      if(e.key==='ArrowRight'||e.key==='ArrowLeft')target=1-i;
+      else if(e.key==='Home')target=0;else if(e.key==='End')target=1;else return;
+      e.preventDefault();selectTab(target);tabButtons[target].focus();
+    });
+    return tab;
+  });
+  function selectTab(index){
+    panels.forEach((panel,i)=>{panel.hidden=i!==index;tabButtons[i].setAttribute('aria-selected',String(i===index));tabButtons[i].tabIndex=i===index?0:-1;});
+  }
+  tabs.append(...tabButtons);
+  const mythics=Object.keys(window.FORMATION_IMAGE_DATA || {}).filter(k=>k.startsWith('신화_')).map(k=>k.slice(3)).sort((a,b)=>a.localeCompare(b,'ko'));
+  const restrictionKey='limited-conquest-preseason11-restrictions-v1';
+  let restrictions={};
+  try {
+    const saved=JSON.parse(localStorage.getItem(restrictionKey)||'{}');
+    for(const z of restrictedZones){
+      const seen=new Set();
+      restrictions[z]=Array.from({length:4},(_,i)=>{
+        const name=saved?.[z]?.[i];
+        if(!mythics.includes(name)||seen.has(name))return null;
+        seen.add(name);return name;
+      });
+    }
+  } catch { for(const z of restrictedZones)restrictions[z]=Array(4).fill(null); }
+  const infoStatus=el('p','슬롯을 눌러 제한 신화 영웅을 선택하세요. 이 브라우저에 자동 저장됩니다.','cq-caption');
+  infoStatus.setAttribute('role','status');
+  const mapViewport=el('div',undefined,'cq-info-map-viewport');
+  mapViewport.tabIndex=0;mapViewport.setAttribute('aria-label','보스와 제한 영웅 지도 · 좌우로 이동 가능');
+  const grid=el('div',undefined,'cq-info-map');
+  mapViewport.append(grid);
+  const picker=el('dialog',undefined,'cq-hero-dialog');
+  const pickerTitle=el('h3');pickerTitle.id='cq-picker-title';picker.setAttribute('aria-labelledby',pickerTitle.id);
+  const search=el('input');search.type='search';search.placeholder='신화 영웅 검색';search.setAttribute('aria-label','제한 신화 영웅 검색');
+  const choices=el('div',undefined,'cq-hero-choices');
+  let targetZone=2,targetSlot=0,opener=null;
+  const closePicker=()=>{picker.close();opener?.focus();};
+  picker.addEventListener('cancel',()=>{opener?.focus();});
+  function heroImage(name){const img=el('img');img.src=window.FORMATION_IMAGE_DATA[`신화_${name}`];img.alt='';return img;}
+  function setHero(name){
+    restrictions[targetZone][targetSlot]=name;
+    try{localStorage.setItem(restrictionKey,JSON.stringify(restrictions));infoStatus.textContent='제한 영웅을 저장했습니다. 이 브라우저에 자동 저장됩니다.';}
+    catch{infoStatus.textContent='저장하지 못했습니다. 현재 화면에서만 적용됩니다.';}
+    picker.close();renderZoneMap();
+    grid.querySelector(`[data-zone="${targetZone}"] [data-slot="${targetSlot}"]`).focus();
+  }
+  function renderChoices(){
+    choices.replaceChildren();
+    for(const name of mythics.filter(n=>n.includes(search.value.trim()))){
+      const b=button('',()=>setHero(name),'cq-hero-choice');
+      b.append(heroImage(name),el('span',name));
+      b.disabled=restrictions[targetZone].some((n,i)=>n===name&&i!==targetSlot);
+      choices.append(b);
+    }
+    if(!choices.children.length)choices.append(el('p','검색 결과가 없습니다.'));
+  }
+  search.addEventListener('input',renderChoices);
+  const pickerActions=el('div',undefined,'cq-actions');
+  pickerActions.append(button('슬롯 비우기',()=>setHero(null)),button('닫기',closePicker));
+  picker.append(pickerTitle,search,choices,pickerActions);
+  function renderZoneMap(){
+    const background=el('img');background.src='assets/guild-conquest-preseason11.png';background.alt='길드 점령전 프리시즌 11 구역 지도';background.className='cq-info-background';
+    grid.replaceChildren(background);
+    caps.forEach((_,z)=>{
+      const card=el('article',undefined,'cq-info-pin');card.dataset.zone=String(z+1);
+      card.style.left=`${positions[z][0]}%`;card.style.top=`${positions[z][1]}%`;
+      const header=el('div',undefined,'cq-boss-heading'),img=el('img');
+      img.src=`${root.dataset.bossImageBase}/${bosses[z]}.png`;img.alt=bosses[z];img.className='cq-boss-image';
+      const label=el('div');label.append(el('h3',`${z+1}구역`),el('strong',bosses[z],'cq-boss-name'));
+      header.append(img,label);card.append(header);
+      if(restrictedZones.has(z+1)){
+        card.append(el('p','신화 제한','cq-restriction-label'));
+        const slots=el('div',undefined,'cq-restriction-slots');
+        restrictions[z+1].forEach((name,i)=>{
+          const slot=button('',()=>{
+            targetZone=z+1;targetSlot=i;opener=slot;search.value='';
+            pickerTitle.textContent=`${z+1}구역 · 제한 영웅 ${i+1}`;renderChoices();picker.showModal();search.focus();
+          },'cq-restriction-slot');
+          slot.title=name||'제한 영웅 선택';slot.dataset.slot=String(i);slot.setAttribute('aria-label',`${z+1}구역 제한 영웅 ${i+1}: ${name||'빈칸'}`);
+          if(name)slot.append(heroImage(name),el('span',name));else slot.append(el('span','+'),el('small','선택'));
+          slots.append(slot);
+        });
+        card.append(slots);
+      }else card.append(el('p','영웅 제한 없음','cq-caption'));
+      grid.append(card);
+    });
+  }
+  renderZoneMap();
+  information.append(infoStatus,el('p','작은 화면에서는 지도를 좌우로 밀어 확인하세요.','cq-map-hint'),mapViewport,picker);root.append(tabs,allocation,information);
+  selectTab(0);
   render();
 })();

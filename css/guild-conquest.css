@@ -46,3 +46,32 @@ html[data-theme="dark"] .cq-member,html[data-theme="dark"] .cq-panel{background:
 @media(max-width:700px){.cq-layout{grid-template-columns:minmax(0,1fr)}.cq-layout .cq-pool{position:static}.cq-layout .cq-roster{max-height:none;grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 .cq-name-editor,.cq-kakao-preview{margin:16px 0;font-size:13px}.cq-name-editor summary,.cq-kakao-preview summary{cursor:pointer}.cq-name-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:12px 0}.cq-name-grid label{font-size:11px;overflow-wrap:anywhere}.cq-name-grid input{display:block;width:100%;margin-top:6px;padding:10px;border:1px solid #bca982;border-radius:6px;background:#fffdf7;color:#302c25}.cq-kakao-preview textarea{width:100%;height:320px;margin-top:12px;padding:12px;font:13px/1.8 sans-serif;border:1px solid #bca982;border-radius:8px;background:#fffdf7;color:#302c25}
+.cq-tabs{display:flex;gap:8px;margin:18px 0}
+.cq-tabs button{padding:10px 20px;border:1px solid var(--border,#cbd5e1);border-radius:10px;background:var(--card,#fff);color:inherit;font:inherit;cursor:pointer}
+#guildConquest .cq-tabs button[aria-selected="true"]{background:#293e46;color:#fff;border-color:#293e46}
+.cq-tabs button:focus-visible{outline:3px solid #d58a28;outline-offset:3px}
+.cq-tab-panel[hidden]{display:none!important}
+
+.cq-zone-meta{margin:6px 0 12px;font-weight:600}
+.cq-info-map-viewport{overflow:auto;max-width:100%;border-radius:14px;border:1px solid #bca982}
+.cq-info-map{position:relative;width:100%;min-width:760px;max-width:967px;margin:auto;isolation:isolate}
+.cq-info-background{display:block;width:100%;height:auto}
+.cq-info-pin{position:absolute;transform:translate(-50%,-50%);width:16%;padding:6px;border:1px solid #bca982;border-radius:9px;background:#fffaf0f5;color:#302c25;box-shadow:0 2px 5px #0005}
+.cq-boss-heading{display:flex;align-items:center;gap:5px}.cq-boss-heading h3{margin:0 0 2px;font-size:13px}
+.cq-boss-image{width:38px;height:38px;object-fit:contain}.cq-boss-name{font-size:11px}
+.cq-info-pin .cq-caption{font-size:9px;margin:3px 0 0;text-align:center}
+.cq-restriction-label{font-size:10px;font-weight:700;margin:3px 0;color:#a85a00;text-align:center}
+.cq-restriction-slots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px}
+#guildConquest .cq-restriction-slot{padding:2px 0;min-height:34px;border-style:dashed;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;overflow-wrap:anywhere}
+.cq-restriction-slot img{width:100%;height:25px;object-fit:contain}.cq-restriction-slot small{display:none}
+.cq-restriction-slot:has(img) span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.cq-map-hint{display:none;font-size:12px;color:#746b5d}
+.cq-hero-dialog{width:min(620px,calc(100vw - 24px));max-height:85vh;overflow:auto;padding:20px;border:1px solid #bca982;border-radius:16px;background:#faf6ec;color:#302c25}
+.cq-hero-dialog::backdrop{background:#0008}.cq-hero-dialog h3{margin:0 0 14px}
+.cq-hero-dialog input{width:100%;padding:12px;font:inherit;border:1px solid #bca982;border-radius:8px;background:#fffdf7;color:#302c25}
+.cq-hero-choices{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;margin-top:14px}
+#guildConquest .cq-hero-choice{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px;font-size:11px}
+.cq-hero-choice img{width:52px;height:52px;object-fit:contain}
+html[data-theme="dark"] .cq-info-pin,html[data-theme="dark"] .cq-hero-dialog{background:#30352e;color:#ece8dd}
+html[data-theme="dark"] .cq-restriction-label{color:#f2bc72}
+@media(max-width:800px){.cq-map-hint{display:block}.cq-tabs button{flex:1}}
