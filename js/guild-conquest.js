@@ -9,7 +9,7 @@
   const zoneInfo = z => `${bosses[z]} · 영웅 제한 ${restrictedZones.has(z+1)?'있음':'없음'}`;
   const limit = Number(root.dataset.memberLimit), key = 'limited-conquest-preseason11-v1';
   const positions = [[14,43],[30,33],[49,37],[70,33],[88,40],[33,50],[53,58],[70,45],[87,52],[17,79],[34,63],[57,84],[72,72],[88,67],[88,81]];
-  let zone = 0, query = '', notice = '', entries = [], selectedMember = null;
+  let zone = 0, query = '', notice = '', entries = [];
   const total = id => entries.filter(e => e.id === id).length;
   const count = z => entries.filter(e => e.zone === z).length;
   try {
@@ -66,16 +66,11 @@
     label.append(input);nameGrid.append(label);
   }
   nameEditor.append(nameGrid);kakaoPreview.before(nameEditor);
-  const layout = el('div', undefined, 'cq-layout');
-  const mapColumn = el('div', undefined, 'cq-map-column');
-  const map = $('.cq-map'), caption = map.nextElementSibling, pool = $('.cq-pool');
-  map.before(layout);
-  mapColumn.append(map, caption);
-  layout.append(mapColumn, pool);
+  const pool = $('.cq-pool');
   let overviewMode = 'zone';
   const overview = el('section', undefined, 'cq-overview');
   overview.setAttribute('aria-label','전체 배정 현황');
-  overview.append(el('h3','전체 배정 현황'),el('p','배정하거나 취소하면 바로 반영됩니다. 미배정 구역과 길드원도 모두 표시합니다.','cq-caption'));
+  overview.append(el('h3','전체 배정 현황'),el('p','구역별 보기에서 길드원을 배정하거나 수정할 수 있습니다. 변경하면 지도와 함께 반영됩니다.','cq-caption'));
   const views=el('div',undefined,'cq-view-buttons');
   const zoneView=button('구역별 보기',()=>{overviewMode='zone';renderOverview();});
   const memberView=button('길드원별 보기',()=>{overviewMode='member';renderOverview();});
@@ -95,6 +90,10 @@
         const list=el('ul');
         assigned.forEach(m=>list.append(el('li',`${m.name} · ${entries.filter(e=>e.id===m.id&&e.zone===z).length}회`)));
         if(assigned.length)card.append(list);else card.append(el('p','미배정','cq-caption'));
+        const edit=button('길드원 배정 · 수정',()=>openZone(z,'overview'),'cq-overview-assign');
+        edit.dataset.zone=String(z+1);
+        edit.setAttribute('aria-label',`${z+1}구역 길드원 배정 · 수정`);
+        card.append(edit);
         overviewBody.append(card);
       });
     }else{
@@ -108,22 +107,6 @@
       });
     }
   }
-  // Keep distant map regions reachable when dragging from the member roster.
-  let dragY = null, scrollFrame = null;
-  function scrollDrag() {
-    if (dragY === null) return;
-    const dy = dragY < 90 ? -14 : dragY > innerHeight-90 ? 14 : 0;
-    if (dy) window.scrollBy(0,dy);
-    scrollFrame=requestAnimationFrame(scrollDrag);
-  }
-  document.addEventListener('dragover',e=>{
-    if (!root.classList.contains('cq-dragging')) return;
-    dragY=e.clientY;
-    if(scrollFrame===null) scrollFrame=requestAnimationFrame(scrollDrag);
-  });
-  function stopScroll(){dragY=null;cancelAnimationFrame(scrollFrame);scrollFrame=null;}
-  document.addEventListener('drop',stopScroll);
-  document.addEventListener('dragend',stopScroll);
   function save() {
     try { localStorage.setItem(key, JSON.stringify(entries)); notice = '이 브라우저에 저장했습니다.'; }
     catch { notice = '브라우저 저장이 불가능합니다. 분배표를 복사해 보관하세요.'; }
@@ -163,57 +146,39 @@
     return lines.join('\n');
   }
   function renderRoster() {
+    const active=document.activeElement;
+    const activeMember=active?.closest('.cq-member')?.dataset.memberId;
+    const activeLabel=active?.getAttribute('aria-label');
     const roster = $('.cq-roster'); roster.replaceChildren();
     const shown = members.filter(m => `${m.name} ${m.role}`.toLocaleLowerCase().includes(query.toLocaleLowerCase()));
     for (const m of shown) {
       const row = el('div', undefined, 'cq-member');
-      row.draggable = total(m.id) < limit;
+
       row.dataset.memberId = m.id;
-      row.classList.toggle('picked', selectedMember === m.id);
-      row.addEventListener('dragstart', e => {
-        if (!row.draggable) { e.preventDefault(); return; }
-        e.dataTransfer.setData('text/plain', m.id); e.dataTransfer.effectAllowed='copy';
-        root.classList.add('cq-dragging');
-      });
-      row.addEventListener('dragend', () => {root.classList.remove('cq-dragging'); root.querySelectorAll('.drag-over').forEach(n=>n.classList.remove('drag-over'));});
-      const pick = button('', () => {selectedMember=selectedMember===m.id?null:m.id; renderRoster();}, 'cq-pick');
-      pick.setAttribute('aria-label', `${m.name} 카드 선택`); pick.setAttribute('aria-pressed', String(selectedMember===m.id));
+      const pick = button('', () => change(m.id,1), 'cq-pick');
+      pick.disabled=total(m.id)>=limit||count(zone)>=caps[zone];
+      pick.setAttribute('aria-label', `${m.name} ${zone+1}구역에 1회 추가`);
       const photo=el('img'); photo.src=m.image; photo.alt=''; photo.loading='lazy'; photo.draggable=false;
       pick.append(photo); row.append(pick);
-      const info = el('div'); info.append(el('strong', m.name), el('small', `${m.role} · 전체 ${total(m.id)}/${limit}회 · 남음 ${limit-total(m.id)}회`));
+      const info = el('span'); info.append(el('strong', m.name), el('small', `${m.role} · 전체 ${total(m.id)}/${limit}회 · 남음 ${limit-total(m.id)}회`));
       const controls = el('div', undefined, 'cq-stepper');
       const n = entries.filter(e=>e.id===m.id&&e.zone===zone).length;
       const minus = button('−', () => change(m.id,-1)); minus.disabled = n === 0; minus.setAttribute('aria-label',`${m.name} ${zone+1}구역 1회 취소`);
       const plus = button('+', () => change(m.id,1)); plus.disabled = total(m.id) >= limit || count(zone) >= caps[zone]; plus.setAttribute('aria-label',`${m.name} ${zone+1}구역 1회 배정`);
-      controls.append(minus, el('span', `${n}`), plus); row.append(info, controls); roster.append(row);
+      controls.append(minus, el('span', `${n}`), plus); pick.append(info); row.append(controls); roster.append(row);
     }
-    $('.cq-selection').textContent=selectedMember ? `${members.find(m=>m.id===selectedMember).name} 선택됨 · 배정할 구역을 누르세요. 다시 카드를 누르면 선택 해제됩니다.` : '카드를 드래그하거나 사진을 선택하세요. + / −는 현재 선택 구역에 적용됩니다.';
+    $('.cq-selection').textContent='길드원을 누르면 1회 배정됩니다. − 버튼이나 배정 명단의 이름을 누르면 1회 취소됩니다.';
     if (!shown.length) roster.append(el('p','검색 결과가 없습니다.'));
+    if(activeMember){
+      const row=[...roster.children].find(n=>n.dataset.memberId===activeMember);
+      const controls=row?[...row.querySelectorAll('button')]:[];
+      (controls.find(n=>n.getAttribute('aria-label')===activeLabel&&!n.disabled)||controls.find(n=>!n.disabled))?.focus({preventScroll:true});
+    }
   }
   function render() {
     const needed = caps.reduce((a,b)=>a+b,0);
     $('.cq-stats').textContent = `배정 ${entries.length} / ${needed}회 · 미배정 ${needed-entries.length}회 · 명단 ${members.length}명 / 잔여 ${members.length*limit-entries.length}회 · 완료 구역 ${caps.filter((c,z)=>count(z)===c).length}/15`;
-    const map = $('.cq-map'); map.replaceChildren();
-    const background=el('img'); background.src='assets/guild-conquest-preseason11.png'; background.alt='길드 점령전 프리시즌 11 원본 지도'; background.draggable=false; map.append(background);
-    caps.forEach((cap,z) => {
-      const b = button('', () => {zone=z; if(selectedMember) change(selectedMember,1); render();}, `cq-pin${zone===z?' selected':''}${count(z)===cap?' complete':''}`);
-      b.dataset.zone=String(z);
-      b.addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect='copy';b.classList.add('drag-over');});
-      b.addEventListener('dragleave',()=>b.classList.remove('drag-over'));
-      b.addEventListener('drop',e=>{e.preventDefault(); const id=e.dataTransfer.getData('text/plain');zone=z;root.classList.remove('cq-dragging');change(id,1);render();});
-      b.style.left = `${positions[z][0]}%`; b.style.top = `${positions[z][1]}%`;
-      b.setAttribute('aria-pressed', String(zone===z)); b.setAttribute('aria-label',`${z+1}구역 ${count(z)}/${cap}회 배정`);
-      b.append(el('strong',`${cap===15?'♜':'⚑'} ${z+1}구역`), el('span',`${count(z)} / ${cap}`));
-      const placed = members.filter(m=>entries.some(e=>e.id===m.id&&e.zone===z));
-      if(placed.length){
-        const strip=el('div',undefined,'cq-placed');
-        placed.slice(0,3).forEach(m=>{const img=el('img');img.src=m.image;img.alt=m.name;img.draggable=false;strip.append(img);});
-        if(placed.length>3)strip.append(el('small',`+${placed.length-3}`));
-        b.append(strip);
-        b.title=placed.map(m=>`${m.name} × ${entries.filter(e=>e.id===m.id&&e.zone===z).length}회`).join('\n');
-      }
-      map.append(b);
-    });
+    renderZoneMap();
     $('.cq-zone-title').textContent = `${zone+1}구역 · ${count(zone)}/${caps[zone]}회 배정`;
     zoneMeta.textContent = zoneInfo(zone);
     const assigned = members.filter(m=>entries.some(e=>e.id===m.id&&e.zone===zone));
@@ -233,29 +198,29 @@
     if (!entries.length || !confirm('이 브라우저에 저장된 점령전 배정을 모두 초기화할까요?')) return;
     entries=[]; save(); render();
   }));
-  const tabs=el('div',undefined,'cq-tabs');
-  tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','점령전 화면');
-  const allocation=el('div',undefined,'cq-tab-panel');allocation.id='cq-allocation';
-  const information=el('section',undefined,'cq-tab-panel cq-zone-info');information.id='cq-information';
-  // Move existing controls together, keeping assignments and search state intact.
-  for(const node of [...root.children])if(!node.classList.contains('cq-heading'))allocation.append(node);
-  const panels=[allocation,information];
-  const tabButtons=['배치표','구역 정보'].map((label,i)=>{
-    const tab=button(label,()=>selectTab(i));tab.id=`cq-tab-${i}`;tab.setAttribute('role','tab');
-    tab.setAttribute('aria-controls',panels[i].id);
-    panels[i].setAttribute('role','tabpanel');panels[i].setAttribute('aria-labelledby',tab.id);
-    tab.addEventListener('keydown',e=>{
-      let target;
-      if(e.key==='ArrowRight'||e.key==='ArrowLeft')target=1-i;
-      else if(e.key==='Home')target=0;else if(e.key==='End')target=1;else return;
-      e.preventDefault();selectTab(target);tabButtons[target].focus();
-    });
-    return tab;
+  const information=el('section',undefined,'cq-zone-info');information.id='cq-information';
+  const drawer=el('dialog',undefined,'cq-member-drawer');
+  drawer.setAttribute('aria-labelledby','cq-drawer-title');
+  $('.cq-zone-title').id='cq-drawer-title';
+  let drawerSource='map';
+  const closeDrawer=()=>drawer.close();
+  const closeButton=button('닫기',closeDrawer,'cq-drawer-close');
+  drawer.append(closeButton,$('.cq-panel'),pool);
+  drawer.addEventListener('click',e=>{if(e.target===drawer){const r=drawer.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeDrawer();}});
+  drawer.addEventListener('close',()=>{
+    const target=drawerSource==='overview'?overviewBody.querySelector(`.cq-overview-assign[data-zone="${zone+1}"]`):grid.querySelector(`[data-zone="${zone+1}"] .cq-zone-open`);
+    target?.focus({preventScroll:true});
   });
-  function selectTab(index){
-    panels.forEach((panel,i)=>{panel.hidden=i!==index;tabButtons[i].setAttribute('aria-selected',String(i===index));tabButtons[i].tabIndex=i===index?0:-1;});
+  function openZone(z,source='map'){
+    drawerSource=source;
+    zone=z;render();
+    drawer.showModal();closeButton.focus();
   }
-  tabs.append(...tabButtons);
+  $('.cq-map').remove();
+  $('.cq-heading p:last-child').textContent='지도에서 구역을 선택한 뒤 길드원을 눌러 배정하세요. 길드원 클릭 1회당 공격 1회 · 1인 최대 3회.';
+  $('.cq-caption').remove();
+  $('.cq-stats').after(information);
+  root.append(drawer);
   const mythics=Object.keys(window.FORMATION_IMAGE_DATA || {}).filter(k=>k.startsWith('신화_')).map(k=>k.slice(3)).sort((a,b)=>a.localeCompare(b,'ko'));
   const restrictionKey='limited-conquest-preseason11-restrictions-v1';
   let restrictions={};
@@ -283,6 +248,11 @@
   let targetZone=2,targetSlot=0,opener=null;
   const closePicker=()=>{picker.close();opener?.focus();};
   picker.addEventListener('cancel',()=>{opener?.focus();});
+  picker.addEventListener('click',e=>{
+    if(e.target!==picker)return;
+    const r=picker.getBoundingClientRect();
+    if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closePicker();
+  });
   function heroImage(name){const img=el('img');img.src=window.FORMATION_IMAGE_DATA[`신화_${name}`];img.alt='';return img;}
   function setHero(name){
     restrictions[targetZone][targetSlot]=name;
@@ -311,9 +281,13 @@
     caps.forEach((_,z)=>{
       const card=el('article',undefined,'cq-info-pin');card.dataset.zone=String(z+1);
       card.style.left=`${positions[z][0]}%`;card.style.top=`${positions[z][1]}%`;
-      const header=el('div',undefined,'cq-boss-heading'),img=el('img');
+      const header=button('',()=>openZone(z),'cq-boss-heading cq-zone-open'),img=el('img');
+      header.setAttribute('aria-label',`${z+1}구역 ${bosses[z]} · ${count(z)}/${caps[z]}회 배정 · 길드원 선택`);
+      header.setAttribute('aria-pressed',String(zone===z));
+      card.classList.toggle('complete',count(z)===caps[z]);
       img.src=`${root.dataset.bossImageBase}/${bosses[z]}.png`;img.alt=bosses[z];img.className='cq-boss-image';
       const label=el('div');label.append(el('h3',`${z+1}구역`),el('strong',bosses[z],'cq-boss-name'));
+      label.append(el('span',`${count(z)} / ${caps[z]}회`,'cq-map-count'));
       header.append(img,label);card.append(header);
       if(restrictedZones.has(z+1)){
         card.append(el('p','신화 제한','cq-restriction-label'));
@@ -332,8 +306,6 @@
       grid.append(card);
     });
   }
-  renderZoneMap();
-  information.append(infoStatus,el('p','작은 화면에서는 지도를 좌우로 밀어 확인하세요.','cq-map-hint'),mapViewport,picker);root.append(tabs,allocation,information);
-  selectTab(0);
+  information.append(infoStatus,el('p','작은 화면에서는 지도를 좌우로 밀어 확인하세요.','cq-map-hint'),mapViewport,picker);
   render();
 })();

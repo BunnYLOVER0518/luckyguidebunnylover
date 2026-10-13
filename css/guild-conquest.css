@@ -75,3 +75,18 @@ html[data-theme="dark"] .cq-member,html[data-theme="dark"] .cq-panel{background:
 html[data-theme="dark"] .cq-info-pin,html[data-theme="dark"] .cq-hero-dialog{background:#30352e;color:#ece8dd}
 html[data-theme="dark"] .cq-restriction-label{color:#f2bc72}
 @media(max-width:800px){.cq-map-hint{display:block}.cq-tabs button{flex:1}}
+
+/* Main conquest map and member assignment drawer. */
+#guildConquest .cq-zone-open{width:100%;padding:0;border:0;background:transparent;text-align:left;color:inherit;border-radius:4px}
+#guildConquest .cq-zone-open[aria-pressed="true"]{outline:2px solid #2988b5;outline-offset:3px}
+.cq-map-count{display:block;font-size:11px;font-weight:800;margin-top:3px;color:#426b77}
+.cq-info-pin.complete{border:2px solid #2f7855}.cq-info-pin.complete .cq-map-count{color:#2f7855}
+.cq-member-drawer{position:fixed;inset:0 0 0 auto;margin:0;width:min(440px,100vw);max-width:100vw;height:100dvh;max-height:100dvh;overflow:auto;border:0;border-left:1px solid #bca982;padding:16px;background:#faf6ec;color:#302c25;box-shadow:-6px 0 30px #0003}
+.cq-member-drawer::backdrop{background:#0005}.cq-drawer-close{display:block;margin:0 0 12px auto}
+.cq-member-drawer .cq-pool{margin:14px 0 0;padding:10px}.cq-member-drawer .cq-pool-head{flex-wrap:wrap}.cq-member-drawer .cq-roster{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cq-member-drawer .cq-member{display:flex;flex-direction:column;align-items:stretch;cursor:default}
+#guildConquest .cq-member-drawer .cq-pick{width:100%;height:auto;min-height:64px;padding:4px;display:flex;align-items:center;gap:8px;text-align:left;background:transparent;border-radius:5px}
+.cq-member-drawer .cq-pick img{width:38px;height:42px;flex-shrink:0}.cq-member-drawer .cq-pick>span{min-width:0}
+.cq-member-drawer .cq-stepper{justify-content:center}.cq-member-drawer .cq-pool-head .cq-search-label{max-width:none;width:100%}
+html[data-theme="dark"] .cq-member-drawer{background:#252824;color:#ece8dd}html[data-theme="dark"] .cq-map-count{color:#a9d8e4}
+@media(max-width:700px){.cq-member-drawer{inset:auto 0 0 0;width:100%;height:78dvh;border-left:0;border-top:1px solid #bca982;border-radius:18px 18px 0 0;padding-bottom:max(16px,env(safe-area-inset-bottom))}}
