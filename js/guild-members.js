@@ -41,7 +41,7 @@ window.GUILD_MEMBERS = [
   {"id":"member-d859b5f333bf9997d856","name":"ᴸᴹ²  야니네. 13 ³²³","role":"리미티드2기","image":"guild-members/member-040.jpg","intro":""},
   {"id":"member-c671e3f8dd33af9eb703","name":"ᴸᴹ²  핑크. 18 ⁶⁶⁶","role":"리미티드2기","image":"guild-members/member-042.jpg","intro":""},
   {"id":"member-728f7bd45c04b59c1890","name":"ᴸᴹ²운이부족해 16⁷⁷⁶","role":"리미티드2기","image":"guild-members/default-member-728f7bd45c04b59c1890.png","intro":""},
-  {"id":"member-8ee47c1639734f9d039e","name":"ᴸᴹ²  블랙. 20 ⁷⁷⁷⏩️","role":"리미티드2기","image":"guild-members/member-007.jpg","intro":""},
+  {"id":"member-8ee47c1639734f9d039e","name":"ᴸᴹ²  블랙. 20 ⁷⁷⁷⏩️","role":"리미티드 2기 길드장","image":"guild-members/member-007.jpg","intro":""},
   {"id":"member-a56e2b7a1b6c5eb4ad7a","name":"ᴸᴹ  ooo더보기. 20 ⁷⁷⁷⏩️","role":"예비 길드원","image":"guild-members/member-013.jpg","intro":""},
   {"id":"member-38254055ad83a3903b7a","name":"퉁퉁이/25","role":"용병","image":"guild-members/member-047.jpg","intro":"연애시대"},
   {"id":"member-45f4c65d1da1a1150510","name":"🔱 나리공주님²⁵ / ⏭","role":"용병","image":"guild-members/member-048.jpg","intro":"포세이돈"},

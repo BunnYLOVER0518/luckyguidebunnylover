@@ -2,7 +2,7 @@
   'use strict';
   const root = document.getElementById('guildConquest');
   if (!root) return;
-  const members = (window.GUILD_MEMBERS || []).filter(m => !['용병','예비길드원','리미티드2기'].includes((m.role || '').replace(/\s/g,'')));
+  const members = (window.GUILD_MEMBERS || []).filter(m => !['용병','예비길드원','리미티드2기','리미티드2기길드장'].includes((m.role || '').replace(/\s/g,'')));
   const caps = root.dataset.capacities.split(',').map(Number);
   const bosses = root.dataset.bosses.split(',');
   const restrictedZones = new Set(root.dataset.restrictedZones.split(',').map(Number));
