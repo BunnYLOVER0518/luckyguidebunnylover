@@ -1317,6 +1317,7 @@
       <button type="button" class="desktop-nav-item" data-page="boss">보스 정보</button>
       <button type="button" class="desktop-nav-item" data-page="raysword">레이 검 소환</button>
       <button type="button" class="desktop-nav-item" data-page="monopolyshop">모노폴리 상점</button>
+    <button type="button" class="desktop-nav-item" data-page="breaksim">돌파 시뮬레이션</button>
     <button type="button" class="desktop-nav-item" data-page="conquest">길드 점령전</button>
     <button type="button" class="desktop-nav-item" data-page="guild">리미티드 길드</button>
     </nav>
@@ -1377,6 +1378,7 @@
     </div>
     <button type="button" class="menu-item" data-page="raysword">레이 검 소환</button>
       <button type="button" class="menu-item" data-page="monopolyshop">모노폴리 상점</button>
+    <button type="button" class="menu-item" data-page="breaksim">돌파 시뮬레이션</button>
     <button type="button" class="menu-item" data-page="conquest">길드 점령전</button>
     <div class="menu-item" data-page="guild">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20c.4-4 2.3-6 5.5-6s5.1 2 5.5 6M13 15c1-.8 2.2-1.2 3.6-1.2 2.8 0 4.4 1.8 4.9 5.2"/></svg>
@@ -2019,6 +2021,8 @@
     </main>
   </div>
 
+<div id="breaksimPage" style="display:none;"><main class="guild-wrap"><section id="breakthroughSimulator"></section></main></div>
+<link rel="stylesheet" href="css/breakthrough-simulator.css?v=20261023-1">
 <div id="conquestPage" style="display:none;"><main class="guild-wrap"><section id="guildConquest" aria-label="길드 점령전 분배" data-capacities="8,10,8,8,10,10,15,8,8,15,8,8,10,8,8" data-member-limit="3" data-bosses="그란도르,그란도르,그란도르,블링카,나하투,그란도르,그란도르,나하투,미라지,블링카,그란도르,나하투,미라지,블링카,미라지" data-restricted-zones="2,4,7,9,13" data-boss-image-base="assets/conquest-bosses"></section></main></div>
 
 <script src="js/guild-members.js?v=20261023035535114"></script>
@@ -4561,6 +4565,7 @@ function showHeroDetailPage(heroName, options = {}){
   bossPage.style.display = 'none';
   guildPage.style.display = 'none';
   document.getElementById('conquestPage').style.display = 'none';
+  document.getElementById('breaksimPage').style.display = 'none';
   heroDetailPage.style.display = '';
   mainTabs.style.display = 'none';
   pageTitle.textContent = `${heroName} 영웅 정보`;
@@ -4967,9 +4972,11 @@ pageNavigationItems.forEach(item=>{
     bossPage.style.display = page === 'boss' ? '' : 'none';
     guildPage.style.display = page === 'guild' ? '' : 'none';
     document.getElementById('conquestPage').style.display = page === 'conquest' ? '' : 'none';
+    document.getElementById('breaksimPage').style.display = page === 'breaksim' ? '' : 'none';
     heroDetailPage.style.display = 'none';
     mainTabs.style.display = page === 'guide' ? '' : 'none';
     pageTitle.textContent = page === 'guide' ? '운빨존많겜 종합 가이드'
+      : page === 'breaksim' ? '돌파 시뮬레이션'
       : page === 'conquest' ? '길드 점령전'
       : page === 'raysword' ? '레이 검 소환'
       : page === 'monopolyshop' ? '불멸 모노폴리 상점'
@@ -5884,5 +5891,6 @@ render();
 <script src="js/formation-assets.js?v=20261013-emily"></script>
 <script src="js/formation.js?v=20261013-emily"></script>
 <script src="js/rune-chat.js?v=20261014-pulse-instant-speed-29"></script>
+<script src="js/breakthrough-simulator.js?v=20261023-1"></script>
 </body>
 </html>
