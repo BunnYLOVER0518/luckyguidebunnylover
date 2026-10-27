@@ -41,7 +41,6 @@
     --s: #d68a00;
     --a: #8a5bc2;
     --b: #347bc0;
-    --c: #747078;
 
     --texture-1: rgba(59,49,35,.035);
     --texture-2: rgba(59,49,35,.025);
@@ -68,7 +67,6 @@
     --s: #e5a62e;
     --a: #a978dc;
     --b: #559bdd;
-    --c: #99969e;
     --texture-1: rgba(255,255,255,.025);
     --texture-2: rgba(255,255,255,.018);
     --topbar-glow: rgba(240,201,120,.07);
@@ -189,7 +187,6 @@
   .chip[data-grade="S"].on{ background:var(--s); color:#fff; }
   .chip[data-grade="A"].on{ background:var(--a); color:#fff; }
   .chip[data-grade="B"].on{ background:var(--b); color:#fff; }
-  .chip[data-grade="C"].on{ background:var(--c); color:#fff; }
 
   .count-line{
     font-size:11.5px; color:var(--muted-2); padding: 8px 16px 0;
@@ -278,7 +275,6 @@
   .gem.S{ background: var(--s); box-shadow:0 0 10px rgba(255,185,56,0.65); }
   .gem.A{ background: var(--a); box-shadow:0 0 8px rgba(176,139,255,0.5); }
   .gem.B{ background: var(--b); box-shadow:0 0 6px rgba(95,168,255,0.35); }
-  .gem.C{ background: var(--c); }
 
   .chevron{ grid-area:chevron; color:var(--muted-2); transition:transform .15s ease; flex-shrink:0; }
   .card.open .chevron{ transform: rotate(180deg); }
@@ -1530,7 +1526,7 @@
   <div class="filterbar">
     <div class="search">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input id="search" type="text" placeholder="영웅 또는 룬 이름 검색" autocomplete="off" />
+      <input id="search" type="text" placeholder="영웅 또는 룬 이름 검색 (예: 피축)" autocomplete="off" aria-describedby="guideFilterHint" />
       <span class="clear-x" id="clearX">✕</span>
     </div>
     <div class="chiprow" id="roleRow">
@@ -1544,10 +1540,10 @@
       <div class="chip" data-grade="S">S</div>
       <div class="chip" data-grade="A">A</div>
       <div class="chip" data-grade="B">B</div>
-      <div class="chip" data-grade="C">C</div>
     </div>
   </div>
 
+  <p class="count-line" id="guideFilterHint">룬 검색 + 추천 등급을 함께 선택하세요. 예: 피축 + S → 피의 축적이 S인 영웅만 표시</p>
   <div class="count-line" id="countLine"></div>
   <div class="list" id="list"></div>
 
@@ -2182,7 +2178,7 @@ function RUNE_IMG(id){ return `rune/${id}.png`; }
 const RUNE_DESC = DATA.effects;
 const TIER_COLOR = {'초월':'#4fc3dc','불멸':'#e05a4f','신화':'#f0993f','전설':'#f0c43f'};
 
-const GORDER = {S:0, A:1, B:2, C:3};
+const GORDER = {S:0, A:1, B:2};
 let state = { view:'hero', role:'전체', grade:'전체', q:'' };
 
 // 통합 문서 1.xlsx의 영웅별 스킬·특수 능력 데이터
@@ -4589,6 +4585,7 @@ const listEl = document.getElementById('list');
 const countEl = document.getElementById('countLine');
 
 function norm(s){ return (s||'').toLowerCase().replace(/\s+/g,''); }
+function guideSearchQuery(s){ const q=norm(s); return q==='피축' ? norm('피의 축적') : q; }
 
 function heroRoles(hero){
   return Array.isArray(hero.roles) && hero.roles.length ? hero.roles : [hero.role];
@@ -4626,7 +4623,7 @@ function runeHeroes(rune){
 function gradePasses(g){ return state.grade==='전체' || state.grade===g; }
 
 function renderHeroView(){
-  const q = norm(state.q);
+  const q = guideSearchQuery(state.q);
   let shown = 0;
   let html = '';
   DATA.heroes.forEach((h, i)=>{
@@ -4634,8 +4631,10 @@ function renderHeroView(){
     let runes = heroRunes(i);
     if(state.grade!=='전체') runes = runes.filter(r=>r.grade===state.grade);
     const nameMatch = norm(h.name).includes(q);
-    const runeMatch = runes.some(r=>norm(r.name).includes(q)) || heroRunes(i).some(r=>norm(r.name).includes(q));
-    if(q && !nameMatch && !runeMatch) return;
+    if(q && !nameMatch){
+      runes = runes.filter(r=>norm(r.name).includes(q));
+      if(runes.length===0) return;
+    }
     if(state.grade!=='전체' && runes.length===0) return;
     shown++;
 
@@ -4676,7 +4675,7 @@ function renderGroupedChips(items, getLabel, getGrade, getRuneId){
     if(g !== curGrade){
       if(curGrade !== null) html += `</div>`; // close the previous grade group before opening a new one
       curGrade = g;
-      const labelMap = {S:'S · 최상위', A:'A · 상위', B:'B · 우수', C:'C · 보통'};
+      const labelMap = {S:'S · 최상위', A:'A · 상위', B:'B · 우수'};
       html += `<div class="group-label">${labelMap[g]}</div><div class="rune-grid">`;
     }
     if(getRuneId){
@@ -4711,7 +4710,7 @@ function renderRuneEffects(runeId){
 }
 
 function renderRuneView(){
-  const q = norm(state.q);
+  const q = guideSearchQuery(state.q);
   let shown = 0;
   let html = '';
   DATA.runes.forEach(rune=>{
@@ -4720,8 +4719,10 @@ function renderRuneView(){
     if(state.grade!=='전체') heroes = heroes.filter(x=>x.grade===state.grade);
 
     const nameMatch = norm(rune.name).includes(q);
-    const heroMatch = runeHeroes(rune).some(x=>norm(x.hero.name).includes(q));
-    if(q && !nameMatch && !heroMatch) return;
+    if(q && !nameMatch){
+      heroes = heroes.filter(x=>norm(x.hero.name).includes(q));
+      if(heroes.length===0) return;
+    }
     if(heroes.length===0 && (state.role!=='전체' || state.grade!=='전체')) return;
     shown++;
 
