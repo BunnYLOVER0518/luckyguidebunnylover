@@ -1,5 +1,5 @@
 window.GUILD_MEMBERS = [
-  {"id":"member-d366ec20460a06d93dcd","name":"리미티드킹폭파91🐏 ᵐᵃˣ⏩️","role":"길드장","image":"guild-members/member-007.jpg","intro":"리미티드 기둥"},
+  {"id":"member-d366ec20460a06d93dcd","name":"리미티드킹폭파91🐏 ᵐᵃˣ⏩️","role":"길드장","image":"guild-members/member-007.jpg","intro":""},
   {"id":"member-752c46a743c84b9c8bfe","name":"ᴸᴹ  태  리. 92🐵ᵐᵃˣ ⏩️","role":"부길드장","image":"guild-members/member-001.jpg","intro":""},
   {"id":"member-41e9f6193ef3e7e2c2ca","name":"ᴸᴹ 태 초. 89🐍 ᵐᵃˣ","role":"운영진","image":"guild-members/member-005.jpg","intro":""},
   {"id":"member-7e7e3dc7556db30ab7be","name":"ᴸᴹ  팬텀. 98🐯 ᵐᵃˣ ⏩️","role":"운영진","image":"guild-members/member-002.jpg","intro":""},
