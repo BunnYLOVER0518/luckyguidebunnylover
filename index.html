@@ -2163,9 +2163,10 @@ DATA.heroes.push({id:"15012", role:"서포트", name:"거북 인디"});
 const TURTLE_INDI_RUNE_GRADES = {"마력":"S", "마력 순환":"S", "숙련":"A", "불완전한 주문":"A", "확산 사격":"S"};
 DATA.runes.forEach(rune => rune.grades.push(TURTLE_INDI_RUNE_GRADES[rune.name] || ""));
 
-// 2.0.18 신규 불멸: 룬 추천은 검증된 계산 자료가 생길 때 추가합니다.
-DATA.heroes.push({id:"15015", role:"물딜", name:"최종병기 로켓츄", noRuneRecommendation:true});
-DATA.runes.forEach(rune => rune.grades.push(""));
+// 사용자 지정 임시 추천. 수정 모델 계산 결과 확인 후 재검토합니다.
+DATA.heroes.push({id:"15015", role:"물딜", name:"최종병기 로켓츄"});
+const ROCKET_CHU_RUNE_GRADES = {"피의 축적":"S","황금 연소":"S","집중 조준":"S","물리":"A","사냥꾼":"A","주문 강화":"A","불멸 공명":"A","파동":"B","제압자":"B"};
+DATA.runes.forEach(rune => rune.grades.push(ROCKET_CHU_RUNE_GRADES[rune.name] || ""));
 
 const HERO_IMG_OVERRIDES = {
   // 커스텀 이미지를 쓰는 영웅 (외부 DB에 없는 신규 영웅 등)
