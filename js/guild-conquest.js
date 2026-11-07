@@ -136,7 +136,7 @@
   }
   function kakaoReport(){
     const sorted=[...members].sort((a,b)=>shortName(a).localeCompare(shortName(b),'ko',{numeric:true}) || a.name.localeCompare(b.name,'ko'));
-    const lines=['📌 점령전 프리시즌 11 배정표','본인 이름을 찾아 지정된 구역에 참여해주세요.','괄호는 공격 횟수입니다.',''];
+    const lines=['📌 점령전 배정표','본인 이름을 찾아 지정된 구역에 참여해주세요.','괄호는 공격 횟수입니다.','','참여 시간이 부족하여 0점 참여를 하셔야 하는 분들은 4, 9, 13구역에 우선적으로 하시길 바랍니다.',''];
     for(const m of sorted.filter(m=>total(m.id)>0)){
       const targets=caps.flatMap((cap,z)=>{const n=entries.filter(e=>e.id===m.id&&e.zone===z).length;return n?[`${z+1}구역(${n}회)`]:[];});
       lines.push(`${sharedLabel(m)} → ${targets.join(' · ')}`);
