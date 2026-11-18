@@ -339,9 +339,11 @@
     position:fixed; top:0; left:0; bottom:0; width:78%; max-width:300px; z-index:91;
     background: var(--surface); border-right:1px solid var(--border);
     transform: translateX(-100%); transition: transform .2s ease;
-    padding: 20px 14px; display:flex; flex-direction:column; gap:4px;
+    padding: 20px 14px calc(20px + env(safe-area-inset-bottom, 0px)); display:flex; flex-direction:column; gap:4px;
+    height:100dvh; overflow-y:auto; overscroll-behavior-y:contain; -webkit-overflow-scrolling:touch;
     box-shadow:12px 0 32px rgba(58,48,35,.14);
   }
+  .menu-panel > *{ flex-shrink:0; }
   .menu-panel.open{ transform: translateX(0); }
   .menu-panel-title{
     font-size:11px; color:var(--muted-2); font-weight:700; text-transform:uppercase;
@@ -2027,7 +2029,7 @@
   </div>
 
 <div id="breaksimPage" style="display:none;"><main class="guild-wrap"><section id="breakthroughSimulator"></section></main></div>
-<link rel="stylesheet" href="css/breakthrough-simulator.css?v=20261023-1">
+<link rel="stylesheet" href="css/breakthrough-simulator.css?v=20261119-1">
 <div id="conquestPage" style="display:none;"><main class="guild-wrap"><section id="guildConquest" aria-label="길드 점령전 분배" data-capacities="8,10,8,8,10,10,15,8,8,15,8,8,10,8,8" data-member-limit="3" data-bosses="그란도르,그란도르,그란도르,블링카,나하투,그란도르,그란도르,나하투,미라지,블링카,그란도르,나하투,미라지,블링카,미라지" data-restricted-zones="2,4,7,9,13" data-boss-image-base="assets/conquest-bosses"></section></main></div>
 
 <script src="js/guild-members.js?v=20261119035306495"></script>
@@ -5581,7 +5583,7 @@ Object.keys(treasureLists).forEach(renderTreasureTier);
 const BREAKTHROUGH_DATA = [
   ['15 → 16','30개','70%'],
   ['16 → 17','32개','50%'],
-  ['17 → 18','34개','20%'],
+  ['17 → 18','34개','30%'],
   ['18 → 19','36개','20%'],
   ['19 → 20','38개','12%'],
   ['20 → 21','40개','8%'],
@@ -6009,6 +6011,6 @@ render();
 <script src="js/formation-assets.js?v=20261106-rocket-chu"></script>
 <script src="js/formation.js?v=20261013-emily"></script>
 <script src="js/rune-chat.js?v=20261117-bomb11"></script>
-<script src="js/breakthrough-simulator.js?v=20261023-1"></script>
+<script src="js/breakthrough-simulator.js?v=20261119-1"></script>
 </body>
 </html>

@@ -32,7 +32,7 @@
   const fmt=n=>n.toLocaleString('ko-KR',{maximumFractionDigits:2});
   root.innerHTML=`<header><p class="bs-eyebrow">BREAKTHROUGH LAB</p><h2>돌파 시뮬레이션</h2><p>한 번의 성공까지, 돌파석이 얼마나 필요할까요?</p></header>
   <div class="bs-settings"><label>시작 레벨<select id="bsFrom"></select></label><label>목표 레벨<select id="bsTarget"></select></label><button type="button" id="bsReset">처음부터 다시</button></div>
-  <p class="bs-note">실패할 때마다 초기 확률의 10%를 더합니다. 예: 20% → 22% → 24%. 확률은 최대 100%이며, 성공하면 다음 단계의 초기 확률로 시작합니다. 레벨 변경 시 현재 시도 기록이 초기화됩니다.</p>
+  <p class="bs-note">실패할 때마다 초기 확률의 10%를 더합니다. 예: 17→18레벨은 30% → 33% → 36%. 확률은 최대 100%이며, 성공하면 다음 단계의 초기 확률로 시작합니다. 레벨 변경 시 현재 시도 기록이 초기화됩니다.</p>
   <div class="bs-current" aria-live="polite"></div><div class="bs-meter"><div></div></div><div class="bs-totals"></div>
   <div class="bs-actions"><button type="button" id="bsTry">1회 돌파 시도</button><button type="button" id="bsFinish">목표까지 진행</button></div><p class="bs-status" role="status">레벨을 선택하고 돌파를 시도하세요.</p>
   <section class="bs-batch"><h3>1,000번 도전하면?</h3><p>선택한 시작 레벨부터 목표까지 1,000회 새로 진행해 비교합니다. 현재 시도 기록에는 영향을 주지 않습니다.</p><button type="button" id="bsBatch">1,000회 반복 통계</button><div class="bs-batch-result" aria-live="polite"></div></section>
