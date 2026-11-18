@@ -57,7 +57,7 @@ window.GUILD_MEMBERS = [
   {"id":"member-d859b5f333bf9997d856","name":"ᴸᴹ²  야니네. 13 ³²³","role":"리미티드2기","image":"guild-members/member-049.jpg","intro":""},
   {"id":"member-8a7f35c9e1deeecb051a","name":"ᴸᴹ  그만키워. 22 ⁰⁰⁰⏩️","role":"예비 길드원","image":"guild-members/member-014.jpg","intro":""},
   {"id":"member-ca545c7a06b14efb7b04","name":"ᴸᴹ 튜닝. 91🐏 𝓶𝓪𝔁","role":"예비 길드원","image":"guild-members/member-037.jpg","intro":""},
-  {"id":"member-d7342fa0db7e44474b6d","name":"ƒﾠ빵 /25/×/육수돼지","role":"용병","image":"guild-members/member-009.jpg","intro":""},
+  {"id":"member-d7342fa0db7e44474b6d","name":"ƒﾠ빵 /25/×/육수돼지","role":"용병","image":"guild-members/member-009.jpg","intro":"프렌즈"},
   {"id":"member-38254055ad83a3903b7a","name":"퉁퉁이/25","role":"용병","image":"guild-members/member-062.jpg","intro":"연애시대"},
   {"id":"member-45f4c65d1da1a1150510","name":"🔱 나리공주님²⁵ / ⏭","role":"용병","image":"guild-members/member-063.jpg","intro":"포세이돈"},
   {"id":"member-2ca6198ba6ef9b6a3cd5","name":"Loveღ개굴. 23 ⁰⁰⁰","role":"용병","image":"guild-members/member-008.jpg","intro":"러브"},

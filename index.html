@@ -1123,7 +1123,7 @@
     display:inline-flex; align-items:center; justify-content:center; min-width:25px; height:22px; padding:0 8px;
     border-radius:999px; background:#e9dfd0; color:#796a57; font-size:10px; font-weight:900;
   }
-  .guild-grid{ display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:13px; }
+  .guild-grid{ display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:13px; }
   .guild-card{
     min-width:0; padding:13px; border:1px solid #ded3c3; border-radius:17px; background:var(--surface);
     box-shadow:0 7px 19px rgba(66,51,32,.07); transition:transform .16s,border-color .16s,box-shadow .16s;
@@ -2032,7 +2032,7 @@
 <link rel="stylesheet" href="css/breakthrough-simulator.css?v=20261119-1">
 <div id="conquestPage" style="display:none;"><main class="guild-wrap"><section id="guildConquest" aria-label="길드 점령전 분배" data-capacities="8,10,8,8,10,10,15,8,8,15,8,8,10,8,8" data-member-limit="3" data-bosses="그란도르,그란도르,그란도르,블링카,나하투,그란도르,그란도르,나하투,미라지,블링카,그란도르,나하투,미라지,블링카,미라지" data-restricted-zones="2,4,7,9,13" data-boss-image-base="assets/conquest-bosses"></section></main></div>
 
-<script src="js/guild-members.js?v=20261119040321188"></script>
+<script src="js/guild-members.js?v=20261119040523544"></script>
 <link rel="stylesheet" href="css/guild-conquest.css?v=20261014-1">
 <script defer src="js/guild-conquest.js?v=20261107-kakao-notice"></script>
 <script>
@@ -5027,9 +5027,9 @@ const pageTitle = document.getElementById('pageTitle');
 function renderGuildMembers(){
   const members = Array.isArray(window.GUILD_MEMBERS) ? window.GUILD_MEMBERS : [];
   const groups = [
-    { title:'길드장 · 부길드장 · 운영진', roles:['길드장','부길드장','운영진'], executive:true },
+    { title:'길드장 · 부길드장 · 운영진 · 2기 길드장', roles:['길드장','부길드장','운영진','리미티드 2기 길드장'], executive:true },
     { title:'리미티드 1기', roles:['리미티드 1기'], className:'member' },
-    { title:'리미티드2기', roles:['리미티드 2기 길드장','리미티드2기'], className:'second-generation' },
+    { title:'리미티드2기', roles:['리미티드2기'], className:'second-generation' },
     { title:'예비 길드원', roles:['예비 길드원'], className:'provisional' },
     { title:'용병', roles:['용병'], className:'mercenary' }
   ];
@@ -5045,7 +5045,7 @@ function renderGuildMembers(){
       const image = escapeHeroInfoHtml(member.image);
       const intro = escapeHeroInfoHtml(member.intro || '');
       const fallback = escapeHeroInfoHtml((member.name || '?').replace(/^ᴸᴹ\s*/,'').trim().charAt(0) || '?');
-      const cardClass = group.executive ? ({'길드장':'leader','부길드장':'deputy','운영진':'staff'}[member.role]) : (member.role === '리미티드 2기 길드장' ? 'second-generation leader' : group.className);
+      const cardClass = group.executive ? ({'길드장':'leader','부길드장':'deputy','운영진':'staff','리미티드 2기 길드장':'second-generation leader'}[member.role]) : (member.role === '리미티드 2기 길드장' ? 'second-generation leader' : group.className);
       return `<article class="guild-card ${cardClass}">
         <div class="guild-avatar">
           <span class="guild-avatar-fallback" aria-hidden="true">${fallback}</span>
