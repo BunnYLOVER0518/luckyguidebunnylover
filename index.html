@@ -441,6 +441,10 @@
   }
 
   /* ---------- blob tier page ---------- */
+  #blobWrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:20px;max-width:1600px;margin:auto;}
+  .blob-mode-column{min-width:0;display:flex;flex-direction:column;gap:16px;}
+  .blob-mode-title{margin:0;padding:14px 16px;border:1px solid var(--border);border-radius:14px;background:var(--surface);font-size:20px;}
+  @media(max-width:700px){#blobWrap{grid-template-columns:1fr;}.blob-mode-title{font-size:18px;}}
   .blob-tier-badge{
     display:inline-flex; align-items:center; justify-content:center;
     min-width:46px; padding:4px 8px; border-radius:8px; font-size:12px; font-weight:800; color:#fff;
@@ -1722,7 +1726,7 @@
   <div id="blobPage" style="display:none;">
     <div class="calc-wrap" id="blobWrap"></div>
     <footer>
-      기존 피규어 티어 순서를 유지하고 등급별 효과를 함께 표시합니다
+      기존 난이도와 침공 전용 티어를 구분합니다. 피규어를 누르면 등급별 효과를 확인할 수 있습니다.
     </footer>
   </div>
 
@@ -5750,12 +5754,23 @@ const BLOB_TIERS = [
   ]},
 ];
 
+// Invasion ranking supplied by the user; effect data is shared with the existing tiers.
+const BLOB_INVASION_IDS = [
+  ['one-eye-blob','water-blob','santa-blob','bread-blob','cola-blob'],
+  ['dragon-blob','jjibu-blob'],
+  ['bamba-blob','lava-blob','cyborg-blob','skull-blob'],
+];
+const blobRowsById = new Map(BLOB_TIERS.flatMap(group=>group.blobs).map(row=>[row[0],row]));
+const invasionRankedIds = new Set(BLOB_INVASION_IDS.flat());
+const BLOB_INVASION_TIERS = [...BLOB_INVASION_IDS, [...blobRowsById.keys()].filter(id=>!invasionRankedIds.has(id))]
+  .map((ids,index)=>({tier:`${index+1}티어`,color:BLOB_TIERS[index].color,blobs:ids.map(id=>blobRowsById.get(id))}));
+
 const escapeBlobText = value => String(value ?? '').replace(/[&<>"']/g, character => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
 })[character]);
 const BLOB_FIGURE_MAP = new Map((window.BLOB_FIGURE_DATA || []).map(figure => [figure.id, figure]));
 
-document.getElementById('blobWrap').innerHTML = BLOB_TIERS.map(group => `
+const renderBlobTiers = (tiers,mode) => tiers.map(group => `
   <section class="calc-card blob-tier-card">
     <div class="calc-card-head">
       <div class="calc-card-title" style="color:${group.color}">${group.tier}</div>
@@ -5765,7 +5780,7 @@ document.getElementById('blobWrap').innerHTML = BLOB_TIERS.map(group => `
       const figure = BLOB_FIGURE_MAP.get(id);
       return `
         <article class="blob-row">
-          <button class="blob-card-button" type="button" data-blob-card="${id}" aria-haspopup="dialog">
+          <button class="blob-card-button" type="button" data-blob-card="${id}" data-blob-tier="${group.tier}" data-blob-mode="${mode}" aria-haspopup="dialog">
             <div class="blob-identity">
               <div class="blob-image-wrap">
                 ${figure?.image
@@ -5788,6 +5803,11 @@ document.getElementById('blobWrap').innerHTML = BLOB_TIERS.map(group => `
     </div>
   </section>
 `).join('');
+
+document.getElementById('blobWrap').innerHTML = [
+  ['기존 난이도 (보통~태초)',BLOB_TIERS,'standard'],
+  ['침공 난이도 전용',BLOB_INVASION_TIERS,'invasion'],
+].map(([title,tiers,mode])=>`<section class="blob-mode-column" data-blob-mode="${mode}" aria-label="${title}"><h2 class="blob-mode-title">${title}</h2>${renderBlobTiers(tiers,mode)}</section>`).join('');
 
 const BLOB_META_MAP = new Map(BLOB_TIERS.flatMap(group =>
   group.blobs.map(([id, name, summary]) => [id, { name, summary, tier: group.tier }])
@@ -5830,7 +5850,7 @@ document.getElementById('blobWrap').addEventListener('click', event => {
     <div class="blob-popover-head">
       ${figure?.image ? `<img class="blob-popover-image" src="${figure.image}" alt="" />` : ''}
       <div class="blob-popover-copy">
-        <div class="blob-popover-name">${escapeBlobText(meta.name)} · ${escapeBlobText(meta.tier)}</div>
+        <div class="blob-popover-name">${escapeBlobText(meta.name)} · ${escapeBlobText(button.dataset.blobTier || meta.tier)} · ${button.dataset.blobMode === 'invasion' ? '침공' : '보통~태초'}</div>
         <div class="blob-popover-summary">${escapeBlobText(meta.summary)}</div>
       </div>
       <button class="blob-popover-close" type="button" aria-label="효과 창 닫기">×</button>
