@@ -3949,6 +3949,42 @@ const HERO_LEVEL_STATS = {
       "attackK": 119.34,
       "attackSpeed": 2.4,
       "resource": "300 마나"
+    },
+    {
+      "level": 16,
+      "attackK": 121.095,
+      "attackSpeed": 2.4,
+      "resource": "300 마나"
+    },
+    {
+      "level": 19,
+      "attackK": 126.36,
+      "attackSpeed": 2.4,
+      "resource": "300 마나"
+    },
+    {
+      "level": 22,
+      "attackK": 131.625,
+      "attackSpeed": 2.4,
+      "resource": "300 마나"
+    },
+    {
+      "level": 23,
+      "attackK": 133.38,
+      "attackSpeed": 2.4,
+      "resource": "300 마나"
+    },
+    {
+      "level": 24,
+      "attackK": 135.135,
+      "attackSpeed": 2.4,
+      "resource": "300 마나"
+    },
+    {
+      "level": 25,
+      "attackK": 136.89,
+      "attackSpeed": 2.4,
+      "resource": "300 마나"
     }
   ],
   "보스 골라조": [
@@ -4587,6 +4623,8 @@ for (const hero of DATA.heroes) {
 }
 
 HERO_DETAIL_DATA["거북 인디"].statsNote = "공격력은 K 단위이며 레벨 효과를 포함합니다. 계정·유물·룬·보물 및 전투 중 버프를 제외한 계산값입니다.";
+
+HERO_DETAIL_DATA["아이엠 미야옹"].statsNote = "공격력은 K 단위이며 레벨 효과를 포함합니다. 계정·유물·룬·보물 및 전투 중 패시브는 제외한 계산값입니다.";
 
 function escapeHeroInfoHtml(value){
   return String(value ?? '').replace(/[&<>"']/g, char => ({
@@ -6042,7 +6080,7 @@ render();
 <script src="js/artifacts.js?v=20260928-layout"></script>
 <script src="js/formation-assets.js?v=20261106-rocket-chu"></script>
 <script src="js/formation.js?v=20261013-emily"></script>
-<script src="js/rune-chat.js?v=20261117-bomb11"></script>
+<script src="js/rune-chat.js?v=20261124-meow-breakthrough"></script>
 <script src="js/breakthrough-simulator.js?v=20261119-1"></script>
 <script src="js/blob-simulator.js?v=20261119-5"></script>
 </body>
