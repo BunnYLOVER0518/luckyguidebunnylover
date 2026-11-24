@@ -38,8 +38,8 @@
     if(!old)return question;
     const heroes=[...new Set([...data.raw.map(r=>r.hero),...data.supporters.map(r=>r.support)])];
     const aliases=h=>[compact(h),compact(h.split(' ').at(-1))];
-    const found=heroes.filter(h=>aliases(h).some(a=>q.includes(a)));
-    const hero=previousHero||heroes.find(h=>aliases(h).some(a=>old.includes(a)));
+    const found=heroes.filter(h=>aliases(h).some(a=>q.replaceAll('레이드','').includes(a)));
+    const hero=previousHero||heroes.find(h=>aliases(h).some(a=>old.replaceAll('레이드','').includes(a)));
     const dealer=data.raw.find(r=>r.hero===hero);
     if(!found.length&&/저거|그거|그것|방금|다른룬|다른추천/.test(q)&&/말고|제외|빼|다른/.test(q)){
       const reply=previousReply||answer(data,old,{hero});
@@ -166,7 +166,7 @@
     if(/시간(?!역행)|집중조(?!준)/.test(q))return {text:'시간 역행은 “시역”, 집중 조준은 “집조”로 적어 주세요. 정식 이름도 사용할 수 있습니다.'};
     if(/누가|누구|어떤영웅|어느영웅|추천영웅|영웅추천/.test(q))return recommendWearers(data,q,options);
     const heroes = [...new Set([...data.raw.map(r => r.hero), ...data.supporters.map(r => r.support)])];
-    const found = heroes.filter(h => [h, h.split(' ').at(-1)].some(a => q.includes(compact(a))));
+    const found = heroes.filter(h => [h, h.split(' ').at(-1)].some(a => q.replaceAll('레이드','').includes(compact(a))));
     if (found.length > 1) return {text:'영웅을 한 명씩 질문해 주세요.'};
     const hero = found[0] || options.hero;
     if (!heroes.includes(hero)) return {text:'어떤 영웅의 룬인가요? 아래에서 영웅을 골라 주세요.', need:'hero', choices:heroes};
